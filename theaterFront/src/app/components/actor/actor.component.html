@@ -1,0 +1,9 @@
+<div *ngIf="actor">
+    <img [src]="actor.image" alt="{{ actor.name }} {{ actor.surname }}" class="actor-image" />
+    <h1>{{ actor.name }} {{ actor.surname }}</h1>
+    <p>{{ actor.history }}</p>
+    <h2>Predstave:</h2>
+    <ul>
+      <li *ngFor="let performance of actor.performances">{{ performance }}</li>
+    </ul>
+  </div>

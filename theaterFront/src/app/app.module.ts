@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms'; 
+
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module'; 
@@ -9,6 +11,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { PerformancesComponent } from './components/performances/performances.component';
+import { PerformanceDetailComponent } from './components/performance-detail/performance-detail.component';
 import { ReservationComponent } from './components/reservation/reservation.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -18,6 +21,11 @@ import { TheaterInfoComponent } from './components/theater-info/theater-info.com
 import { HistoryComponent } from './components/history/history.component';
 import { RepertoarComponent } from './components/repertoar/repertoar.component';
 import { AnsamblComponent } from './components/ansambl/ansambl.component';
+import { ActorComponent } from './components/actor/actor.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
+import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +33,7 @@ import { AnsamblComponent } from './components/ansambl/ansambl.component';
     NavbarComponent,
     HomeComponent,
     PerformancesComponent,
+    PerformanceDetailComponent,
     ReservationComponent,
     SliderComponent,
     FooterComponent,
@@ -33,11 +42,17 @@ import { AnsamblComponent } from './components/ansambl/ansambl.component';
     TheaterInfoComponent,
     HistoryComponent,
     RepertoarComponent,
-    AnsamblComponent
+    AnsamblComponent,
+    ActorComponent,
+    LoginComponent,
+    RegisterComponent,
+    TicketPurchaseComponent,
+    SeatSelectionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     RouterModule.forRoot([])
   ],
   providers: [

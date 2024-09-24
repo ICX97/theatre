@@ -1,0 +1,22 @@
+<div class="seat-selection-container">
+    <h2>Izaberite sedišta</h2>
+    
+    <div class="seats-grid">
+      <div *ngFor="let seat of seats" class="seat" 
+           [class.selected]="seat.isSelected" 
+           (click)="toggleSeatSelection(seat)">
+        {{ seat.type }} - {{ seat.id }}
+      </div>
+    </div>
+  
+    <div class="seat-summary">
+      <h3>Rezime:</h3>
+      <p>Loža: {{ selectedSeats.loza }} sedišta</p>
+      <p>Parter: {{ selectedSeats.parter }} sedišta</p>
+      <p>Balkon: {{ selectedSeats.balkon }} sedišta</p>
+      <p>Ukupna cena: {{ selectedSeats.totalPrice }} RSD</p>
+  
+      <button (click)="confirmReservation()">Nastavi sa plaćanjem</button>
+    </div>
+  </div>
+  

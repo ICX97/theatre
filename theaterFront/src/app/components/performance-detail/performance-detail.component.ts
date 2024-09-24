@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-performance-detail',
@@ -10,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PerformanceDetailComponent implements OnInit {
   performance: any;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -20,8 +19,10 @@ export class PerformanceDetailComponent implements OnInit {
   }
 
   fetchPerformanceDetails(id: number) {
-    // Simuliraj preuzimanje podataka (ovde bi trebao dodati stvarni poziv na API)
+    // Simulate data fetching (here you should add the actual API call)
+    // Ensure the performance object includes an id property
     this.performance = {
+      id: id, // Assign the id here
       title: 'Edip',
       director: 'Vito Taufer',
       description: 'U ovoj savremenoj adaptaciji klasične tragedije, "Edip", upoznajemo princa Edipa koji se suočava s neizbežnom sudbinom. U potrazi za istinom o svom poreklu, Edip otkriva mračne tajne koje će ga navesti na put pun tragedije i unutrašnjeg sukoba. Ova predstava istražuje teme sudbine, identiteta i ljudske slabosti, oslikavajući snažne emotivne trenutke kroz upečatljive dijaloge i vizuelno bogate scene. Glumci donose duboke i kompleksne karaktere, dok muzika i scenografija stvaraju nezaboravno iskustvo koje će publiku naterati na razmišljanje o prirodi ljudskih izbora i posledicama koje oni nose.',
@@ -46,5 +47,17 @@ export class PerformanceDetailComponent implements OnInit {
 
   hideActorImage() {
     this.performance.actors.forEach((actor: any) => actor.hovered = false);
+  }
+
+  // Updated method to navigate to the ticket purchase page
+  purchaseTickets() {
+    const performanceId = this.performance?.id; // Use optional chaining to avoid errors
+
+    if (performanceId) {
+      this.router.navigate(['/buy-ticket', performanceId]);
+    } else {
+      console.error('Performance ID is undefined. Cannot navigate to ticket purchase.');
+      // You can also display a user-friendly message here
+    }
   }
 }
