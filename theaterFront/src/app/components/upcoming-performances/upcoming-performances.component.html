@@ -1,0 +1,11 @@
+<div class="performances-grid">
+    <div *ngFor="let performance of performances; let i = index" class="performance-item">
+      <h3>{{ performance.day }}</h3>
+      <div class="performance-card" [style.background-image]="'url(' + performance.image + ')'">
+        <h2>{{ performance.name }}</h2>
+        <p>{{ performance.time }}</p>
+        <p>{{ performance.description }}</p>
+      </div>
+    </div>
+  </div>
+  

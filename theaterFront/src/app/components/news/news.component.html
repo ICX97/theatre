@@ -1,0 +1,8 @@
+<div class="news-grid">
+    <div *ngFor="let newsItem of newsItems" class="news-item" (click)="onNewsClick(newsItem)">
+      <h3>{{ newsItem.title }}</h3>
+      <p>{{ newsItem.date | date }}</p>
+      <p>{{ newsItem.shortDescription }}</p>
+    </div>
+  </div>
+  

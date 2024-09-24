@@ -1,0 +1,15 @@
+.performance-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .performance-detail img {
+    width: 300px;
+    height: auto;
+  }
+  
+  .performance-detail h3 {
+    margin-top: 20px;
+  }
+  

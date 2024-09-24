@@ -1,0 +1,25 @@
+.performances-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .performance-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .performance-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .performance-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  

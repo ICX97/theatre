@@ -1,0 +1,58 @@
+.repertoar-container {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .performance-item {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  .performance-date {
+    width: 20%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .performance-details {
+    display: flex;
+    width: 80%;
+  }
+  
+  .performance-poster {
+    width: 150px;
+    margin-right: 20px;
+  }
+  
+  .performance-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .performance-info h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .performance-info h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #555;
+  }
+  

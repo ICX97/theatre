@@ -1,0 +1,11 @@
+<div class="slider">
+  <div *ngFor="let slide of slides; let i = index" class="slide" [ngClass]="{'active': i === currentSlide}" [ngStyle]="{'background-image': 'url(' + slide.image + ')'}">
+    <div class="slide-text">
+      <h2>{{ slide.title }}</h2>
+      <p>{{ slide.description }}</p>
+    </div>
+  </div>
+  <button class="prev" (click)="prevSlide()">&#10094;</button>
+  <button class="next" (click)="nextSlide()">&#10095;</button>
+</div>
+

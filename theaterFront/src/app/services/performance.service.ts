@@ -7,7 +7,7 @@ import { Performance } from '../models/performance.model';
   providedIn: 'root',
 })
 export class PerformanceService {
-  private apiUrl = 'api/performances'; 
+  private apiUrl = 'http://localhost:8080/api/performances'; 
 
   constructor(private http: HttpClient) {}
 

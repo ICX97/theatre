@@ -1,0 +1,9 @@
+<div class="performances-container">
+    <div class="performance-card" *ngFor="let performance of performances" (click)="navigateToDetail(performance.id)">
+      <img [src]="performance.poster" alt="{{ performance.title }}" />
+      <h3>{{ performance.title }}</h3>
+      <p>Režiser: {{ performance.director }}</p>
+      <p>Pisac: {{ performance.writer }}</p>
+    </div>
+  </div>
+  

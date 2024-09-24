@@ -1,0 +1,22 @@
+<div class="performance-detail">
+    <img [src]="performance.poster" alt="{{ performance.title }}" />
+    <h2>{{ performance.title }}</h2>
+    <p>Režiser: {{ performance.director }}</p>
+    <p>Opis: {{ performance.description }}</p>
+    <p>Adaptacija: {{ performance.adaptation }}</p>
+    <p>Dramaturg: {{ performance.dramaturg }}</p>
+    <p>Scenograf: {{ performance.scenographer }}</p>
+    <p>Kostimograf: {{ performance.costumeDesigner }}</p>
+    <p>Muzika: {{ performance.music }}</p>
+    <p>Scenski govor: {{ performance.stageSpeech }}</p>
+    <p>Inspicijent: {{ performance.stageManager }}</p>
+  
+    <h3>Uloge</h3>
+    <!-- <div *ngFor="let actor of performance.actors">
+      <span (mouseover)="showActorImage(actor)" (mouseout)="hideActorImage()">
+        {{ actor.name }} - {{ actor.role }}
+      </span>
+      <img *ngIf="actor.hovered" [src]="actor.image" alt="{{ actor.name }}" />
+    </div> -->
+  </div>
+  

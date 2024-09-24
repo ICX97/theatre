@@ -1,0 +1,26 @@
+<div class="repertoar-container">
+    <!-- Tabovi za mesece -->
+    <div class="tabs">
+      <button *ngFor="let month of months" (click)="selectMonth(month)">{{ month }}</button>
+    </div>
+  
+    <!-- Lista predstava za izabrani mesec -->
+    <div *ngIf="selectedMonth" class="performances-list">
+      <div *ngFor="let performance of performances[selectedMonth]" class="performance-item">
+        <div class="performance-date">
+          <span>{{ performance.day }}</span> - <span>{{ performance.date }}</span>
+        </div>
+        <div class="performance-details">
+          <img [src]="performance.poster" alt="Poster {{ performance.title }}" class="performance-poster">
+          <div class="performance-info">
+            <h3>{{ performance.time }} | {{ performance.hall }}</h3>
+            <h2>{{ performance.title }}</h2>
+            <p>Rezija: {{ performance.director }}</p>
+            <p>Igraju: {{ performance.cast }}</p>
+            <p>Cene: Parter - {{ performance.ticketPrices.parter }}, Balkon - {{ performance.ticketPrices.balcony }}, Loza - {{ performance.ticketPrices.box }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

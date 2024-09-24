@@ -1,0 +1,28 @@
+.theater-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .theater-image {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .theater-text {
+    margin-left: 30px;
+  }
+  
+  .theater-title {
+    font-size: 3em;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .theater-title:hover {
+    color: #a52a2a; /* Stilizovana boja na hover */
+  }
+  
