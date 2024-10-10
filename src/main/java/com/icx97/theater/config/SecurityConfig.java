@@ -40,7 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/seat-types/**").permitAll()
                         .requestMatchers("/api/admin/**").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
-
+                        .requestMatchers("/api/payment/**").permitAll()
+                        .requestMatchers("/api/news/**").permitAll()
                         /*.requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasRole("USER")*/
                         .anyRequest().authenticated()

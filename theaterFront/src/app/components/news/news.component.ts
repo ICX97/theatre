@@ -1,27 +1,36 @@
-import { Component } from '@angular/core';
-
-interface NewsItem {
-  title: string;
-  date: Date;
-  shortDescription: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { NewsService, News } from '../../services/news.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.css']
 })
-export class NewsComponent {
-  newsItems: NewsItem[] = [
-    { title: 'Naslov 1', date: new Date(), shortDescription: 'Kratak opis 1' },
-    { title: 'Naslov 2', date: new Date(), shortDescription: 'Kratak opis 2' },
-    { title: 'Naslov 3', date: new Date(), shortDescription: 'Kratak opis 3' },
-    { title: 'Naslov 4', date: new Date(), shortDescription: 'Kratak opis 4' },
-    { title: 'Naslov 5', date: new Date(), shortDescription: 'Kratak opis 5' },
-    { title: 'Naslov 6', date: new Date(), shortDescription: 'Kratak opis 6' }
-  ];
+export class NewsComponent implements OnInit {
+  newsItems: News[] = [];
 
-  onNewsClick(newsItem: NewsItem) {
-    console.log(`Clicked on: ${newsItem.title}`);
+  constructor(private newsService: NewsService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadNews();
+  }
+
+  loadNews(): void {
+    this.newsService.getNews().subscribe(data => {
+      this.newsItems = data;
+    });
+  }
+
+  onNewsClick(newsItem: News): void {
+    this.router.navigate(['/single-news', newsItem.newsId]);
+  }
+
+  getImageSrc(imageData: string | null): string {
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg';
+    }
   }
 }

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PerformanceService } from '../../services/performance.service'; // Import the service
+import { Performance } from '../../models/performance.model';
 
-interface Performance {
-  name: string;
-  time: string;
-  description: string;
-  image: string;
-  day: string;
-}
 
 @Component({
   selector: 'app-upcoming-performances',
@@ -15,21 +10,24 @@ interface Performance {
 })
 export class UpcomingPerformancesComponent implements OnInit {
   performances: Performance[] = [];
-  
-  ngOnInit(): void {
-    // Generiši 14 dana od trenutnog dana
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const currentDay = new Date(today);
-      currentDay.setDate(today.getDate() + i);
 
-      this.performances.push({
-        name: `Predstava ${i + 1}`,
-        time: '20:00',
-        description: 'Kratak opis predstave',
-        image: 'assets/images/slide3.jpg',  
-        day: currentDay.toLocaleDateString('sr-RS', { weekday: 'long', day: 'numeric', month: 'long' })
-      });
+  constructor(private performanceService: PerformanceService) {}
+
+  ngOnInit(): void {
+    this.fetchPerformances();
+  }
+
+  fetchPerformances(): void {
+    this.performanceService.getPerformances().subscribe((data) => {
+      this.performances = data;
+    });
+  }
+
+  getImageSrc(imageData: string | undefined | null): string {
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg'; // Default slika10 
     }
   }
 }

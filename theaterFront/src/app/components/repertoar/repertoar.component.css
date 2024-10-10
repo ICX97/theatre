@@ -1,58 +1,61 @@
-.repertoar-container {
-    width: 100%;
-    padding: 20px;
-  }
-  
-  .tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  
-  .tabs button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .performance-item {
-    display: flex;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-  }
-  
-  .performance-date {
-    width: 20%;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .performance-details {
-    display: flex;
-    width: 80%;
-  }
-  
-  .performance-poster {
-    width: 150px;
-    margin-right: 20px;
-  }
-  
-  .performance-info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .performance-info h2 {
-    margin: 0;
-    font-size: 24px;
-  }
-  
-  .performance-info h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #555;
-  }
-  
+.performance-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.performance-details {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.performance-poster {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.performance-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.performance-info h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.performance-info p {
+  font-size: 14px;
+  color: #555;
+}
+
+.performance-date {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.ticket-prices {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-prices div {
+  background-color: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.ticket-prices div h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}

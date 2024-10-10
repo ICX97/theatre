@@ -1,0 +1,31 @@
+.single-news {
+    display: flex;
+    padding: 20px;
+}
+
+.news-image {
+    width: 300px; /* Prilagodite prema potrebama */
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.news-details {
+    flex: 1; /* Popunjava preostali prostor */
+}
+
+h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px; /* Veći font za naslov */
+}
+
+.news-date {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.news-description {
+    font-size: 16px; /* Prilagodite font opis */
+    line-height: 1.5; /* Prostor između redova */
+}

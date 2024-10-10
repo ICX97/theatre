@@ -47,6 +47,7 @@ CREATE TABLE theatre.performance (
     revenue DECIMAL(15, 2) DEFAULT 0,  -- Ukupni prihod sa predstave
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    poster_image LONGBLOB,
     FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
 );
 
@@ -80,6 +81,14 @@ CREATE TABLE theatre.reservation (
     FOREIGN KEY (user_id) REFERENCES app_user(user_id),
     FOREIGN KEY (performance_id) REFERENCES performance(performance_id),
     FOREIGN KEY (seat_id) REFERENCES seat(seat_id)
+);
+
+CREATE TABLE theatre.news (
+    news_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    news_title VARCHAR(200) NOT NULL,
+    news_date DATE,  
+    news_description VARCHAR(10000),  
+    news_image LONGBLOB  
 );
 
 -- Indeks za brže pretrage rezervacija

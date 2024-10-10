@@ -26,6 +26,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
+import { SingleNewsComponent } from './components/single-news/single-news.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SeatSelectionComponent } from './components/seat-selection/seat-selecti
     LoginComponent,
     RegisterComponent,
     TicketPurchaseComponent,
-    SeatSelectionComponent
+    SeatSelectionComponent,
+    SingleNewsComponent
   ],
   imports: [
     BrowserModule,

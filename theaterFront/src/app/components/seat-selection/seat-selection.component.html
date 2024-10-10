@@ -1,22 +1,49 @@
 <div class="seat-selection-container">
-    <h2>Izaberite sedišta</h2>
-    
-    <div class="seats-grid">
-      <div *ngFor="let seat of seats" class="seat" 
-           [class.selected]="seat.isSelected" 
-           (click)="toggleSeatSelection(seat)">
-        {{ seat.type }} - {{ seat.id }}
-      </div>
+    <h2 class="section-title">Izaberite sedišta</h2>
+    <div class="main-layout">
+        <div class="seats-layout">
+            <div class="loza">
+                <h3>Loža</h3>
+                <div class="seats-grid">
+                    <div *ngFor="let seat of lozaSeats" class="seat" 
+                         [class.selected]="seat.isSelected" 
+                         (click)="toggleSeatSelection(seat)">
+                        {{ seat.type }} - {{ seat.id }} ({{ seat.price }} RSD)
+                    </div>
+                </div>
+            </div>
+            <div class="parter">
+                <h3>Parter</h3>
+                <div class="seats-grid">
+                    <div *ngFor="let seat of parterSeats" class="seat" 
+                         [class.selected]="seat.isSelected" 
+                         (click)="toggleSeatSelection(seat)">
+                        {{ seat.type }} - {{ seat.id }} ({{ seat.price }} RSD)
+                    </div>
+                </div>
+            </div>
+            <div class="balkon">
+                <h3>Balkon</h3>
+                <div class="seats-grid">
+                    <div *ngFor="let seat of balkonSeats" class="seat" 
+                         [class.selected]="seat.isSelected" 
+                         (click)="toggleSeatSelection(seat)">
+                        {{ seat.type }} - {{ seat.id }} ({{ seat.price }} RSD)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed-summary">
+            <h3 class="total-title">Ukupno za plaćanje</h3>
+            <div class="seat-summary">
+                <h3>Rezime:</h3>
+                <p>Loža: {{ selectedSeats.loza }} sedišta</p>
+                <p>Parter: {{ selectedSeats.parter }} sedišta</p>
+                <p>Balkon: {{ selectedSeats.balkon }} sedišta</p>
+                <p>Ukupna cena: {{ selectedSeats.totalPrice }} RSD</p>
+                <button (click)="confirmReservation()">Nastavi sa plaćanjem</button>
+            </div>
+        </div>
     </div>
-  
-    <div class="seat-summary">
-      <h3>Rezime:</h3>
-      <p>Loža: {{ selectedSeats.loza }} sedišta</p>
-      <p>Parter: {{ selectedSeats.parter }} sedišta</p>
-      <p>Balkon: {{ selectedSeats.balkon }} sedišta</p>
-      <p>Ukupna cena: {{ selectedSeats.totalPrice }} RSD</p>
-  
-      <button (click)="confirmReservation()">Nastavi sa plaćanjem</button>
-    </div>
-  </div>
-  
+</div>

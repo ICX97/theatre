@@ -1,6 +1,7 @@
 package com.icx97.theater.controller;
 
 import com.icx97.theater.dto.PerformanceDTO;
+import com.icx97.theater.dto.PerformanceWithPricesDTO;
 import com.icx97.theater.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -21,6 +22,11 @@ public class PerformanceController {
     public ResponseEntity<List<PerformanceDTO>> getAllPerformances() {
         logger.info("Received request to get all performances");
         return ResponseEntity.ok(performanceService.getAllPerformances());
+    }
+
+    @GetMapping("/with-prices")
+    public ResponseEntity<List<PerformanceWithPricesDTO>> getAllPerformancesWithPrices() {
+        return ResponseEntity.ok(performanceService.getAllPerformancesWithPrices());
     }
 
     @GetMapping("/{id}")

@@ -1,29 +1,70 @@
 .news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .news-item {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .news-item:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.02);
-  }
-  
-  h3 {
-    margin-bottom: 10px;
-  }
-  
-  p {
-    margin: 5px 0;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.news-item {
+  position: relative;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.news-item:hover {
+  transform: scale(1.02);
+}
+
+.overlay {
+  position: relative;
+  z-index: 1;
+  color: #333; /* Inicijalna boja teksta */
+  transition: color 0.3s ease, background-color 0.3s ease; /* Promjena boje teksta i pozadine */
+}
+
+
+.news-image {
+  width: 100%;
+  height: auto; /* Održava proporciju */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  object-fit: cover;
+  opacity: 0; /* Inicijalno skrivena slika */
+  transition: opacity 0.3s ease;
+  z-index: 0; /* Iza overlaya */
+}
+
+.news-item:hover .news-image {
+  opacity: 1; /* Prikazivanje slike pri hoveru */
+}
+
+.news-date {
+  margin: 0 0 10px 0; /* Razmak ispod datuma */
+  font-size: 14px; /* Manji font za datum */
+  color: #666; /* Siva boja za datum */
+}
+
+h3, p {
+  margin: 0; /* Ukloniti marginu za h3 i p */
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Promjena boje i sjene */
+}
+
+.news-item:hover h3,
+.news-item:hover p {
+  color: #fff; /* Promjena boje teksta na bijelu */
+  text-shadow: 
+      0 0 3px rgba(0, 0, 0, 0.5),  /* Blaga sjena za ivice */
+      0 0 5px rgba(0, 0, 0, 0.3);  /* Dodatna blaga sjena */
+}
+
+h3 {
+  margin-top: 5px; /* Razmak iznad naslova */
+}

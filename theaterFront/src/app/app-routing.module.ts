@@ -9,18 +9,22 @@ import { AnsamblComponent } from './components/ansambl/ansambl.component';
 import { ActorComponent } from './components/actor/actor.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { NewsComponent } from './components/news/news.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
+import { SingleNewsComponent } from './components/single-news/single-news.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Default route
   { path: 'history', component: HistoryComponent }, 
   { path: 'performances', component: PerformancesComponent },
+  { path: 'news', component: NewsComponent },
   { path: 'performance/:id', component: PerformanceDetailComponent },
   { path: 'seat-selection/:id', component: SeatSelectionComponent },
   { path: 'repertoar', component: RepertoarComponent },
   { path: 'ensemble', component: AnsamblComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'single-news/:newsId', component: SingleNewsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'buy-ticket/:id', component: TicketPurchaseComponent },
   { path: 'actor/:id', component: ActorComponent }

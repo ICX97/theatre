@@ -1,8 +1,10 @@
 <div class="news-grid">
-    <div *ngFor="let newsItem of newsItems" class="news-item" (click)="onNewsClick(newsItem)">
-      <h3>{{ newsItem.title }}</h3>
-      <p>{{ newsItem.date | date }}</p>
-      <p>{{ newsItem.shortDescription }}</p>
+  <div *ngFor="let newsItem of newsItems" class="news-item" (click)="onNewsClick(newsItem)">
+    <div class="overlay">
+      <p class="news-date">{{ newsItem.newsDate | date }}</p>
+      <h3>{{ newsItem.newsTitle }}</h3>
+      <p>{{ newsItem.newsDescription }}</p>
     </div>
+    <img *ngIf="newsItem.newsImage" [src]="getImageSrc(newsItem.newsImage)" alt="{{ newsItem.newsTitle }}" class="news-image"/>
   </div>
-  
+</div>

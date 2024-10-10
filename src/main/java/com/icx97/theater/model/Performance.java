@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,16 +17,16 @@ public class Performance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "performance_id")
-    private Long performanceId;
+    private Long performance_id;
 
     @Column(name = "performance_title")
-    private String performanceTitle;
+    private String performance_title;
 
     @Column(name = "performance_description")
-    private String performanceDescription;
+    private String performance_description;
 
     @Column(name = "performance_date")
-    private Timestamp performanceDate;
+    private Timestamp performance_date;
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
@@ -37,10 +38,19 @@ public class Performance {
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    private Timestamp createdAt;
+    private Timestamp created_at;
 
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private Timestamp updated_at;
+
+    @Lob
+    @Column(name = "poster_image")
+    private byte[] poster_image;
+
+    @OneToMany(mappedBy = "performance", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PerformanceTicketPrice> performanceTicketPrices;
+
+
 }

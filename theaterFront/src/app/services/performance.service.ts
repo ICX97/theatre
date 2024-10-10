@@ -14,4 +14,8 @@ export class PerformanceService {
   getPerformances(): Observable<Performance[]> {
     return this.http.get<Performance[]>(this.apiUrl);
   }
+
+  getPerformanceById(id: number): Observable<Performance> {
+    return this.http.get<Performance>(`${this.apiUrl}/${id}`);
+  }
 }

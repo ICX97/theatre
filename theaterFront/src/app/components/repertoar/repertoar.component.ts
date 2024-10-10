@@ -1,69 +1,65 @@
-import { Component } from '@angular/core';
-
-interface Performance {
-  day: string;
-  date: string;
-  poster: string;
-  time: string;
-  hall: string;
-  title: string;
-  director: string;
-  cast: string;
-  ticketPrices: {
-    parter: string;
-    balcony: string;
-    box: string;
-  };
-}
+import { Component, OnInit } from '@angular/core';
+import { PerformanceService } from '../../services/performance.service'; // Import the service
+import { Performance } from '../../models/performance.model';
 
 @Component({
   selector: 'app-repertoar',
   templateUrl: './repertoar.component.html',
   styleUrls: ['./repertoar.component.css']
 })
-export class RepertoarComponent {
-  months: string[] = ['Septembar', 'Oktobar', 'Novembar'];
-  selectedMonth: string = this.months[0];  // Default selected month
+export class RepertoarComponent implements OnInit {
+  months: string[] = [];
+  selectedMonth: string = '';
+  performances: Performance[] = [];
+  filteredPerformances: Performance[] = []; // Dodato za filtrirane predstave
 
-  performances: { [key: string]: Performance[] } = {
-    'Septembar': [
-      {
-        day: 'Petak',
-        date: '15. Septembar',
-        poster: 'assets/images/edip.jpg',
-        time: '20:00',
-        hall: 'Velika scena „Ljuba Tadić”',
-        title: 'Edip',
-        director: 'Vito Taufer',
-        cast: 'Milan Marić, Natasha Ninković, Srđan Timarov, Bojan Dimitrijević...',
-        ticketPrices: {
-          parter: '1500 RSD',
-          balcony: '1200 RSD',
-          box: '2000 RSD'
-        }
-      },
-      {
-        day: 'Subota',
-        date: '16. Septembar',
-        poster: 'assets/images/hamlet.jpg',
-        time: '19:30',
-        hall: 'Velika scena „Ljuba Tadić”',
-        title: 'Hamlet',
-        director: 'Ivan Vujić',
-        cast: 'Joakim Tasić, Marko Radojević, Milan Bobić...',
-        ticketPrices: {
-          parter: '1600 RSD',
-          balcony: '1300 RSD',
-          box: '2100 RSD'
-        }
-      }
-      // Dodaj još predstave po potrebi
-    ],
-    'Oktobar': [],
-    'Novembar': []
-  };
+  constructor(private performanceService: PerformanceService) {}
+
+  ngOnInit() {
+    this.setMonths();
+    this.selectedMonth = this.months[1];  // Automatski postavi trenutni mesec
+    this.getPerformances();
+  }
+
+  setMonths() {
+    const now = new Date();
+    
+    const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1);
+    const currentMonth = new Date(now.getFullYear(), now.getMonth());
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1);
+  
+    const options: Intl.DateTimeFormatOptions = { month: 'long' };
+  
+    this.months = [
+      prevMonth.toLocaleDateString('sr-RS', options),  // Prethodni mesec
+      currentMonth.toLocaleDateString('sr-RS', options),  // Trenutni mesec
+      nextMonth.toLocaleDateString('sr-RS', options)  // Naredni mesec
+    ];
+  }
+
+  getPerformances() {
+    this.performanceService.getPerformances().subscribe((data: Performance[]) => {
+      this.performances = data;
+      this.filterPerformancesByMonth(); // Filtriraj po mesecu kada dobijemo podatke
+    });
+  }
 
   selectMonth(month: string) {
     this.selectedMonth = month;
+    this.filterPerformancesByMonth(); // Filtriraj predstave kada se promeni mesec
   }
+
+  filterPerformancesByMonth() {
+    const monthIndex = this.months.indexOf(this.selectedMonth); // Get the index of the selected month
+    const currentDate = new Date(); // Get the current date
+
+    // Use the monthIndex to determine the actual month number
+    const targetMonth = currentDate.getMonth() + monthIndex - 1; // Adjusting the month index for 0-based months
+
+    this.filteredPerformances = this.performances.filter(performance => {
+        const performanceMonth = new Date(performance.performance_date).getMonth(); // Get the performance month
+        return performanceMonth === targetMonth; // Compare months
+    });
+}
+
 }
