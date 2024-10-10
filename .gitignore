@@ -33,3 +33,5 @@ build/
 .vscode/
 
 /src/main/resources/application.properties
+/theaterFront/src/environments/environment.prod.ts
+/theaterFront/src/environments/environment.ts
