@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service'; // Import the service
 import { Performance } from '../../models/performance.model';
+import { PerformanceWithPrices } from '../../models/performance-ticket-price.model';
 
 @Component({
   selector: 'app-repertoar',
@@ -11,7 +12,8 @@ export class RepertoarComponent implements OnInit {
   months: string[] = [];
   selectedMonth: string = '';
   performances: Performance[] = [];
-  filteredPerformances: Performance[] = []; // Dodato za filtrirane predstave
+  filteredPerformances: Performance[] = []; 
+  performancesWithPrices: PerformanceWithPrices[] = [];
 
   constructor(private performanceService: PerformanceService) {}
 
@@ -19,6 +21,7 @@ export class RepertoarComponent implements OnInit {
     this.setMonths();
     this.selectedMonth = this.months[1];  // Automatski postavi trenutni mesec
     this.getPerformances();
+    this.getPerformancesWithPrices();
   }
 
   setMonths() {
@@ -44,6 +47,13 @@ export class RepertoarComponent implements OnInit {
     });
   }
 
+  getPerformancesWithPrices() {
+    this.performanceService.getPerformancesWithPrices().subscribe((data: PerformanceWithPrices[]) => {
+      this.performancesWithPrices = data;
+      this.filterPerformancesByMonth();
+    });
+  }
+
   selectMonth(month: string) {
     this.selectedMonth = month;
     this.filterPerformancesByMonth(); // Filtriraj predstave kada se promeni mesec
@@ -60,6 +70,15 @@ export class RepertoarComponent implements OnInit {
         const performanceMonth = new Date(performance.performance_date).getMonth(); // Get the performance month
         return performanceMonth === targetMonth; // Compare months
     });
+
+    this.filteredPerformances.forEach(performance => {
+      const prices = this.performancesWithPrices.find(p => p.performance_title === performance.performance_title);
+      if (prices) {
+        performance.ticketPrices = prices.ticketPrices; // Dodavanje ticketPrices
+      } else {
+        performance.ticketPrices = []; // Ako nema cena, postavi praznu listu
+      }
+  });
 }
 
 }

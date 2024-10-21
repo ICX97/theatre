@@ -1,6 +1,10 @@
 <div class="actor-grid">
-  <div *ngFor="let actor of actors" class="actor-card" (click)="goToActor(actor.id)" (mouseover)="actor.hovered = true" (mouseout)="actor.hovered = false">
-    <img [src]="actor.image" [class.hovered]="actor.hovered" alt="{{ actor.name }} {{ actor.surname }}" />
-    <p>{{ actor.name }} {{ actor.surname }}</p>
+  <div *ngFor="let actor of actors" class="actor-card" (click)="goToActor(actor.ensembleId)" (mouseover)="actor.hovered = true" (mouseout)="actor.hovered = false">
+    <p>{{ actor.ensembleId }}</p> 
+    <img [src]="actor.imageSrc" 
+         (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
+         [class.hovered]="actor.hovered" 
+         alt="{{ actor.firstName }} {{ actor.lastName }}" />
+    <p>{{ actor.firstName }} {{ actor.lastName }}</p>
   </div>
 </div>

@@ -11,12 +11,12 @@ public interface ReservationMapper {
     ReservationMapper INSTANCE = Mappers.getMapper(ReservationMapper.class);
 
     @Mapping(source = "user.userId", target = "userId")
-    @Mapping(source = "performance.performance_id", target = "performance_id")
+    @Mapping(source = "performance.performanceId", target = "performanceId")
     @Mapping(source = "seat.seatId", target = "seatId")
     ReservationDTO reservationToReservationDTO(Reservation reservation);
 
     @Mapping(source = "userId", target = "user.userId")
-    @Mapping(source = "performance_id", target = "performance.performance_id")
+    @Mapping(source = "performanceId", target = "performance.performanceId")
     @Mapping(source = "seatId", target = "seat.seatId")
     Reservation reservationDTOToReservation(ReservationDTO reservationDTO);
 }

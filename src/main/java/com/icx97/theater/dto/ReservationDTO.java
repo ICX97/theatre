@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class ReservationDTO {
     private Long reservationId;
     private Long userId;
-    private Long performance_id;
+    private Long performanceId;
     private Long seatId;
     private Timestamp reservationDate;
 }

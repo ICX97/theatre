@@ -1,9 +1,8 @@
-<div *ngIf="actor">
-    <img [src]="actor.image" alt="{{ actor.name }} {{ actor.surname }}" class="actor-image" />
-    <h1>{{ actor.name }} {{ actor.surname }}</h1>
-    <p>{{ actor.history }}</p>
-    <h2>Predstave:</h2>
-    <ul>
-      <li *ngFor="let performance of actor.performances">{{ performance }}</li>
-    </ul>
-  </div>
+<div *ngIf="actor" class="actor-container">
+  <img [src]="actor.imageSrc" 
+       (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
+       alt="{{ actor.firstName }} {{ actor.lastName }}" 
+       class="actor-image" />
+       <h1 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h1>
+  <p class="actor-description">{{ actor.ensemble_description }}</p>
+</div>

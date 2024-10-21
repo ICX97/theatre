@@ -8,8 +8,7 @@ import java.sql.Date;
 public class NewsDto {
     private Long newsId;
     private String newsTitle;
-    private Date newsDate;  // Promenjen tip na Date
+    private Date newsDate;
     private String newsDescription;
     private byte[] newsImage;
-
 }

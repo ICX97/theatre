@@ -76,8 +76,8 @@ DELETE FROM theatre.performance;
 
 -- Unesi nove testne podatke
 INSERT INTO theatre.performance (performance_title, performance_description, performance_date, hall_id, revenue, created_at, updated_at, poster_image) VALUES
-('The Grand Performance', 'An epic show featuring amazing performances.', '2024-10-01 17:00:00', 1, 5000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\defaultBlack.jpg')),
-('Intimate Show', 'A cozy performance with a close audience.', '2024-10-05 18:00:00', 2, 1000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\defaultBlack.jpg'));
+('The Grand Performance', 'An epic show featuring amazing performances.', '2024-10-01 17:00:00', 1, 5000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')),
+('Intimate Show', 'A cozy performance with a close audience.', '2024-10-05 18:00:00', 2, 1000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg'));
 
 UPDATE theatre.performance
 SET poster_image = LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')
@@ -87,4 +87,26 @@ UPDATE theatre.performance
 SET poster_image = LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg')
 WHERE performance_title = 'Intimate Show';
 
-select * from theatre.app_user
+INSERT INTO theatre.ensemble (first_name, last_name, birth_year, ensemble_description, performance_id) VALUES 
+('Marko', 'Marković', 1985, 'Glavni glumac sa bogatim iskustvom u klasičnim predstavama.', 1),
+('Jelena', 'Jovanović', 1990, 'Izuzetna glumica poznata po modernim interpretacijama.', 1),
+('Miloš', 'Petrović', 1983, 'Talentovani mladi glumac specijalizovan za komedije.', 2),
+('Ana', 'Nikolić', 1988, 'Scenska umetnica sa dugogodišnjim iskustvom u dramskim ulogama.', 2),
+('Ivana', 'Kostić', 1979, 'Veteranka pozorišta, poznata po interpretaciji klasika.', 1),
+('Lazar', 'Pavlović', 1992, 'Mladi glumac sa iskustvom u eksperimentalnim predstavama.', 2),
+('Milica', 'Dimitrijević', 1991, 'Glumica specijalizovana za psihološke drame.', 1),
+('Nikola', 'Ilić', 1987, 'Talentovani glumac sa međunarodnim iskustvom.', 2),
+('Sofija', 'Stojanović', 1985, 'Iskusna glumica koja se bavi i režijom.', 1),
+('Vladimir', 'Živanović', 1993, 'Mladi glumac sa izuzetnim darom za komične uloge.', 2);
+
+INSERT INTO theatre.ensemble_performance (ensemble_id, performance_id) VALUES 
+(1, 1),
+(2, 1),
+(3, 2),
+(4, 2),
+(5, 1),
+(6, 2),
+(7, 1),
+(8, 2),
+(9, 1),
+(10, 2);

@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
-interface Actor {
-  id: number;
-  name: string;
-  surname: string;
-  image: string;
-  hovered?: boolean; // Dodaj ovo svojstvo
-}
+import { Actor } from '../../models/actor.model';
+import { EnsembleService} from '../../services/ensemble.service';
 
 @Component({
   selector: 'app-ansambl',
@@ -15,15 +9,19 @@ interface Actor {
   styleUrls: ['./ansambl.component.css']
 })
 export class AnsamblComponent {
-  actors: Actor[] = [
-    { id: 1, name: 'Milan', surname: 'Marić', image: 'assets/images/slide1.jpg' },
-    { id: 2, name: 'Natasha', surname: 'Ninković', image: 'assets/images/slide2.jpg' },
-    { id: 3, name: 'Bojan', surname: 'Dimitrijević', image: 'assets/images/slide3.jpg' },
-    // Dodaj ostale glumce
-  ];
-  constructor(private router: Router) { }
+  actors: Actor[] = [];
 
-  ngOnInit(): void { }
+  constructor(private router: Router, private ensembleService: EnsembleService) { }
+
+  ngOnInit(): void {
+    this.ensembleService.getAllActors().subscribe((data: Actor[]) => {
+      this.actors = data.map(actor => ({
+        ...actor,
+        imageSrc: 'assets/images/' + actor.ensembleId + '.jpg',
+        hovered: false 
+      }));
+    });
+  }
 
   goToActor(actorId: number): void {
     this.router.navigate(['/actor', actorId]);

@@ -1,4 +1,6 @@
-export interface Performance {
+import { PerformanceTicketPrice } from "./performance-ticket-price.model";
+
+export interface Performance extends PerformanceTicketPrice {
   performance_id: number; 
   performance_title: string; 
   performance_description?: string; 
@@ -8,4 +10,5 @@ export interface Performance {
   created_at?: Date; 
   updated_at?: Date; 
   poster_image?: string | null;
+  ticketPrices?: PerformanceTicketPrice[];
 }

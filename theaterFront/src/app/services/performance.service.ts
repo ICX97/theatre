@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Performance } from '../models/performance.model';
-
+import { PerformanceWithPrices } from '../models/performance-ticket-price.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,5 +17,9 @@ export class PerformanceService {
 
   getPerformanceById(id: number): Observable<Performance> {
     return this.http.get<Performance>(`${this.apiUrl}/${id}`);
+  }
+
+  getPerformancesWithPrices(): Observable<PerformanceWithPrices[]> {
+    return this.http.get<PerformanceWithPrices[]>(`${this.apiUrl}/with-prices`);
   }
 }

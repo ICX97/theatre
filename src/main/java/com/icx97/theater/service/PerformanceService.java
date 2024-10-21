@@ -11,6 +11,7 @@ import com.icx97.theater.model.Performance;
 import com.icx97.theater.model.PerformanceTicketPrice;
 import com.icx97.theater.repository.HallRepository;
 import com.icx97.theater.repository.PerformanceRepository;
+import com.icx97.theater.repository.PerformanceTicketPriceRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class PerformanceService {
     private final PerformanceRepository performanceRepository;
     private final HallRepository hallRepository;
     private final PerformanceMapper performanceMapper;
+    private final PerformanceTicketPriceRepository performanceTicketPriceRepository;
 
     public List<PerformanceDTO> getAllPerformances() {
         logger.info("Fetching all performances");
@@ -42,21 +44,27 @@ public class PerformanceService {
 
         return performances.stream().map(performance -> {
             PerformanceWithPricesDTO performanceDTO = new PerformanceWithPricesDTO();
+            performanceDTO.setPerformanceId(performance.getPerformanceId());
             performanceDTO.setPerformance_title(performance.getPerformance_title());
             performanceDTO.setPerformance_description(performance.getPerformance_description());
             performanceDTO.setPerformance_date(performance.getPerformance_date());
             performanceDTO.setHallId(performance.getHall().getHallId());
-
+            performanceDTO.setRevenue(performance.getRevenue());
+            performanceDTO.setCreated_at(performance.getCreated_at());
+            performanceDTO.setUpdated_at(performance.getUpdated_at());
+            performanceDTO.setPoster_image(performance.getPoster_image());
             // Pronađi cene karata po predstavi
-            List<PerformanceTicketPriceDTO> ticketPrices = new ArrayList<>();
-            List<PerformanceTicketPrice> performanceTicketPrices = performance.getPerformanceTicketPrices(); // Ovo bi trebalo da bude implementirano u Performance entitetu
-
-            for (PerformanceTicketPrice ticketPrice : performanceTicketPrices) {
-                PerformanceTicketPriceDTO PerformanceTicketPriceDTO = new PerformanceTicketPriceDTO();
-                PerformanceTicketPriceDTO.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
-                PerformanceTicketPriceDTO.setPrice(ticketPrice.getPrice());
-                ticketPrices.add(PerformanceTicketPriceDTO);
-            }
+            List<PerformanceTicketPriceDTO> ticketPrices = performanceTicketPriceRepository.findByPerformance_PerformanceId(performance.getPerformanceId())
+                    .stream()
+                    .map(ticketPrice -> {
+                        PerformanceTicketPriceDTO priceDTO = new PerformanceTicketPriceDTO();
+                        priceDTO.setPerformanceTicketPriceId(ticketPrice.getPerformanceTicketPriceId());
+                        priceDTO.setPerformanceId(ticketPrice.getPerformance().getPerformanceId());
+                        priceDTO.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
+                        priceDTO.setPrice(ticketPrice.getPrice());
+                        return priceDTO;
+                    })
+                    .collect(Collectors.toList());
 
             performanceDTO.setTicketPrices(ticketPrices);
             return performanceDTO;

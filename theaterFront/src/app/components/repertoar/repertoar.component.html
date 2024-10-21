@@ -1,30 +1,4 @@
-<!-- <div class="repertoar-container">
-    <div class="tabs">
-      <button *ngFor="let month of months" (click)="selectMonth(month)">{{ month }}</button>
-    </div>
-  
-
-    <div *ngIf="selectedMonth" class="performances-list">
-      <div *ngFor="let performance of performances[selectedMonth]" class="performance-item">
-        <div class="performance-date">
-          <span>{{ performance.day }}</span> - <span>{{ performance.date }}</span>
-        </div>
-        <div class="performance-details">
-          <img [src]="performance.poster" alt="Poster {{ performance.title }}" class="performance-poster">
-          <div class="performance-info">
-            <h3>{{ performance.time }} | {{ performance.hall }}</h3>
-            <h2>{{ performance.title }}</h2>
-            <p>Rezija: {{ performance.director }}</p>
-            <p>Igraju: {{ performance.cast }}</p>
-            <p>Cene: Parter - {{ performance.ticketPrices.parter }}, Balkon - {{ performance.ticketPrices.balcony }}, Loza - {{ performance.ticketPrices.box }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-   -->
-
-   <div class="repertoar-container">
+<div class="repertoar-container">
     <div class="tabs">
         <button *ngFor="let month of months" (click)="selectMonth(month)">{{ month }}</button>
     </div>
@@ -42,6 +16,14 @@
                     <p>Opis: {{ performance.performance_description }}</p>
                 </div>
             </div>
+            <div *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0">
+                <h3>Cene karata:</h3>
+                <ul>
+                  <li *ngFor="let per of performance.ticketPrices">
+                    Tip sedišta: {{ per.seatTypeId }} - Cena: {{ per.price | currency:'RSD' }}
+                  </li>
+                </ul>
+              </div>
         </div>
     </div>
 </div>

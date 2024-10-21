@@ -50,7 +50,6 @@ CREATE TABLE theatre.performance (
     poster_image LONGBLOB,
     FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
 );
-
 -- Tabela za cene karata po predstavi i tipu sedišta
 CREATE TABLE theatre.performance_ticket_price (
     performance_ticket_price_id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -90,6 +89,25 @@ CREATE TABLE theatre.news (
     news_description VARCHAR(10000),  
     news_image LONGBLOB  
 );
+
+CREATE TABLE theatre.ensemble (
+    ensemble_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birth_year INT NOT NULL,
+    ensemble_description TEXT,
+    performance_id BIGINT,
+    FOREIGN KEY (performance_id) REFERENCES performance(performance_id)
+);
+
+CREATE TABLE theatre.ensemble_performance (
+    ensemble_id BIGINT,
+    performance_id BIGINT,
+    PRIMARY KEY (ensemble_id, performance_id),
+    FOREIGN KEY (ensemble_id) REFERENCES ensemble(ensemble_id),
+    FOREIGN KEY (performance_id) REFERENCES performance(performance_id)
+);
+
 
 -- Indeks za brže pretrage rezervacija
 CREATE INDEX idx_reservation_user_performance ON theatre.reservation (user_id, performance_id);

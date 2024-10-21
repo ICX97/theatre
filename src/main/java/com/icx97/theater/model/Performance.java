@@ -17,7 +17,7 @@ public class Performance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "performance_id")
-    private Long performance_id;
+    private Long performanceId;
 
     @Column(name = "performance_title")
     private String performance_title;
@@ -51,6 +51,4 @@ public class Performance {
 
     @OneToMany(mappedBy = "performance", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PerformanceTicketPrice> performanceTicketPrices;
-
-
 }

@@ -1,6 +1,7 @@
-// actor.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Actor } from '../../models/actor.model';
+import { EnsembleService} from '../../services/ensemble.service';
 
 @Component({
   selector: 'app-actor',
@@ -8,22 +9,22 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./actor.component.css']
 })
 export class ActorComponent implements OnInit {
-  actor: any;
+  actor: Actor | null = null;
 
-  actors = [
-    { id: 1, name: 'Ime', surname: 'Prezime', image: 'path/to/image1.jpg', history: 'Kratak istorijat...', performances: ['Predstava 1', 'Predstava 2'] },
-    { id: 2, name: 'Ime2', surname: 'Prezime2', image: 'path/to/image2.jpg', history: 'Kratak istorijat...', performances: ['Predstava 3', 'Predstava 4'] },
-    // Dodajte ostale glumce ovde
-  ];
-
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private ensembleService: EnsembleService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
       const actorId = +id;
-      this.actor = this.actors.find(actor => actor.id === actorId);
+      this.ensembleService.getActorById(actorId).subscribe(data => {
+        this.actor = {
+          ...data, 
+          imageSrc: 'assets/images/' + data.ensembleId + '.jpg', 
+          hovered: false
+        };
+        console.log('Actor data:', this.actor);
+      });
     }
   }
-  
 }
