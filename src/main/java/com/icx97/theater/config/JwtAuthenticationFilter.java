@@ -18,7 +18,10 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    
 
+    @Value("${jwt.secret}")
+    private String secretKey;
     private final UserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(UserDetailsService userDetailsService) {
