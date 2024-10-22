@@ -15,11 +15,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtils jwtUtils; 
+    private final RoleRepository roleRepository;
 
-    public AuthController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtUtils jwtUtils,RoleRepository roleRepository) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtils = jwtUtils;
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/login")
@@ -48,8 +50,10 @@ public class AuthController {
         user.setEmail(registerRequest.getEmail());
 
         // Postavi ulogu (npr. ROLE_USER)
-        Role role = new Role();
-        role.setRoleName("USER"); 
+        Role role = roleRepository.findByRoleName("USER"); // Promeni ovde ako želiš drugačiju logiku
+        if (role != null) {
+            user.setRole(role); // Dodeli ulogu korisniku
+        }
 
         user.setRole(role);
 

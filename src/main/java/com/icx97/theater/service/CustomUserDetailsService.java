@@ -27,4 +27,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles(user.getRole().getRoleName().substring(5))
                 .build();
     }
+    
+    public AppUser save(AppUser user) {
+        return appUserRepository.save(user);
+    }
 }
