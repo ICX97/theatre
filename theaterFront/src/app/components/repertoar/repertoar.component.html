@@ -11,7 +11,7 @@
             <div class="performance-details">
                 <img [src]="'data:image/jpeg;base64,' + performance.poster_image" alt="Poster {{ performance.performance_title }}" class="performance-poster">
                 <div class="performance-info">
-                    <h3>{{ performance.performance_date | date:'HH:mm' }} | Sala {{ performance.hall_id }}</h3>
+                    <h3>{{ performance.performance_date | date:'HH:mm' }} | Sala {{ performance.hallId }}</h3>
                     <h2>{{ performance.performance_title }}</h2>
                     <p>Opis: {{ performance.performance_description }}</p>
                 </div>

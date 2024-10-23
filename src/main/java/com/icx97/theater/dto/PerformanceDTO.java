@@ -17,5 +17,14 @@ public class PerformanceDTO {
     private Timestamp created_at;
     private Timestamp updated_at;
     private byte[] poster_image;
+    private String director;
+    private String adaptation;
+    private String dramaturg;
+    private String scenographer;
+    private String costumeDesigner;
+    private String music;
+    private String stageSpeech;
+    private String stageManager;
+    private String actors;
     private List<PerformanceTicketPriceDTO> ticketPrices;
 }

@@ -1,8 +1,8 @@
-<div class="performance-detail">
-    <img [src]="performance.poster" alt="{{ performance.title }}" />
-    <h2>{{ performance.title }}</h2>
+<div *ngIf="performance" class="performance-detail">
+    <img [src]="'data:image/jpeg;base64,' + performance.poster_image" alt="Poster {{ performance.performance_title }}" />
+    <p>Title: {{ performance.performance_title }}</p>
     <p>Režiser: {{ performance.director }}</p>
-    <p>Opis: {{ performance.description }}</p>
+    <p>Opis: {{ performance.performance_description }}</p>
     <p>Adaptacija: {{ performance.adaptation }}</p>
     <p>Dramaturg: {{ performance.dramaturg }}</p>
     <p>Scenograf: {{ performance.scenographer }}</p>
@@ -20,5 +20,5 @@
     </div> -->
 
     <button (click)="purchaseTickets()">Kupi ulaznice</button>
-  </div>
+</div>
   

@@ -1,14 +1,23 @@
 import { PerformanceTicketPrice } from "./performance-ticket-price.model";
 
 export interface Performance extends PerformanceTicketPrice {
-  performance_id: number; 
+  performanceId: number; 
   performance_title: string; 
   performance_description?: string; 
   performance_date: Date; 
-  hall_id: number; 
+  hallId: number; 
   revenue?: number;
   created_at?: Date; 
   updated_at?: Date; 
   poster_image?: string | null;
+  director?: string; 
+  adaptation?: string; 
+  dramaturg?: string; 
+  scenographer?: string; 
+  costumeDesigner?: string; 
+  music?: string; 
+  stageSpeech?: string; 
+  stageManager?: string; 
+  actors?: string; 
   ticketPrices?: PerformanceTicketPrice[];
 }

@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PerformanceService } from '../../services/performance.service'; // Importuj servis
+import { Performance } from '../../models/performance.model'; // Importuj model
 
-interface Performance {
-  id: number;
-  title: string;
-  director: string;
-  writer: string;
-  poster: string;
-}
 
 @Component({
   selector: 'app-performances',
@@ -17,30 +12,16 @@ interface Performance {
 export class PerformancesComponent implements OnInit {
   performances: Performance[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private performanceService: PerformanceService) {}
 
   ngOnInit() {
     this.fetchPerformances();
   }
 
   fetchPerformances() {
-    // Simuliraj preuzimanje podataka (ovde bi trebao dodati stvarni poziv na API)
-    this.performances = [
-      {
-        id: 1,
-        title: 'Edip',
-        director: 'Vito Taufer',
-        writer: 'Pisac 1',
-        poster: 'assets/images/slide1.jpg'
-      },
-      {
-        id: 2,
-        title: 'Hamlet',
-        director: 'Ivan Vujić',
-        writer: 'Pisac 2',
-        poster: 'assets/images/slide2.jpg'
-      }
-    ];
+    this.performanceService.getPerformances().subscribe((data: Performance[]) => {
+      this.performances = data;
+    });
   }
 
   navigateToDetail(id: number) {

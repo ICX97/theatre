@@ -92,7 +92,7 @@ public class PerformanceService {
         Hall hall = hallRepository.findById(performanceDTO.getHallId())
                 .orElseThrow(() -> new CustomException("Hall with id: " + performanceDTO.getHallId() + " does not exist"));
 
-        // Postavljanje novih vrednosti
+
         performance.setPerformance_title(performanceDTO.getPerformance_title());
         performance.setPerformance_description(performanceDTO.getPerformance_description());
         performance.setPerformance_date(performanceDTO.getPerformance_date());
@@ -101,6 +101,15 @@ public class PerformanceService {
         performance.setCreated_at(performanceDTO.getCreated_at());
         performance.setUpdated_at(performanceDTO.getUpdated_at());
         performance.setPoster_image(performanceDTO.getPoster_image());
+        performance.setDirector(performanceDTO.getDirector());
+        performance.setAdaptation(performanceDTO.getAdaptation());
+        performance.setDramaturg(performanceDTO.getDramaturg());
+        performance.setScenographer(performanceDTO.getScenographer());
+        performance.setCostumeDesigner(performanceDTO.getCostumeDesigner());
+        performance.setMusic(performanceDTO.getMusic());
+        performance.setStageSpeech(performanceDTO.getStageSpeech());
+        performance.setStageManager(performanceDTO.getStageManager());
+        performance.setActors(performanceDTO.getActors());
 
         Performance updatedPerformance = performanceRepository.save(performance);
         return performanceMapper.performanceToPerformanceDTO(updatedPerformance);
