@@ -51,6 +51,7 @@ CREATE TABLE theatre.performance (
     FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
 );
 
+
 ALTER TABLE theatre.performance
 ADD director VARCHAR(100),
 ADD adaptation VARCHAR(100),

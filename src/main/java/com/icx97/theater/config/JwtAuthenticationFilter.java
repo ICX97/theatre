@@ -3,6 +3,7 @@ package com.icx97.theater.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.ServletException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,24 +29,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        String token = extractToken(request);
 
+        String requestURI = request.getRequestURI();
+
+        if (requestURI.contains("/api/auth/register") || requestURI.contains("/api/auth/login") || requestURI.contains("/api/auth/test")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        System.out.println("Request URI: " + request.getRequestURI());
+
+        String token = extractToken(request);
+        System.out.println("Extracted token: " + token);
         if (token != null && validateToken(token)) {
             String username = extractUsername(token);
+            String role = extractRole(token);
+            System.out.println("Extracted username: " + username);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (userDetails != null) {
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        }
 
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("Authentication successful for user: " + username + " with role: " + role);
+            }
+        } else {
+            System.out.println("Token is invalid or missing.");
+        }
         filterChain.doFilter(request, response);
     }
+
 
     private String extractToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
@@ -55,21 +73,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
+    private String extractRole(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("role", String.class); // Izvlačimo rolu iz tokena
+    }
+
     private boolean validateToken(String token) {
         try {
             Claims claims = Jwts.parser()
-                    .setSigningKey("secretKey")
+                    .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
             return claims.getSubject() != null;
         } catch (Exception e) {
+            System.out.println("JWT validation error: " + e.getMessage());
             return false;
         }
     }
 
     private String extractUsername(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey("secretKey")
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();

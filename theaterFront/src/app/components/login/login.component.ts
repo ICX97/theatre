@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,6 +18,8 @@ export class LoginComponent {
     this.authService.login({ username: this.username, password: this.password }).subscribe(
       response => {
         localStorage.setItem('token', response.token);
+        console.log(jwtDecode(response.token));
+        
         this.router.navigate(['/']); 
       },
       error => {

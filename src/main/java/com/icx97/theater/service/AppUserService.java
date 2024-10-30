@@ -8,14 +8,18 @@ import com.icx97.theater.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AppUserService {
+public class AppUserService implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(AppUserService.class);
     private final AppUserRepository appUserRepository;
     private final AppUserMapper appUserMapper;
@@ -48,8 +52,8 @@ public class AppUserService {
                 .orElseThrow(() -> new CustomException("User with id: " + id + " does not exist"));
 
         user.setUsername(appUserDTO.getUsername());
-        user.setPassword(appUserDTO.getPassword());
-        user.setEmail(appUserDTO.getEmail());
+        user.setUser_password(appUserDTO.getUser_password());
+        user.setUser_email(appUserDTO.getUser_email());
         user.setRole(appUserMapper.appUserDTOToAppUser(appUserDTO).getRole());
 
         AppUser updatedUser = appUserRepository.save(user);
@@ -62,5 +66,22 @@ public class AppUserService {
             throw new CustomException("User with id: " + id + " does not exist");
         }
         appUserRepository.deleteById(id);
+    }
+
+    // Nova metoda za pretragu korisnika po korisničkom imenu
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AppUser user = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        logger.info("LoadUserByUserName: " +  user);
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getUser_password())
+                .roles(user.getRole().getRoleName().substring(5))
+                .build();
+    }
+
+    // Nova metoda za čuvanje korisnika
+    public AppUser save(AppUser user) {
+        return appUserRepository.save(user);
     }
 }

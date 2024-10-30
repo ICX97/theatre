@@ -32,11 +32,29 @@ VALUES (1, 'B1', 2, 'RIGHT', 2, TRUE);
 INSERT INTO theatre.seat (hall_id, seat_number, seat_type_id, side, row_num, is_reserved) 
 VALUES (2, 'A1', 3, 'LEFT', 1, FALSE);
 
-INSERT INTO theatre.performance (performance_title, performance_description, performance_date, hall_id, revenue) 
-VALUES ('The Grand Performance', 'An epic show featuring amazing performances.', '2024-10-01 19:00:00', 1, 5000.00);
+INSERT INTO theatre.performance 
+(performance_title, performance_description, performance_date, hall_id, revenue, director, adaptation, dramaturg, scenographer, costume_designer, music, stage_speech, stage_manager, actors, poster_image) 
+VALUES 
+('The Grand Performance', 'An epic show featuring amazing performances.', '2024-10-01 19:00:00', 1, 5000.00, 'John Doe', 'Adapted from Classic', 'Jane Smith', 'Robert Brown', 'Alice Johnson', 'Symphony Orchestra', 'Peter Wilson', 'Carl Jones', 'Actor1, Actor2, Actor3', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')),
 
-INSERT INTO theatre.performance (performance_title, performance_description, performance_date, hall_id, revenue) 
-VALUES ('Intimate Show', 'A cozy performance with a close audience.', '2024-10-05 20:00:00', 2, 1000.00);
+('Intimate Show', 'A cozy performance with a close audience.', '2024-10-05 20:00:00', 2, 1000.00, 'Emily Clark', NULL, 'George Adams', 'Michael Lee', 'Sophia Green', 'Jazz Band', 'Anna White', 'David Wright', 'Actor4, Actor5, Actor6', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg')),
+
+('Comedy Night', 'A night full of laughs and fun.', '2024-10-10 18:00:00', 1, 3000.00, 'Kevin Miles', 'Adapted from Satire', 'Lucy Scott', 'Oliver King', 'Ella Davis', 'Live Band', 'Mark Turner', 'Greg Hall', 'Actor7, Actor8, Actor9', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image3.jpg')),
+
+('Musical Extravaganza', 'A grand musical evening with multiple acts.', '2024-10-15 20:00:00', 2, 6000.00, 'Harper Lee', 'Adaptation of a Broadway Musical', 'Henry Martin', 'Lucas Young', 'Madison Harris', 'Orchestra', 'Alex Evans', 'Riley Moore', 'Actor10, Actor11, Actor12', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')),
+
+('Shakespeare\'s Hamlet', 'A classic performance of Hamlet.', '2024-10-20 19:30:00', 1, 4000.00, 'Emma Anderson', 'Original Script', 'Noah Baker', 'Ethan Thomas', 'Ava Hill', 'Classic Music', 'Olivia Mitchell', 'Carter Green', 'Actor13, Actor14, Actor15', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg')),
+
+('Drama Fest', 'A mix of dramatic performances by emerging artists.', '2024-10-25 21:00:00', 2, 2500.00, 'Sophia Roberts', 'Adaptation of modern plays', 'Jacob Phillips', 'Isabella Clark', 'Mia Scott', 'Acoustic Music', 'Daniel Rodriguez', 'Luke Murphy', 'Actor16, Actor17, Actor18', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image3.jpg')),
+
+('Winter Wonderland', 'A holiday-themed performance.', '2024-12-01 18:00:00', 1, 3500.00, 'Mason Walker', 'Holiday Classics', 'Amelia Lewis', 'Logan Allen', 'Evelyn Martinez', 'Christmas Choir', 'Charlotte Perez', 'Grayson Campbell', 'Actor19, Actor20, Actor21', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')),
+
+('Spring Awakening', 'A fresh and vibrant musical about youth and rebellion.', '2024-03-10 19:00:00', 2, 5500.00, 'Jackson Rivera', 'Musical Adaptation', 'Lucas Ward', 'Benjamin Carter', 'Emily Cooper', 'Pop Music', 'Hannah Diaz', 'Oliver Foster', 'Actor22, Actor23, Actor24', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg')),
+
+('Comedy Gala', 'An evening of stand-up comedy by famous comedians.', '2024-04-05 21:00:00', 1, 4500.00, 'Sofia Hughes', NULL, 'Michael Flores', 'Charlotte White', 'Grace Thompson', 'Live DJ', 'Eli Long', 'Joshua Sanders', 'Actor25, Actor26, Actor27', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image3.jpg')),
+
+('Festival of Lights', 'A celebration of light through music and dance.', '2024-05-15 20:00:00', 2, 7000.00, 'Victoria Russell', 'Cultural Adaptation', 'David Morgan', 'Natalie James', 'Zoey Harris', 'Classical Music', 'Aubrey Brooks', 'Evelyn Scott', 'Actor28, Actor29, Actor30', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg'));
+
 
 INSERT INTO theatre.performance_ticket_price (performance_id, seat_type_id, price) 
 VALUES (1, 1, 50.00);
@@ -74,18 +92,6 @@ select * from theatre.performance;
 -- Isprazni tabelu
 DELETE FROM theatre.performance;
 
--- Unesi nove testne podatke
-INSERT INTO theatre.performance (performance_title, performance_description, performance_date, hall_id, revenue, created_at, updated_at, poster_image) VALUES
-('The Grand Performance', 'An epic show featuring amazing performances.', '2024-10-01 17:00:00', 1, 5000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')),
-('Intimate Show', 'A cozy performance with a close audience.', '2024-10-05 18:00:00', 2, 1000, NOW(), NOW(), LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg'));
-
-UPDATE theatre.performance
-SET poster_image = LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg')
-WHERE performance_title = 'The Grand Performance';
-
-UPDATE theatre.performance
-SET poster_image = LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image2.jpg')
-WHERE performance_title = 'Intimate Show';
 
 INSERT INTO theatre.ensemble (first_name, last_name, birth_year, ensemble_description, performance_id) VALUES 
 ('Marko', 'Marković', 1985, 'Glavni glumac sa bogatim iskustvom u klasičnim predstavama.', 1),

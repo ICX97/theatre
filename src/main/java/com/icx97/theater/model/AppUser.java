@@ -17,10 +17,10 @@ public class AppUser {
     private String username;
 
     @Column(name = "user_password", nullable = false)
-    private String password;
+    private String user_password;
 
     @Column(name = "user_email", nullable = false, unique = true)
-    private String email;
+    private String user_email;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

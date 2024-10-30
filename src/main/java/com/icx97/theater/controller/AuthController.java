@@ -1,65 +1,93 @@
 package com.icx97.theater.controller;
 
-import com.icx97.theater.dto.AppUserDTO;
+import com.icx97.theater.config.JwtUtils;
+import com.icx97.theater.dto.JwtResDTO;
+import com.icx97.theater.dto.LoginReqDTO;
+import com.icx97.theater.dto.RegisterReqDTO;
+import com.icx97.theater.exception.BadRequestException;
+import com.icx97.theater.exception.CustomException;
+import com.icx97.theater.model.AppUser;
+import com.icx97.theater.model.Role;
+import com.icx97.theater.repository.AppUserRepository;
+import com.icx97.theater.repository.RoleRepository;
 import com.icx97.theater.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtUtils jwtUtils; 
+    private final JwtUtils jwtUtils;
+    private final AppUserRepository appUserRepository;
     private final RoleRepository roleRepository;
-
-    public AuthController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtUtils jwtUtils,RoleRepository roleRepository) {
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtils = jwtUtils;
-        this.roleRepository = roleRepository;
-    }
+    private final AppUserService appUserService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+    public ResponseEntity<JwtResDTO> login(@RequestBody LoginReqDTO loginRequest) {
+        logger.info("Pocelooooo");
+        logger.info("Received login request for username: {}", loginRequest.getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateToken(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateToken(authentication);
+
+            logger.info("User {} logged in successfully", loginRequest.getUsername());
+            return ResponseEntity.ok(new JwtResDTO(jwt));
+        } catch (BadCredentialsException e) {
+            logger.error("Invalid login attempt for username: {}", loginRequest.getUsername());
+            throw new BadRequestException("Invalid username or password.");
+        } catch (Exception e) {
+            logger.error("An error occurred during login: {}", e.getMessage());
+            throw new CustomException("An error occurred during login.");
+        }
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        logger.info("Received TSEEST request for username: ");
+        return ResponseEntity.ok("Test route working!");
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
-        // Proveri da li korisnik već postoji
-        if (userDetailsService.loadUserByUsername(registerRequest.getUsername()) != null) {
+    public ResponseEntity<String> register(@RequestBody RegisterReqDTO registerRequest) {
+        logger.info("Received registration request for username: {}", registerRequest.getUsername());
+
+        if (appUserRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
+            logger.warn("Registration failed: User already exists for username: {}", registerRequest.getUsername());
             return ResponseEntity.badRequest().body("User already exists!");
         }
 
-        // Kreiraj novog korisnika
         AppUser user = new AppUser();
         user.setUsername(registerRequest.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword())); // Šifruj lozinku
-        user.setEmail(registerRequest.getEmail());
+        user.setUser_password(new BCryptPasswordEncoder().encode(registerRequest.getUser_password()));
+        user.setUser_email(registerRequest.getUser_email());
 
-        // Postavi ulogu (npr. ROLE_USER)
-        Role role = roleRepository.findByRoleName("USER"); // Promeni ovde ako želiš drugačiju logiku
-        if (role != null) {
-            user.setRole(role); // Dodeli ulogu korisniku
+        Role role = roleRepository.findByRoleName("ROLE_USER");
+        if (role == null) {
+            logger.error("Registration failed: Role 'User' not found!");
+            return ResponseEntity.internalServerError().body("Role not found!");
         }
-
         user.setRole(role);
 
-        // Spremi korisnika u bazu (implementiraj u UserService)
-        userDetailsService.save(user); // Ova metoda treba biti implementirana
-
+        appUserService.save(user);
+        logger.info("User registered successfully: {}", registerRequest.getUsername());
         return ResponseEntity.ok("User registered successfully!");
     }
 }

@@ -1,12 +1,12 @@
 package com.icx97.theater.dto;
 
 import lombok.Data;
-
 @Data
-public class JwtResponse {
+public class JwtResDTO {
+
     private String token;
 
-    public JwtResponse(String token) {
+    public JwtResDTO(String token) {
         this.token = token;
     }
 }
