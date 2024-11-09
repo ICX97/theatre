@@ -23,6 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -66,12 +69,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterReqDTO registerRequest) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterReqDTO registerRequest) {
         logger.info("Received registration request for username: {}", registerRequest.getUsername());
+
+        Map<String, String> response = new HashMap<>();
 
         if (appUserRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             logger.warn("Registration failed: User already exists for username: {}", registerRequest.getUsername());
-            return ResponseEntity.badRequest().body("User already exists!");
+            response.put("message", "User already exists!");
+            return ResponseEntity.badRequest().body(response);
         }
 
         AppUser user = new AppUser();
@@ -82,12 +88,14 @@ public class AuthController {
         Role role = roleRepository.findByRoleName("ROLE_USER");
         if (role == null) {
             logger.error("Registration failed: Role 'User' not found!");
-            return ResponseEntity.internalServerError().body("Role not found!");
+            response.put("message", "Role not found!");
+            return ResponseEntity.internalServerError().body(response);
         }
         user.setRole(role);
 
         appUserService.save(user);
         logger.info("User registered successfully: {}", registerRequest.getUsername());
-        return ResponseEntity.ok("User registered successfully!");
+        response.put("message", "User registered successfully!");
+        return ResponseEntity.ok(response);
     }
 }

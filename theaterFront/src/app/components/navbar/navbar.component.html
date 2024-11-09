@@ -9,6 +9,7 @@
       <a class="nav-link" routerLink="/performances">Predstave</a>
       <a class="nav-link" routerLink="/history">Istorijat</a>
       <a class="nav-link" routerLink="/buy-ticket/1">Kupovina ulaznica</a>
-      <button class="login-button" routerLink="/login">Login</button>
+      <button *ngIf="!authService.isLoggedIn()" class="login-button" routerLink="/login">Login</button>
+    <button *ngIf="authService.isLoggedIn()" class="login-button" (click)="logout()">Sign Out</button>
     </div>
   </nav>

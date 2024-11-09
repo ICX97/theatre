@@ -25,6 +25,13 @@ public class PerformanceTicketPriceController {
         return ResponseEntity.ok(performanceTicketPriceService.getPerformanceTicketPriceById(id));
     }
 
+    @GetMapping("/performance/{performanceId}")
+    public ResponseEntity<List<PerformanceTicketPriceDTO>> getTicketPricesByPerformance(
+            @PathVariable Long performanceId) {
+        return ResponseEntity.ok(
+                performanceTicketPriceService.getTicketPricesByPerformance(performanceId));
+    }
+
     @PostMapping
     public ResponseEntity<PerformanceTicketPriceDTO> createPerformanceTicketPrice(@RequestBody PerformanceTicketPriceDTO performanceTicketPriceDTO) {
         return new ResponseEntity<>(performanceTicketPriceService.createPerformanceTicketPrice(performanceTicketPriceDTO), HttpStatus.CREATED);

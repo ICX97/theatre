@@ -9,17 +9,15 @@
     <tr>
       <th>Naziv predstave</th>
       <th>Datum</th>
-      <th>Satnica</th>
       <th>Broj slobodnih ulaznica</th>
       <th></th>
     </tr>
     <tr *ngFor="let performance of filteredPerformances">
-      <td>{{ performance.title }}</td>
-      <td>{{ performance.date | date: 'dd.MM.yyyy' }}</td>
-      <td>{{ performance.time }}</td>
-      <td>{{ performance.availableTickets }}</td>
+      <td>{{ performance.performance_title }}</td>
+      <td>{{ performance.performance_date}}</td>
+      <td>{{ performance.ticketPrices?.length || 0 }}</td>
       <td>
-        <button (click)="purchaseTickets(performance.id)">Kupi ulaznice</button>
+        <button (click)="purchaseTickets(performance.performanceId)">Kupi ulaznice</button>
       </td>
     </tr>
   </table>

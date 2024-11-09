@@ -1,90 +1,159 @@
 .seat-selection-container {
-  font-family: Arial, sans-serif;
+  max-width: 1400px; /* Povećano za bolji prikaz */
+  margin: 0 auto;
   padding: 20px;
 }
 
-.section-title {
+.theater-layout {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.left-lodges, 
+.right-lodges {
+  width: 20%;
+}
+
+.central-section {
+  width: 55%; /* Malo uži da bi bilo prostora za fiksni rezime */
+}
+
+.balcony-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.seat-type-section {
+  margin-bottom: 30px;
+}
+
+.seat-type-section h3 {
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.main-layout {
-  display: flex; /* Postavljanje flex kontejnera za layout */
+.seat-column {
+  display: flex;
+  flex-direction: column; /* Postavlja sedišta u kolonu za lože */
+  margin-bottom: 15px; /* Razmak između kolona */
 }
 
-.seats-layout {
-  flex: 0 0 80%; /* Zauzima 80% širine */
-  padding: 20px; /* Dodaj razmak */
-  overflow-y: auto; /* Omogućava skrol ako sadržaj premaši visinu */
+.row-label {
+  width: 80px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 20px;
 }
 
-.loza, .parter, .balkon {
-  margin: 20px 0;
-  width: 100%;
-}
-
-.seats-grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
+.seats-container {
+  display: flex;
   gap: 10px;
+  justify-content: center; /* Centriraj sedišta */
+}
+
+.seat-row {
+  display: flex; /* Održava parter i balkon horizontalno */
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .seat {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
+  width: 50px; /* Malo uže sedište */
+  height: 50px; /* Malo niže sedište */
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.seat .seat-number {
+  font-weight: bold;
+  font-size: 12px; /* Malo manji font */
+}
+
+.seat .seat-price {
+  font-size: 9px; /* Malo manji font */
+  color: #666;
+  margin-top: 3px;
+}
+
+.seat:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .seat.selected {
-  background-color: #007bff;
+  background-color: #4caf50;
   color: white;
 }
 
-.seat-summary {
-  margin: 0;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.seat-summary button {
-  background-color: #28a745; /* Zelena boja */
-  color: white; /* Boja teksta */
-  padding: 15px 25px; /* Povećanje unutrašnjeg razmaka */
-  font-size: 18px; /* Povećanje veličine fonta */
-  border: none; /* Ukloni standardni border */
-  border-radius: 5px; /* Zaobljeni uglovi */
-  cursor: pointer; /* Ruka pri prevođenju */
-  transition: background-color 0.3s, transform 0.2s; /* Animacija pri hover-u */
-}
-
-.seat-summary button:hover {
-  background-color: #218838; /* Tamnija zelena pri hover-u */
-  transform: scale(1.05); /* Lagano povećanje pri hover-u */
-}
-
-.seat-summary button:focus {
-  outline: none; /* Ukloni fokus okvir */
+.seat.reserved {
+  background-color: #f44336;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .fixed-summary {
   position: fixed;
-  right: 0;
-  bottom: 0; 
-  width: 20%; 
-  height: 45%; 
-  background-color: white; 
-  box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.1); 
-  padding: 15px; 
+  right: 20px;
+  bottom: 20px;
+  width: 250px;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   z-index: 1000;
-  overflow-y: auto; 
-  border-top-left-radius: 10px; 
-  border-top-right-radius: 10px; 
+ }
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.total-title {
-  text-align: center; 
-  margin-bottom: 10px; 
+.seat-example {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.seat-example.selected {
+  background-color: #4caf50;
+}
+
+.seat-example.reserved {
+  background-color: #f44336;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .theater-layout {
+    flex-direction: column;
+  }
+
+  .left-lodges, 
+  .right-lodges, 
+  .central-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

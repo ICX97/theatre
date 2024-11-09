@@ -29,6 +29,11 @@ public class SeatController {
         return ResponseEntity.ok(seatService.getSeatById(id));
     }
 
+    @GetMapping("/performance/{performanceId}")
+    public ResponseEntity<List<SeatDTO>> getSeatsByPerformance(@PathVariable Long performanceId) {
+        return ResponseEntity.ok(seatService.getSeatsByPerformance(performanceId));
+    }
+
     @PostMapping
     public ResponseEntity<SeatDTO> createSeat(@RequestBody SeatDTO seatDTO) {
         logger.info("Received request to create seat: {}", seatDTO);

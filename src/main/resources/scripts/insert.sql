@@ -55,7 +55,36 @@ VALUES
 
 ('Festival of Lights', 'A celebration of light through music and dance.', '2024-05-15 20:00:00', 2, 7000.00, 'Victoria Russell', 'Cultural Adaptation', 'David Morgan', 'Natalie James', 'Zoey Harris', 'Classical Music', 'Aubrey Brooks', 'Evelyn Scott', 'Actor28, Actor29, Actor30', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image1.jpg'));
 
+INSERT INTO theatre.performance 
+(performance_title, performance_description, performance_date, hall_id, revenue, director, adaptation, dramaturg, scenographer, costume_designer, music, stage_speech, stage_manager, actors, poster_image) 
+VALUES 
+('Mystery at the Mansion', 'An interactive murder mystery experience that will keep you guessing.', '2024-11-01 19:00:00', 1, 4000.00, 'Thomas Gray', NULL, 'Lily Turner', 'Daniel White', 'Jasmine Black', 'Mystery Score', 'Sam Parker', 'Rachel Adams', 'Actor31, Actor32, Actor33', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image4.jpg')),
 
+('Jazz Nights', 'A captivating evening filled with smooth jazz and soulful performances.', '2024-11-05 20:00:00', 2, 3000.00, 'Clara Hill', NULL, 'Ryan Lee', 'Isabella Carter', 'Laura Green', 'Jazz Ensemble', 'Ava Martinez', 'Kevin Brown', 'Actor34, Actor35, Actor36', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image5.jpg')),
+
+('Theatre for Change', 'A thought-provoking play addressing social issues through compelling narratives.', '2024-11-10 18:00:00', 1, 5000.00, 'Maya Nguyen', 'Original Script', 'Ethan White', 'Sophia Moore', 'Noah Hill', 'Contemporary Music', 'Ella Thompson', 'James Hall', 'Actor37, Actor38, Actor39', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image6.jpg')),
+
+('Family Fun Day', 'A delightful afternoon filled with activities, performances, and fun for the whole family.', '2024-11-15 14:00:00', 2, 2000.00, 'Olivia Smith', NULL, 'Michael Johnson', 'Emma Taylor', 'Lucas King', 'Family Music', 'Grace Lewis', 'David Wright', 'Actor40, Actor41, Actor42', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image7.jpg')),
+
+('Shakespeare Unplugged', 'A modern take on Shakespeare\'s classics performed in a contemporary style.', '2024-11-20 19:30:00', 1, 4500.00, 'Benjamin Collins', 'Adapted from Shakespeare', 'Hannah Davis', 'Ryan Smith', 'Ella Johnson', 'Acoustic Music', 'Noah Lee', 'Sofia Harris', 'Actor43, Actor44, Actor45', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image8.jpg')),
+
+('Gala Night', 'An extravagant evening featuring various performances, fine dining, and dancing.', '2024-11-25 20:00:00', 2, 8000.00, 'Charlotte Robinson', NULL, 'Jake Brown', 'Ava Thompson', 'Liam Carter', 'Orchestral Music', 'Mason Clark', 'Victoria Scott', 'Actor46, Actor47, Actor48', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image9.jpg'));
+
+INSERT INTO theatre.performance_ticket_price (performance_id, seat_type_id, price) 
+VALUES 
+(23, 1, 60.00),  -- Mystery at the Mansion
+(23, 2, 40.00),  -- Mystery at the Mansion
+(24, 3, 25.00),  -- Jazz Nights
+(25, 1, 70.00),  -- Theatre for Change
+(25, 2, 50.00),  -- Theatre for Change
+(26, 3, 15.00),  -- Family Fun Day
+(27, 1, 65.00),  -- Shakespeare Unplugged
+(27, 2, 45.00),  -- Shakespeare Unplugged
+(28, 1, 100.00), -- Gala Night
+(28, 2, 75.00);  -- Gala Night
+
+select * from theatre.performance;
+select * from theatre.performance_ticket_price;
 INSERT INTO theatre.performance_ticket_price (performance_id, seat_type_id, price) 
 VALUES (1, 1, 50.00);
 
@@ -116,3 +145,5 @@ INSERT INTO theatre.ensemble_performance (ensemble_id, performance_id) VALUES
 (8, 2),
 (9, 1),
 (10, 2);
+
+select * from theatre.app_user

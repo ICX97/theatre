@@ -35,6 +35,21 @@ public class PerformanceTicketPriceService {
         return performanceTicketPriceMapper.performanceTicketPriceToPerformanceTicketPriceDTO(performanceTicketPrice);
     }
 
+    public List<PerformanceTicketPriceDTO> getTicketPricesByPerformance(Long performanceId) {
+        List<PerformanceTicketPrice> ticketPrices = performanceTicketPriceRepository.findByPerformance_PerformanceId(performanceId);
+
+        return ticketPrices.stream()
+                .map(ticketPrice -> {
+                    PerformanceTicketPriceDTO dto = new PerformanceTicketPriceDTO();
+                    dto.setPerformanceTicketPriceId(ticketPrice.getPerformanceTicketPriceId());
+                    dto.setPerformanceId(ticketPrice.getPerformance().getPerformanceId());
+                    dto.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
+                    dto.setPrice(ticketPrice.getPrice());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     public PerformanceTicketPriceDTO createPerformanceTicketPrice(PerformanceTicketPriceDTO performanceTicketPriceDTO) {
         logger.info("Creating new performance ticket price: {}", performanceTicketPriceDTO);
         PerformanceTicketPrice performanceTicketPrice = performanceTicketPriceMapper.performanceTicketPriceDTOToPerformanceTicketPrice(performanceTicketPriceDTO);

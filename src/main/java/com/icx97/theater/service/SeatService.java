@@ -5,9 +5,11 @@ import com.icx97.theater.enums.Side;
 import com.icx97.theater.exception.CustomException;
 import com.icx97.theater.mapper.SeatMapper;
 import com.icx97.theater.model.Hall;
+import com.icx97.theater.model.Performance;
 import com.icx97.theater.model.Seat;
 import com.icx97.theater.model.SeatType;
 import com.icx97.theater.repository.HallRepository;
+import com.icx97.theater.repository.PerformanceRepository;
 import com.icx97.theater.repository.SeatRepository;
 import com.icx97.theater.repository.SeatTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class SeatService {
     private final HallRepository hallRepository;
     private final SeatTypeRepository seatTypeRepository;
     private final SeatMapper seatMapper;
+    private final PerformanceRepository performanceRepository;
 
     public List<SeatDTO> getAllSeats() {
         logger.info("Fetching all seats");
@@ -40,6 +43,17 @@ public class SeatService {
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Seat with id: " + id + " does not exist"));
         return seatMapper.seatToSeatDTO(seat);
+    }
+
+    public List<SeatDTO> getSeatsByPerformance(Long performanceId) {
+        Performance performance = performanceRepository.findById(performanceId)
+                .orElseThrow(() -> new CustomException("Performance not found with id: " + performanceId));
+
+        List<Seat> seats = seatRepository.findByHall_HallId(performance.getHall().getHallId());
+
+        return seats.stream()
+                .map(seatMapper::seatToSeatDTO)
+                .collect(Collectors.toList());
     }
 
     public SeatDTO createSeat(SeatDTO seatDTO) {

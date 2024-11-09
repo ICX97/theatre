@@ -38,8 +38,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/performances/**").permitAll()
                         .requestMatchers("/api/reservations/**").permitAll()
                         .requestMatchers("/api/roles/**").permitAll()
-                        /*.requestMatchers("/api/halls/**").permitAll()*/
-                        .requestMatchers("/api/halls/**").hasRole("USER")
+                        .requestMatchers("/api/halls/**").permitAll()
+                        //.requestMatchers("/api/halls/**").hasRole("USER")
                         .requestMatchers("/api/performance-ticket-prices/**").permitAll()
                         .requestMatchers("/api/seats/**").permitAll()
                         .requestMatchers("/api/seat-types/**").permitAll()
