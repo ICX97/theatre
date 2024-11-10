@@ -10,12 +10,19 @@
       <th>Naziv predstave</th>
       <th>Datum</th>
       <th>Broj slobodnih ulaznica</th>
+      <th>Cena (RSD)</th>
       <th></th>
     </tr>
     <tr *ngFor="let performance of filteredPerformances">
       <td>{{ performance.performance_title }}</td>
-      <td>{{ performance.performance_date}}</td>
+      <td>{{ performance.performance_date | date: 'dd.MM.yyyy' }}</td>
       <td>{{ performance.ticketPrices?.length || 0 }}</td>
+      <td>
+          <div *ngFor="let seatType of getSeatTypes(performance.performanceId)">
+            {{ seatType }}: 
+            {{ ticketPrices[performance.performanceId][seatType] | number: '1.2-2' }} RSD
+          </div>
+      </td>
       <td>
         <button (click)="purchaseTickets(performance.performanceId)">Kupi ulaznice</button>
       </td>

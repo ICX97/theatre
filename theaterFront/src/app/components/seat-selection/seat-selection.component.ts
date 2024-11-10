@@ -117,6 +117,8 @@ export class SeatSelectionComponent implements OnInit {
         tempSeatsByType[seatTypeName][seat.rowNum].push(seatDisplay);
       }
     });
+
+    
   
     // Sort seats within each row by side and seat number
     Object.keys(tempSeatsByType).forEach(type => {
@@ -155,6 +157,20 @@ export class SeatSelectionComponent implements OnInit {
 
     seat.isSelected = !seat.isSelected;
     this.updateSelectedSeats();
+  }
+
+  getPriceForSection(section: SeatTypeName): number {
+    const seatType = this.ticketPrices.find(price => price.seatTypeId === this.getSeatTypeId(section));
+    return seatType ? seatType.price : 0;
+  }
+
+  getSeatTypeId(section: SeatTypeName): number {
+    const seatTypeMap: { [key: string]: number } = {
+      'PARTER': 1,
+      'BALKON': 2,
+      'LOZA': 3
+    };
+    return seatTypeMap[section] || 0;
   }
 
   clearSelectedSeats(section: string, side: string) {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service'; // Import the service
 import { Performance } from '../../models/performance.model';
-import { PerformanceWithPrices } from '../../models/performance-ticket-price.model';
+import { PerformanceTicketPrice, PerformanceWithPrices } from '../../models/performance-ticket-price.model';
+import { TicketPriceService } from '../../services/ticket-price.service';
 
 @Component({
   selector: 'app-repertoar',
@@ -14,14 +15,16 @@ export class RepertoarComponent implements OnInit {
   performances: Performance[] = [];
   filteredPerformances: Performance[] = []; 
   performancesWithPrices: PerformanceWithPrices[] = [];
+  ticketPrices: { [performanceId: number]: { [seatType: string]: number } } = {};
 
-  constructor(private performanceService: PerformanceService) {}
+  constructor(private performanceService: PerformanceService, private ticketPriceService: TicketPriceService) {}
 
   ngOnInit() {
     this.setMonths();
     this.selectedMonth = this.months[1];  // Automatski postavi trenutni mesec
     this.getPerformances();
     this.getPerformancesWithPrices();
+    this.loadTicketPrices();
   }
 
   setMonths() {
@@ -38,6 +41,41 @@ export class RepertoarComponent implements OnInit {
       currentMonth.toLocaleDateString('sr-RS', options),  // Trenutni mesec
       nextMonth.toLocaleDateString('sr-RS', options)  // Naredni mesec
     ];
+  }
+
+  loadTicketPrices() {
+    const priceRequests = this.performances.map((performance) => {
+      return this.ticketPriceService.getTicketPricesByPerformance(performance.performanceId).subscribe((prices) => {
+        this.ticketPrices[performance.performanceId] = this.groupPricesBySeatType(prices);
+      });
+    });
+
+    Promise.all(priceRequests).then(() => {
+      this.filterPerformancesByMonth();  // After all prices are loaded, filter performances
+    });
+  }
+
+  groupPricesBySeatType(prices: PerformanceTicketPrice[]) {
+    return prices.reduce((acc: { [key: string]: number }, price) => {
+      const seatTypeName = this.getSeatTypeName(price.seatTypeId);
+      if (seatTypeName) {
+        acc[seatTypeName] = price.price;
+      }
+      return acc;
+    }, {}); // acc is initialized as an empty object
+  }
+
+  getSeatTypes(performanceId: number): string[] {
+    return this.ticketPrices[performanceId] ? Object.keys(this.ticketPrices[performanceId]) : [];
+  }
+
+  getSeatTypeName(seatTypeId: number): string {
+    const seatTypeMap: { [key: number]: string } = {
+      1: 'PARTER',
+      2: 'BALKON',
+      3: 'LOZA'
+    };
+    return seatTypeMap[seatTypeId as keyof typeof seatTypeMap] || '';  // Casting seatTypeId
   }
 
   getPerformances() {

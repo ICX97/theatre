@@ -146,4 +146,141 @@ INSERT INTO theatre.ensemble_performance (ensemble_id, performance_id) VALUES
 (9, 1),
 (10, 2);
 
-select * from theatre.app_user
+-- Dodavanje tipova sedišta za Grand Hall
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (1, 'PARTER', 5, 10);  -- 50 mesta
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (1, 'BALKON', 2, 10);  -- 20 mesta
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (1, 'LOŽA', 1, 10);    -- 10 mesta
+
+-- Dodavanje tipova sedišta za Small Hall
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (2, 'PARTER', 4, 10);  -- 40 mesta
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (2, 'BALKON', 2, 10);  -- 20 mesta
+INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
+VALUES (2, 'LOŽA', 1, 10); 
+
+-- Dodavanje mesta za Grand Hall (performance_id 13, 15, 17)
+-- Parter
+INSERT INTO theatre.seat (hall_id, seat_number, seat_type_id, side, row_num, is_reserved) VALUES 
+('1', 'A1', '1', 'LEFT', '1', '0'),
+('1', 'A2', '1', 'LEFT', '1', '0'),
+('1', 'A3', '1', 'LEFT', '1', '0'),
+('1', 'A4', '1', 'LEFT', '1', '0'),
+('1', 'A5', '1', 'LEFT', '1', '0'),
+('1', 'A6', '1', 'LEFT', '1', '0'),
+('1', 'A7', '1', 'LEFT', '1', '0'),
+('1', 'A8', '1', 'LEFT', '1', '0'),
+('1', 'A9', '1', 'LEFT', '1', '0'),
+('1', 'A10', '1', 'LEFT', '1', '0'),
+('1', 'B1', '1', 'LEFT', '2', '0'),
+('1', 'B2', '1', 'LEFT', '2', '0'),
+('1', 'B3', '1', 'LEFT', '2', '0'),
+('1', 'B4', '1', 'LEFT', '2', '0'),
+('1', 'B5', '1', 'LEFT', '2', '0'),
+('1', 'B6', '1', 'LEFT', '2', '0'),
+('1', 'B7', '1', 'LEFT', '2', '0'),
+('1', 'B8', '1', 'LEFT', '2', '0'),
+('1', 'B9', '1', 'LEFT', '2', '0'),
+('1', 'B10', '1', 'LEFT', '2', '0'),
+
+-- Balkon
+('1', 'C1', '2', 'LEFT', '1', '0'),
+('1', 'C2', '2', 'LEFT', '1', '0'),
+('1', 'C3', '2', 'LEFT', '1', '0'),
+('1', 'C4', '2', 'LEFT', '1', '0'),
+('1', 'C5', '2', 'LEFT', '1', '0'),
+('1', 'C6', '2', 'LEFT', '1', '0'),
+('1 ', 'C7', '2', 'LEFT', '1', '0'),
+('1', 'C8', '2', 'LEFT', '1', '0'),
+('1', 'C9', '2', 'LEFT', '1', '0'),
+('1', 'C10', '2', 'LEFT', '1', '0'),
+('1', 'D1', '2', 'LEFT', '2', '0'),
+('1', 'D2', '2', 'LEFT', '2', '0'),
+('1', 'D3', '2', 'LEFT', '2', '0'),
+('1', 'D4', '2', 'LEFT', '2', '0'),
+('1', 'D5', '2', 'LEFT', '2', '0'),
+('1', 'D6', '2', 'LEFT', '2', '0'),
+('1', 'D7', '2', 'LEFT', '2', '0'),
+('1', 'D8', '2', 'LEFT', '2', '0'),
+('1', 'D9', '2', 'LEFT', '2', '0'),
+('1', 'D10', '2', 'LEFT', '2', '0'),
+
+-- Loža
+('1', 'E1', '3', 'LEFT', '1', '0'),
+('1', 'E2', '3', 'LEFT', '1', '0'),
+('1', 'E3', '3', 'LEFT', '1', '0'),
+('1', 'E4', '3', 'LEFT', '1', '0'),
+('1', 'E5', '3', 'LEFT', '1', '0'),
+('1', 'E6', '3', 'LEFT', '1', '0'),
+('1', 'E7', '3', 'LEFT', '1', '0'),
+('1', 'E8', '3', 'LEFT', '1', '0'),
+('1', 'E9', '3', 'LEFT', '1', '0'),
+('1', 'E10', '3', 'LEFT', '1', '0');
+
+-- Dodavanje mesta za Small Hall (performance_id 14, 16, 18)
+-- Parter
+INSERT INTO theatre.seat (hall_id, seat_number, seat_type_id, side, row_num, is_reserved) VALUES 
+('2', 'A1', '1', 'LEFT', '1', '0'),
+('2', 'A2', '1', 'LEFT', '1', '0'),
+('2', 'A3', '1', 'LEFT', '1', '0'),
+('2', 'A4', '1', 'LEFT', '1', '0'),
+('2', 'A5', '1', 'LEFT', '1', '0'),
+('2', 'A6', '1', 'LEFT', '1', '0'),
+('2', 'A7', '1', 'LEFT', '1', '0'),
+('2', 'A8', '1', 'LEFT', '1', '0'),
+('2', 'A9', '1', 'LEFT', '1', '0'),
+('2', 'A10', '1', 'LEFT', '1', '0'),
+('2', 'B1', '1', 'LEFT', '2', '0'),
+('2', 'B2', '1', 'LEFT', '2', '0'),
+('2', 'B3', '1', 'LEFT', '2', '0'),
+('2', 'B4', '1', 'LEFT', '2', '0'),
+('2', 'B5', '1', 'LEFT', '2', '0'),
+('2', 'B6', '1', 'LEFT', '2', '0'),
+('2', 'B7', '1', 'LEFT', '2', '0'),
+('2', 'B8', '1', 'LEFT', '2', '0'),
+('2', 'B9', '1', 'LEFT', '2', '0'),
+('2', 'B10', '1', 'LEFT', '2', '0'),
+
+-- Balkon
+('2', 'C1', '2', 'LEFT', '1', '0'),
+('2', 'C2', '2', 'LEFT', '1', '0'),
+('2', 'C3', '2', 'LEFT', '1', '0'),
+('2', 'C4', '2', 'LEFT', '1', '0'),
+('2', 'C5', '2', 'LEFT', '1', '0'),
+('2', 'C6', '2', 'LEFT', '1', '0'),
+('2', 'C7', '2', 'LEFT', '1', '0'),
+('2', 'C8', '2', 'LEFT', '1', '0'),
+('2', 'C9', '2', 'LEFT', '1', '0'),
+('2', 'C10', '2', 'LEFT', '1', '0'),
+
+-- Loža
+('2', 'D1', '3', 'LEFT', '1', '0'),
+('2', 'D2', '3', 'LEFT', '1', '0'),
+('2', 'D3', '3', 'LEFT', '1', '0'),
+('2', 'D4', '3', 'LEFT', '1', '0'),
+('2', 'D5', '3', 'LEFT', '1', '0'),
+('2', 'D6', '3', 'LEFT', '1', '0'),
+('2', 'D7', '3', 'LEFT', '1', '0'),
+('2', 'D8', '3', 'LEFT', '1', '0'),
+('2', 'D9', '3', 'LEFT', '1', '0'),
+('2', 'D10', '3', 'LEFT', '1', '0');
+
+
+INSERT INTO theatre.performance_ticket_price 
+(performance_id, seat_type_id, price) VALUES 
+(13, 1, 1500.00),  -- Parter
+(13, 2, 2000.00),  -- Balkon
+(13, 3, 2500.00),  -- Loža
+(14, 1, 1200.00),
+(14, 2, 1700.00),
+(14, 3, 2200.00);
+
+select * from theatre.performance;
+
+UPDATE theatre.performance
+SET performance_date = DATE_ADD(CURRENT_DATE, INTERVAL DAY(CURRENT_DATE) - 1 DAY) + INTERVAL 19 HOUR
+WHERE performance_id IN (13, 14);
+

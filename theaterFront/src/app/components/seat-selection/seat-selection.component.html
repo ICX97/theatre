@@ -107,19 +107,33 @@
         </div>
     </div>
 
-    <!-- Legenda -->
-    <div class="seat-legend">
-        <div class="legend-item">
-            <div class="seat-example available"></div>
-            <span>Slobodno</span>
-        </div>
-        <div class="legend-item">
-            <div class="seat-example selected"></div>
-            <span>Izabrano</span>
-        </div>
-        <div class="legend-item">
-            <div class="seat-example reserved"></div>
-            <span>Rezervisano</span>
-        </div>
+   <!-- Legenda -->
+<div class="seat-legend">
+    <div class="legend-item">
+        <div class="seat-example available"></div>
+        <span>Slobodno</span>
     </div>
+    <div class="legend-item">
+        <div class="seat-example selected"></div>
+        <span>Izabrano</span>
+    </div>
+    <div class="legend-item">
+        <div class="seat-example reserved"></div>
+        <span>Rezervisano</span>
+    </div>
+
+    <!-- Cena za svaki tip sedišta -->
+    <div class="legend-item">
+        <span>Parter cena:</span>
+        <span>{{ getPriceForSection('PARTER') }} RSD</span>
+    </div>
+    <div class="legend-item">
+        <span>Balkon cena:</span>
+        <span>{{ getPriceForSection('BALKON') }} RSD</span>
+    </div>
+    <div class="legend-item">
+        <span>Loža cena:</span>
+        <span>{{ getPriceForSection('LOZA') }} RSD</span>
+    </div>
+</div>
 </div>

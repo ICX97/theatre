@@ -48,20 +48,17 @@ CREATE TABLE theatre.performance (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     poster_image LONGBLOB,
+     director VARCHAR(100),
+	adaptation VARCHAR(100),
+	dramaturg VARCHAR(100),
+	scenographer VARCHAR(100),
+	costume_designer VARCHAR(100),
+	music VARCHAR(100),
+	stage_speech VARCHAR(100),
+	stage_manager VARCHAR(100),
+    actors VARCHAR(200),
     FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
 );
-
-
-ALTER TABLE theatre.performance
-ADD director VARCHAR(100),
-ADD adaptation VARCHAR(100),
-ADD dramaturg VARCHAR(100),
-ADD scenographer VARCHAR(100),
-ADD costume_designer VARCHAR(100),
-ADD music VARCHAR(100),
-ADD stage_speech VARCHAR(100),
-ADD stage_manager VARCHAR(100),
-ADD actors VARCHAR(200);
 
 -- Tabela za cene karata po predstavi i tipu sedišta
 CREATE TABLE theatre.performance_ticket_price (
