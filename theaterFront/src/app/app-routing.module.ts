@@ -13,6 +13,8 @@ import { NewsComponent } from './components/news/news.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
 import { SingleNewsComponent } from './components/single-news/single-news.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Default route
@@ -27,6 +29,7 @@ const routes: Routes = [
   { path: 'single-news/:newsId', component: SingleNewsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'buy-ticket/:id', component: TicketPurchaseComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'actor/:id', component: ActorComponent }
 ];
 

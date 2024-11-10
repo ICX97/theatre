@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { NewsDto } from '../dto/NewsDto';
 
 export interface News {
   newsId: number;
@@ -20,6 +21,10 @@ export class NewsService {
 
   getNews(): Observable<News[]> {
     return this.http.get<News[]>(this.apiUrl);
+  }
+
+  createNews(newsData: NewsDto): Observable<NewsDto> {
+    return this.http.post<NewsDto>(this.apiUrl, newsData);
   }
 
   getNewsById(id: string): Observable<News> {

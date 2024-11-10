@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Performance } from '../models/performance.model';
 import { PerformanceWithPrices } from '../models/performance-ticket-price.model';
+import { PerformanceDTO } from '../dto/PerfomanceDto';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,5 +22,9 @@ export class PerformanceService {
 
   getPerformancesWithPrices(): Observable<PerformanceWithPrices[]> {
     return this.http.get<PerformanceWithPrices[]>(`${this.apiUrl}/with-prices`);
+  }
+
+  createPerformance(performanceData: PerformanceDTO): Observable<PerformanceDTO> {
+    return this.http.post<PerformanceDTO>(this.apiUrl, performanceData);
   }
 }

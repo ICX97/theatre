@@ -4,6 +4,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module'; 
@@ -27,6 +28,16 @@ import { RegisterComponent } from './components/register/register.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
 import { SingleNewsComponent } from './components/single-news/single-news.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NewsService } from './services/news.service';
+import { PerformanceService } from './services/performance.service';
+import { EnsembleService } from './services/ensemble.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [
@@ -49,17 +60,29 @@ import { SingleNewsComponent } from './components/single-news/single-news.compon
     RegisterComponent,
     TicketPurchaseComponent,
     SeatSelectionComponent,
-    SingleNewsComponent
+    SingleNewsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    MatInputModule,
+    FlatpickrModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    BsDatepickerModule.forRoot(),
     RouterModule.forRoot([])
+    
   ],
   providers: [
     provideHttpClient(withFetch()),  // Omogućeno korišćenje fetch API-a
-    provideClientHydration()
+    provideClientHydration(),
+    NewsService,
+    PerformanceService,
+    EnsembleService,
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
