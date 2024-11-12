@@ -36,9 +36,14 @@ public class NewsService {
     }
 
     public NewsDto createNews(NewsDto newsDto) {
-        logger.info("Creating new news: {}", newsDto);
-        News news = newsMapper.newsDtoToNews(newsDto);
+        News news = new News();
+        news.setNewsTitle(newsDto.getNewsTitle());
+        news.setNewsDate(newsDto.getNewsDate());
+        news.setNewsDescription(newsDto.getNewsDescription());
+        news.setNewsImage(newsDto.getNewsImage());
+
         News savedNews = newsRepository.save(news);
+
         return newsMapper.newsToNewsDto(savedNews);
     }
 

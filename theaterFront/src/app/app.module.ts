@@ -33,11 +33,7 @@ import { NewsService } from './services/news.service';
 import { PerformanceService } from './services/performance.service';
 import { EnsembleService } from './services/ensemble.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FlatpickrModule } from 'angularx-flatpickr';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -68,13 +64,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    MatInputModule,
-    FlatpickrModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    BsDatepickerModule.forRoot(),
+    MultiSelectModule,
     RouterModule.forRoot([])
-    
   ],
   providers: [
     provideHttpClient(withFetch()),  // Omogućeno korišćenje fetch API-a

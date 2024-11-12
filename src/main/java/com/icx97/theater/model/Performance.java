@@ -73,9 +73,6 @@ public class Performance {
     @Column(name = "stage_manager")
     private String stageManager;
 
-    @Column(name = "actors")
-    private String actors;
-
     @OneToMany(mappedBy = "performance", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PerformanceTicketPrice> performanceTicketPrices;
 }

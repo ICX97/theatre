@@ -6,12 +6,8 @@ import com.icx97.theater.dto.PerformanceWithPricesDTO;
 import com.icx97.theater.dto.TicketPriceDTO;
 import com.icx97.theater.exception.CustomException;
 import com.icx97.theater.mapper.PerformanceMapper;
-import com.icx97.theater.model.Hall;
-import com.icx97.theater.model.Performance;
-import com.icx97.theater.model.PerformanceTicketPrice;
-import com.icx97.theater.repository.HallRepository;
-import com.icx97.theater.repository.PerformanceRepository;
-import com.icx97.theater.repository.PerformanceTicketPriceRepository;
+import com.icx97.theater.model.*;
+import com.icx97.theater.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +25,8 @@ public class PerformanceService {
     private final HallRepository hallRepository;
     private final PerformanceMapper performanceMapper;
     private final PerformanceTicketPriceRepository performanceTicketPriceRepository;
+    private final EnsembleRepository ensembleRepository;
+    private final EnsemblePerformanceRepository ensemblePerformanceRepository;
 
     public List<PerformanceDTO> getAllPerformances() {
         logger.info("Fetching all performances");
@@ -80,8 +78,24 @@ public class PerformanceService {
 
     public PerformanceDTO createPerformance(PerformanceDTO performanceDTO) {
         logger.info("Creating new performance: {}", performanceDTO);
+
         Performance performance = performanceMapper.performanceDTOToPerformance(performanceDTO);
         Performance savedPerformance = performanceRepository.save(performance);
+
+        // Popunjavanje ensemble_performance tabele sa glumcima
+        if (performanceDTO.getActors() != null && !performanceDTO.getActors().isEmpty()) {
+            for (Long actorId : performanceDTO.getActors()) {
+                Ensemble ensemble = ensembleRepository.findById(actorId)
+                        .orElseThrow(() -> new CustomException("Ensemble with id: " + actorId + " does not exist"));
+
+                EnsemblePerformance ensemblePerformance = new EnsemblePerformance();
+                ensemblePerformance.setEnsemble(ensemble);
+                ensemblePerformance.setPerformance(savedPerformance);
+
+                ensemblePerformanceRepository.save(ensemblePerformance);
+            }
+        }
+
         return performanceMapper.performanceToPerformanceDTO(savedPerformance);
     }
 
@@ -109,7 +123,6 @@ public class PerformanceService {
         performance.setMusic(performanceDTO.getMusic());
         performance.setStageSpeech(performanceDTO.getStageSpeech());
         performance.setStageManager(performanceDTO.getStageManager());
-        performance.setActors(performanceDTO.getActors());
 
         Performance updatedPerformance = performanceRepository.save(performance);
         return performanceMapper.performanceToPerformanceDTO(updatedPerformance);

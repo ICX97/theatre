@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Actor } from '../models/actor.model';
-import { EnsembleDto } from '../dto/EnsembleDto';
+import { EnsembleDto } from '../dto/EnsambleDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EnsembleService {
-  private apiUrl = 'http://localhost:8080/api/ensemble'; // Backend URL
+  private apiUrl = '/api/ensemble'; // Backend URL
 
   constructor(private http: HttpClient) {}
 

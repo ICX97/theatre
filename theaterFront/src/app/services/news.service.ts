@@ -15,7 +15,7 @@ export interface News {
   providedIn: 'root'
 })
 export class NewsService {
-  private apiUrl = 'http://localhost:8080/api/news';  // Adjust the URL according to your backend
+  private apiUrl = '/api/news';  // Adjust the URL according to your backend
 
   constructor(private http: HttpClient) {}
 
@@ -23,8 +23,8 @@ export class NewsService {
     return this.http.get<News[]>(this.apiUrl);
   }
 
-  createNews(newsData: NewsDto): Observable<NewsDto> {
-    return this.http.post<NewsDto>(this.apiUrl, newsData);
+  createNews(newsData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, newsData);
   }
 
   getNewsById(id: string): Observable<News> {

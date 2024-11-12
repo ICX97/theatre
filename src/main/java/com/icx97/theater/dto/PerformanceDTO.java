@@ -25,6 +25,6 @@ public class PerformanceDTO {
     private String music;
     private String stageSpeech;
     private String stageManager;
-    private String actors;
+    private List<Long> actors;
     private List<PerformanceTicketPriceDTO> ticketPrices;
 }

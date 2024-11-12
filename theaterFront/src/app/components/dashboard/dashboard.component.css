@@ -1,0 +1,58 @@
+/* dashboard.component.css */
+
+.dashboard-container {
+    max-width: 800px; /* Maksimalna širina */
+    margin: 40px auto; /* Centriranje i razmak od vrha */
+    padding: 30px; /* Unutrašnji razmak */
+    border-radius: 8px; /* Zaobljeni uglovi */
+    background-color: #f9f9f9; /* Svetla pozadina */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Senka */
+}
+
+h2 {
+    color: #333; /* Tamna boja za naslove */
+    margin-bottom: 20px; /* Razmak ispod naslova */
+    font-size: 26px; /* Veličina fonta za naslove */
+}
+
+form {
+    margin-bottom: 40px; /* Razmak između formi */
+    padding: 20px; /* Unutrašnji razmak */
+    border: 1px solid #ddd; /* Granica */
+    border-radius: 8px; /* Zaobljeni uglovи */
+    background-color: #fff; /* Bele pozadine za forme */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Senka za forme */
+}
+
+label {
+    display: block; /* Prikazivanje labela kao blok */
+    margin-bottom: 5px; /* Razmak ispod labela */
+    font-weight: bold; /* Podebljana slova za label */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea {
+    width: 100%; /* Širina 100% */
+    padding: 12px; /* Unutrašnji razmak */
+    margin-bottom: 20px; /* Razmak ispod */
+    border: 1px solid #ccc; /* Granica */
+    border-radius: 4px; /* Zaobljeni uglovi */
+    font-size: 16px; /* Veličina fonta */
+}
+
+button {
+    padding: 12px 20px; /* Unutrašnji razmak za dugmad */
+    background-color: #007bff; /* Plava pozadina */
+    color: white; /* Bele slova */
+    border: none; /* Bez granice */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    cursor: pointer; /* Kursor prsta */
+    font-size: 16px; /* Veličina fonta */
+    transition: background-color 0.3s; /* Glatka promena boje pozadine */
+}
+
+button:hover {
+    background-color: #0056b3; /* Tamnija plava pri prevozu miša */
+}

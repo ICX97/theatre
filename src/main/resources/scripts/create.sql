@@ -38,6 +38,38 @@ CREATE TABLE theatre.seat (
 );
 
 -- Tabela za predstave
+
+
+-- Tabela za korisnike
+CREATE TABLE theatre.app_user (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    user_password VARCHAR(100) NOT NULL,  -- Promenjeno ime kolone
+    user_email VARCHAR(100) NOT NULL UNIQUE,  -- Promenjeno ime kolone
+    role_id BIGINT,
+    FOREIGN KEY (role_id) REFERENCES role(role_id)
+);
+
+-- Tabela za rezervacije
+CREATE TABLE theatre.reservation (
+    reservation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    performance_id BIGINT,
+    seat_id BIGINT,
+    reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user(user_id),
+    FOREIGN KEY (performance_id) REFERENCES performance(performance_id),
+    FOREIGN KEY (seat_id) REFERENCES seat(seat_id)
+);
+
+CREATE TABLE theatre.news (
+    news_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    news_title VARCHAR(200) NOT NULL,
+    news_date DATE,  
+    news_description VARCHAR(10000),  
+    news_image LONGBLOB  
+);
+
 CREATE TABLE theatre.performance (
     performance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     performance_title VARCHAR(100) NOT NULL,
@@ -70,44 +102,12 @@ CREATE TABLE theatre.performance_ticket_price (
     FOREIGN KEY (seat_type_id) REFERENCES seat_type(seat_type_id)
 );
 
--- Tabela za korisnike
-CREATE TABLE theatre.app_user (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    user_password VARCHAR(100) NOT NULL,  -- Promenjeno ime kolone
-    user_email VARCHAR(100) NOT NULL UNIQUE,  -- Promenjeno ime kolone
-    role_id BIGINT,
-    FOREIGN KEY (role_id) REFERENCES role(role_id)
-);
-
--- Tabela za rezervacije
-CREATE TABLE theatre.reservation (
-    reservation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT,
-    performance_id BIGINT,
-    seat_id BIGINT,
-    reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES app_user(user_id),
-    FOREIGN KEY (performance_id) REFERENCES performance(performance_id),
-    FOREIGN KEY (seat_id) REFERENCES seat(seat_id)
-);
-
-CREATE TABLE theatre.news (
-    news_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    news_title VARCHAR(200) NOT NULL,
-    news_date DATE,  
-    news_description VARCHAR(10000),  
-    news_image LONGBLOB  
-);
-
 CREATE TABLE theatre.ensemble (
     ensemble_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birth_year INT NOT NULL,
-    ensemble_description TEXT,
-    performance_id BIGINT,
-    FOREIGN KEY (performance_id) REFERENCES performance(performance_id)
+    ensemble_description TEXT
 );
 
 CREATE TABLE theatre.ensemble_performance (
