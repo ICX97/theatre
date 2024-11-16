@@ -6,6 +6,8 @@ import { Seat } from '../../models/seat.model';
 import { SeatType } from '../../models/seat-type.model';
 import { PerformanceTicketPrice } from '../../models/performance-ticket-price.model';
 import { TicketPriceService } from '../../services/ticket-price.service';
+import { ReservationService } from '../../services/reservation.service';
+import { ReservationDTO } from '../../dto/ReservationDto';
 
 // Definišemo dozvoljene tipove sedišta
 type SeatTypeName = 'PARTER' | 'BALKON' | 'LOZA';
@@ -37,6 +39,18 @@ interface SelectedSeats {
 })
 export class SeatSelectionComponent implements OnInit {
   performanceId: number = 0;
+  userId: number=0; //u konstrukotoru;
+
+  /*
+  performanceId: number;
+  userId: number; // Pretpostavljam da imaš način da dobiješ ID korisnika
+  selectedSeatId: number; // ID izabranog sedišta
+
+  constructor(private route: ActivatedRoute, private reservationService: ReservationService) {
+    this.performanceId = +this.route.snapshot.paramMap.get('id'); // Uzmi ID predstave iz URL-a
+    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa ;
+  }
+   */
   ticketPrices: PerformanceTicketPrice[] = [];
   seatsByType: SeatsByType = {
     'PARTER': [],
@@ -55,8 +69,11 @@ export class SeatSelectionComponent implements OnInit {
     private route: ActivatedRoute,
     private seatService: SeatService,
     private paymentService: PaymentService,
-    @Inject(TicketPriceService) private ticketPriceService: TicketPriceService
-  ) {}
+    @Inject(TicketPriceService) private ticketPriceService: TicketPriceService,
+    private reservationService: ReservationService
+  ) {
+    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa */ 0;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -66,11 +83,9 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   loadData(): void {
-    // Prvo učitajte cene
     this.ticketPriceService.getTicketPricesByPerformance(this.performanceId).subscribe(
       (prices: PerformanceTicketPrice[]) => {
         this.ticketPrices = prices;
-        // Zatim učitajte sedišta
         this.loadSeats();
       }
     );
@@ -88,6 +103,8 @@ export class SeatSelectionComponent implements OnInit {
     const priceInfo = this.ticketPrices.find(p => p.seatTypeId === seatTypeId);
     return priceInfo ? priceInfo.price : 0;
   }
+
+  
 
   organizeSeatsByType(seats: Seat[]): void {
     const tempSeatsByType: SeatsByType = {};
@@ -204,14 +221,25 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   confirmReservation(): void {
-    const selectedSeatIds = Object.values(this.seatsByType)
+    const selectedSeats = Object.values(this.seatsByType)
       .flat(2)
-      .filter(seat => seat.isSelected)
-      .map(seat => seat.seatId);
-
-    if (selectedSeatIds.length > 0) {
-      const finalPrice = this.selectedSeats.totalPrice * 100;
-      this.paymentService.pay(finalPrice, 'rsd', 'Kupovina karte');
+      .filter(seat => seat.isSelected);
+  
+    if (selectedSeats.length > 0) {
+      const reservation: ReservationDTO = {
+        userId: this.userId, 
+        performanceId: this.performanceId,
+        seatId: selectedSeats.map(seat => seat.seatId), 
+        reservationDate: new Date() 
+      };
+  
+      this.reservationService.createReservation(reservation).subscribe(response => {
+        console.log('Reservation successful:', response);
+      }, error => {
+        console.error('Reservation failed:', error);
+      });
+    } else {
+      console.warn('No seats selected for reservation.');
     }
   }
 }
