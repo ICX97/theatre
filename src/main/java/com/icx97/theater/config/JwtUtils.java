@@ -1,5 +1,6 @@
 package com.icx97.theater.config;
 
+import com.icx97.theater.model.AppUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,11 @@ public class JwtUtils {
     private long expirationTime = 86400000; // 1 dan u milisekundama
 
     public String generateToken(Authentication authentication) {
-
+        String userId = null;
+        if (authentication.getPrincipal() instanceof AppUser ) {
+            userId = String.valueOf(((AppUser ) authentication.getPrincipal()).getUserId());
+            System.out.println("User  ID: " + userId);
+        }
         String role = authentication.getAuthorities().stream()
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
@@ -25,6 +30,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
+                .claim("userId", userId)
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))

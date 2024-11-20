@@ -8,6 +8,8 @@ import { PerformanceTicketPrice } from '../../models/performance-ticket-price.mo
 import { TicketPriceService } from '../../services/ticket-price.service';
 import { ReservationService } from '../../services/reservation.service';
 import { ReservationDTO } from '../../dto/ReservationDto';
+import { AuthService } from '../../services/auth.service';
+import { jwtDecode } from "jwt-decode";
 
 // Definišemo dozvoljene tipove sedišta
 type SeatTypeName = 'PARTER' | 'BALKON' | 'LOZA';
@@ -39,18 +41,7 @@ interface SelectedSeats {
 })
 export class SeatSelectionComponent implements OnInit {
   performanceId: number = 0;
-  userId: number=0; //u konstrukotoru;
-
-  /*
-  performanceId: number;
-  userId: number; // Pretpostavljam da imaš način da dobiješ ID korisnika
-  selectedSeatId: number; // ID izabranog sedišta
-
-  constructor(private route: ActivatedRoute, private reservationService: ReservationService) {
-    this.performanceId = +this.route.snapshot.paramMap.get('id'); // Uzmi ID predstave iz URL-a
-    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa ;
-  }
-   */
+  userId: number=6;
   ticketPrices: PerformanceTicketPrice[] = [];
   seatsByType: SeatsByType = {
     'PARTER': [],
@@ -70,9 +61,10 @@ export class SeatSelectionComponent implements OnInit {
     private seatService: SeatService,
     private paymentService: PaymentService,
     @Inject(TicketPriceService) private ticketPriceService: TicketPriceService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    authService: AuthService
   ) {
-    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa */ 0;
+    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa */ 6;
   }
 
   ngOnInit(): void {
@@ -80,6 +72,14 @@ export class SeatSelectionComponent implements OnInit {
     this.performanceId = id ? Number(id) : 0;
     this.loadSeats();
     this.loadData();
+    this.loadId();
+  }
+  loadId() {
+    const token = localStorage.getItem('token'); // Pretpostavljamo da je token sačuvan u localStorage
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      this.userId = decoded.userId; // Pretpostavljamo da je userId u payload-u tokena
+    }
   }
 
   loadData(): void {
@@ -227,9 +227,9 @@ export class SeatSelectionComponent implements OnInit {
   
     if (selectedSeats.length > 0) {
       const reservation: ReservationDTO = {
-        userId: this.userId, 
+        userId: 6, 
         performanceId: this.performanceId,
-        seatId: selectedSeats.map(seat => seat.seatId), 
+        seatIds: selectedSeats.map(seat => seat.seatId), 
         reservationDate: new Date() 
       };
   

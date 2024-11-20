@@ -40,7 +40,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResDTO> login(@RequestBody LoginReqDTO loginRequest) {
-        logger.info("Pocelooooo");
         logger.info("Received login request for username: {}", loginRequest.getUsername());
 
         try {

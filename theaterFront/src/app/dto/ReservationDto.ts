@@ -1,6 +1,6 @@
 export interface ReservationDTO {
     userId: number;
     performanceId: number;
-    seatId: number[]; 
+    seatIds: number[]; 
     reservationDate: Date;
   }

@@ -1,6 +1,7 @@
 package com.icx97.theater.controller;
 
 import com.icx97.theater.dto.ReservationDTO;
+import com.icx97.theater.dto.ResevationListSeatsDTO;
 import com.icx97.theater.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -30,9 +31,10 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
-        logger.info("Received request to create reservation: {}", reservationDTO);
-        return ResponseEntity.ok(reservationService.createReservation(reservationDTO));
+    public ResponseEntity<List<ReservationDTO>> createReservation(@RequestBody ResevationListSeatsDTO reservationDTO) {
+        logger.info("Received request to create reservations: {}", reservationDTO);
+        List<ReservationDTO> createdReservations = reservationService.createReservation(reservationDTO);
+        return ResponseEntity.ok(createdReservations);
     }
 
     @PutMapping("/{id}")

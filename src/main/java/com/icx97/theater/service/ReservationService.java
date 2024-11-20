@@ -1,19 +1,23 @@
 package com.icx97.theater.service;
 
 import com.icx97.theater.dto.ReservationDTO;
+import com.icx97.theater.dto.ResevationListSeatsDTO;
 import com.icx97.theater.exception.CustomException;
 import com.icx97.theater.mapper.ReservationMapper;
 import com.icx97.theater.model.AppUser;
 import com.icx97.theater.model.Performance;
 import com.icx97.theater.model.Reservation;
+import com.icx97.theater.model.Seat;
 import com.icx97.theater.repository.AppUserRepository;
 import com.icx97.theater.repository.PerformanceRepository;
 import com.icx97.theater.repository.ReservationRepository;
+import com.icx97.theater.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,10 @@ public class ReservationService {
     private static final Logger logger = LoggerFactory.getLogger(ReservationService.class);
     private final ReservationRepository reservationRepository;
     private final ReservationMapper reservationMapper;
+    private final AppUserRepository appUserRepository;
+    private final PerformanceRepository performanceRepository;
+    private final SeatRepository seatRepository;
+
 
     public List<ReservationDTO> getAllReservations() {
         logger.info("Fetching all reservations");
@@ -39,11 +47,44 @@ public class ReservationService {
         return reservationMapper.reservationToReservationDTO(reservation);
     }
 
-    public ReservationDTO createReservation(ReservationDTO reservationDTO) {
-        logger.info("Creating new reservation: {}", reservationDTO);
-        Reservation reservation = reservationMapper.reservationDTOToReservation(reservationDTO);
-        Reservation savedReservation = reservationRepository.save(reservation);
-        return reservationMapper.reservationToReservationDTO(savedReservation);
+    public List<ReservationDTO> createReservation(ResevationListSeatsDTO reservationListSeatsDTO) {
+        List<Reservation> reservations = new ArrayList<>();
+
+        // Preuzmi korisnika i predstavu
+        AppUser user = appUserRepository.findById(reservationListSeatsDTO.getUserId())
+                .orElseThrow(() -> new CustomException("User  not found"));
+        Performance performance = performanceRepository.findById(reservationListSeatsDTO.getPerformanceId())
+                .orElseThrow(() -> new CustomException("Performance not found"));
+
+        for (Long seatId : reservationListSeatsDTO.getSeatIds()) {
+            Seat seat = seatRepository.findById(seatId)
+                    .orElseThrow(() -> new CustomException("Seat not found"));
+
+            // Kreiraj novu rezervaciju
+            Reservation reservation = new Reservation();
+            reservation.setUser(user);
+            reservation.setPerformance(performance);
+            reservation.setSeat(seat);
+            reservation.setReservationDate(reservationListSeatsDTO.getReservationDate());
+
+            reservations.add(reservation);
+        }
+
+        // Sačuvaj sve rezervacije
+        reservationRepository.saveAll(reservations);
+
+        List<ReservationDTO> reservationDTOs = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            ReservationDTO dto = new ReservationDTO();
+            dto.setReservationId(reservation.getReservationId());
+            dto.setUserId(reservation.getUser().getUserId());
+            dto.setPerformanceId(reservation.getPerformance().getPerformanceId());
+            dto.setSeatId(reservation.getSeat().getSeatId());
+            dto.setReservationDate(reservation.getReservationDate());
+            reservationDTOs.add(dto);
+        }
+
+        return reservationDTOs;
     }
 
     public ReservationDTO updateReservation(Long id, ReservationDTO reservationDTO) {
