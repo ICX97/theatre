@@ -47,6 +47,13 @@ public class ReservationService {
         return reservationMapper.reservationToReservationDTO(reservation);
     }
 
+    public List<ReservationDTO> getReservationsByPerformanceId(Long performanceId) {
+        List<Reservation> reservations = reservationRepository.findByPerformance_PerformanceId(performanceId);
+        return reservations.stream()
+                .map(reservationMapper::reservationToReservationDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<ReservationDTO> createReservation(ResevationListSeatsDTO reservationListSeatsDTO) {
         List<Reservation> reservations = new ArrayList<>();
 

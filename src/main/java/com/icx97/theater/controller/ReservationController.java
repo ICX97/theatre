@@ -30,6 +30,13 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReservationById(id));
     }
 
+    @GetMapping("/performance/{performanceId}")
+    public ResponseEntity<List<ReservationDTO>> getReservationsByPerformanceId(@PathVariable Long performanceId) {
+        logger.info("Received request to get reservations for performance with id {}", performanceId);
+        List<ReservationDTO> reservations = reservationService.getReservationsByPerformanceId(performanceId);
+        return ResponseEntity.ok(reservations);
+    }
+
     @PostMapping
     public ResponseEntity<List<ReservationDTO>> createReservation(@RequestBody ResevationListSeatsDTO reservationDTO) {
         logger.info("Received request to create reservations: {}", reservationDTO);

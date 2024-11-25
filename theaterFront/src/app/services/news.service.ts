@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NewsDto } from '../dto/NewsDto';
 
@@ -16,18 +16,29 @@ export interface News {
 })
 export class NewsService {
   private apiUrl = '/api/news';  // Adjust the URL according to your backend
+  constructor(private http: HttpClient) {
+  }
 
-  constructor(private http: HttpClient) {}
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token'); 
+    if (token) {
+      return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    }
+    return new HttpHeaders(); 
+  }
 
   getNews(): Observable<News[]> {
-    return this.http.get<News[]>(this.apiUrl);
+    const headers = this.getAuthHeaders();
+    return this.http.get<News[]>(this.apiUrl, { headers });
   }
 
   createNews(newsData: FormData): Observable<any> {
-    return this.http.post<any>(this.apiUrl, newsData);
+    const headers = this.getAuthHeaders();
+    return this.http.post<any>(this.apiUrl, newsData, { headers });
   }
 
   getNewsById(id: string): Observable<News> {
-    return this.http.get<News>(`${this.apiUrl}/${id}`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<News>(`${this.apiUrl}/${id}`, { headers });
   }
 }

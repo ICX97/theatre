@@ -1,5 +1,6 @@
 package com.icx97.theater.service;
 
+import com.icx97.theater.config.CustomUserDetails;
 import com.icx97.theater.dto.AppUserDTO;
 import com.icx97.theater.exception.CustomException;
 import com.icx97.theater.mapper.AppUserMapper;
@@ -8,6 +9,7 @@ import com.icx97.theater.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -72,12 +74,21 @@ public class AppUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        logger.info("LoadUserByUserName: " +  user);
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getUser_password())
-                .roles(user.getRole().getRoleName().substring(5))
-                .build();
+
+        logger.info("LoadUserByUserName: username={}, userId={}", user.getUsername(), user.getUserId());
+
+        return new CustomUserDetails(
+                user.getUsername(),
+                user.getUser_password(),
+                user.getUserId(),
+                List.of(new SimpleGrantedAuthority(user.getRole().getRoleName()))
+        );
+//        logger.info("LoadUserByUserName: " +  user);
+//        return org.springframework.security.core.userdetails.User.builder()
+//                .username(user.getUsername())
+//                .password(user.getUser_password())
+//                .roles(user.getRole().getRoleName().substring(5))
+//                .build();
     }
 
     // Nova metoda za čuvanje korisnika

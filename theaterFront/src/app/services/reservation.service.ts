@@ -14,4 +14,8 @@ export class ReservationService {
   createReservation(reservation: ReservationDTO): Observable<ReservationDTO> {
     return this.http.post<ReservationDTO>(this.apiUrl, reservation);
   }
+
+  getReservationsByPerformance(performanceId: number): Observable<ReservationDTO[]> {
+    return this.http.get<ReservationDTO[]>(`${this.apiUrl}/performance/${performanceId}`);
+}
 }

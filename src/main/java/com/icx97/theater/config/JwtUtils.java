@@ -18,9 +18,8 @@ public class JwtUtils {
 
     public String generateToken(Authentication authentication) {
         String userId = null;
-        if (authentication.getPrincipal() instanceof AppUser ) {
-            userId = String.valueOf(((AppUser ) authentication.getPrincipal()).getUserId());
-            System.out.println("User  ID: " + userId);
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            userId = String.valueOf(((CustomUserDetails) authentication.getPrincipal()).getUserId());
         }
         String role = authentication.getAuthorities().stream()
                 .findFirst()

@@ -64,7 +64,7 @@ export class SeatSelectionComponent implements OnInit {
     private reservationService: ReservationService,
     authService: AuthService
   ) {
-    this.userId = /* dobavi userId iz autentifikacije ili nekog servisa */ 6;
+    //this.userId = /* dobavi userId iz autentifikacije ili nekog servisa */ 6;
   }
 
   ngOnInit(): void {
@@ -73,12 +73,54 @@ export class SeatSelectionComponent implements OnInit {
     this.loadSeats();
     this.loadData();
     this.loadId();
+    this.loadReservations();
   }
+
+  loadReservations(): void {
+    this.reservationService.getReservationsByPerformance(this.performanceId).subscribe(
+        (reservations: ReservationDTO[]) => {
+            this.handleReservations(reservations);
+        },
+        error => {
+            console.error('Failed to load reservations', error);
+        }
+    );
+  }
+
+  handleReservations(reservations: ReservationDTO[]): void {
+    // Obradi rezervacije, npr. obeleži sedišta kao rezervisana
+    reservations.forEach(reservation => {
+        // Oznaci svi sedišta kao rezervisana
+        reservation.seatIds.forEach(seatId => {
+            const seat = this.findSeatById(seatId);
+            if (seat) {
+                seat.isReserved = true;
+            }
+        });
+    });
+  }
+
+  findSeatById(seatId: number): SeatDisplay | undefined {
+    for (const type in this.seatsByType) {
+        for (const row of this.seatsByType[type]) {
+            const seat = row.find(s => s.seatId === seatId);
+            if (seat) {
+                return seat;
+            }
+        }
+    }
+    return undefined;
+  }
+
   loadId() {
     const token = localStorage.getItem('token'); // Pretpostavljamo da je token sačuvan u localStorage
     if (token) {
       const decoded: any = jwtDecode(token);
-      this.userId = decoded.userId; // Pretpostavljamo da je userId u payload-u tokena
+      if (decoded.userId) {
+        this.userId = decoded.userId;
+      } else {
+        console.error("UserId is missing from token");
+      }
     }
   }
 
@@ -95,6 +137,7 @@ export class SeatSelectionComponent implements OnInit {
     this.seatService.getSeatsByPerformance(this.performanceId).subscribe(
       (seats: Seat[]) => {
         this.organizeSeatsByType(seats);
+        this.loadReservations();
       }
     );
   }
@@ -227,7 +270,7 @@ export class SeatSelectionComponent implements OnInit {
   
     if (selectedSeats.length > 0) {
       const reservation: ReservationDTO = {
-        userId: 6, 
+        userId: this.userId, 
         performanceId: this.performanceId,
         seatIds: selectedSeats.map(seat => seat.seatId), 
         reservationDate: new Date() 
