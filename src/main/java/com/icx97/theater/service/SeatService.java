@@ -1,7 +1,6 @@
 package com.icx97.theater.service;
 
 import com.icx97.theater.dto.SeatDTO;
-import com.icx97.theater.enums.Side;
 import com.icx97.theater.exception.CustomException;
 import com.icx97.theater.mapper.SeatMapper;
 import com.icx97.theater.model.Hall;
@@ -69,11 +68,6 @@ public class SeatService {
                 .orElseThrow(() -> new CustomException("Seat with id: " + id + " does not exist"));
 
         seat.setSeatNumber(seatDTO.getSeatNumber());
-        try {
-            seat.setSide(Side.valueOf(seatDTO.getSide().toUpperCase()));
-        } catch (IllegalArgumentException e) {
-            throw new CustomException("Invalid side: " + seatDTO.getSide());
-        }
         seat.setRowNum(seatDTO.getRowNum());
         seat.setIsReserved(seatDTO.getIsReserved());
         Hall hall = hallRepository.findById(seatDTO.getHallId())

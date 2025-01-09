@@ -11,7 +11,7 @@
         <textarea id="newsDescription" [(ngModel)]="news.newsDescription" name="newsDescription" placeholder="Enter news description"></textarea>
 
         <label for="newsImage">Upload Image (optional)</label>
-        <input type="file" id="newsImage" (change)="onFileSelect($event)" name="newsImage">
+        <input type="file" id="newsImage" (change)="onFileSelectNews($event)" name="newsImage">
 
         <button type="submit">Add News</button>
     </form>
@@ -27,17 +27,25 @@
         <label for="performanceDate">Performance Date</label>
         <input type="date" id="performanceDate" [(ngModel)]="performance.performance_date" name="performanceDate" required>
 
-        <label for="hallId">Hall ID</label>
-        <input type="number" id="hallId" [(ngModel)]="performance.hallId" name="hallId" required placeholder="Enter hall ID">
+        <label>
+          <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="1" required>
+          Hall 1
+        </label>
+        <label>
+          <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="2" required>
+          Hall 2
+        </label>
 
-        <label for="actors">Select Actors</label>
-        <p-multiSelect 
-                [options]="actorsList" 
-                [(ngModel)]="selectedActors" 
-                optionLabel="label" 
-                optionValue="value" 
-                placeholder="Select Actors">
-            </p-multiSelect>
+        <label>Select Actors</label>
+        <p-multiSelect
+          class="custom-multiselect"
+          [options]="actorsList"
+          [(ngModel)]="selectedActors"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select Actors"
+          (onChange)="logSelectedActors()">
+        </p-multiSelect>
 
         <label for="director">Director</label>
         <input type="text" id="director" [(ngModel)]="performance.director" name="director" placeholder="Enter director name">
@@ -63,16 +71,17 @@
         <label for="stageManager">Stage Manager</label>
         <input type="text" id="stageManager" [(ngModel)]="performance.stageManager" name="stageManager" placeholder="Enter stage manager name">
 
-        <label for="revenue">Revenue</label>
-        <input type="number" id="revenue" [(ngModel)]="performance.revenue" name="revenue" placeholder="Enter revenue">
 
-        <label for="posterImage">Poster Image URL (optional)</label>
-        <input type="text" id="posterImage" [(ngModel)]="performance.poster_image" name="posterImage" placeholder="Enter poster image URL">
-        
+
+        <label for="poster_image">Upload Image (optional)</label>
+        <input type="file" id="poster_image" (change)="onFileSelectPerformance($event)" name="poster_image">
+
         <input type="hidden" [(ngModel)]="performance.created_at" name="created_at">
         <input type="hidden" [(ngModel)]="performance.updated_at" name="updated_at">
+        <div>
+          <button type="submit">Add Performance</button>
+        </div>
 
-        <button type="submit">Add Performance</button>
     </form>
 
     <h2>Add Actor</h2>

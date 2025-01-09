@@ -1,6 +1,5 @@
 package com.icx97.theater.model;
 
-import com.icx97.theater.enums.Side;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,9 +21,6 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "seat_type_id")
     private SeatType seatType;
-
-    @Enumerated(EnumType.STRING)
-    private Side side;  // Define this ENUM for LEFT/RIGHT
 
     @Column(name = "row_num")
     private Integer rowNum;

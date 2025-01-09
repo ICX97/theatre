@@ -6,9 +6,9 @@ import { NewsDto } from '../dto/NewsDto';
 export interface News {
   newsId: number;
   newsTitle: string;
-  newsDate: string;  
+  newsDate: string;
   newsDescription: string;
-  newsImage: string | null;  
+  newsImage: string | null;
 }
 
 @Injectable({
@@ -20,11 +20,11 @@ export class NewsService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     if (token) {
       return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     }
-    return new HttpHeaders(); 
+    return new HttpHeaders();
   }
 
   getNews(): Observable<News[]> {
@@ -33,8 +33,9 @@ export class NewsService {
   }
 
   createNews(newsData: FormData): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<any>(this.apiUrl, newsData, { headers });
+//     const headers = this.getAuthHeaders();
+//     return this.http.post<any>(this.apiUrl, newsData, { headers });
+      return this.http.post<any>(this.apiUrl, newsData);
   }
 
   getNewsById(id: string): Observable<News> {

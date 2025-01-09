@@ -47,11 +47,30 @@ public class ReservationService {
         return reservationMapper.reservationToReservationDTO(reservation);
     }
 
-    public List<ReservationDTO> getReservationsByPerformanceId(Long performanceId) {
+    public ResevationListSeatsDTO getCombinedReservationsByPerformanceId(Long performanceId) {
         List<Reservation> reservations = reservationRepository.findByPerformance_PerformanceId(performanceId);
-        return reservations.stream()
-                .map(reservationMapper::reservationToReservationDTO)
-                .collect(Collectors.toList());
+
+        ResevationListSeatsDTO combinedReservation = new ResevationListSeatsDTO();
+
+        if (!reservations.isEmpty()) {
+            Reservation firstReservation = reservations.get(0);
+
+            combinedReservation.setReservationId(firstReservation.getReservationId());
+            combinedReservation.setUserId(firstReservation.getUser().getUserId());
+            combinedReservation.setPerformanceId(firstReservation.getPerformance().getPerformanceId());
+            combinedReservation.setReservationDate(firstReservation.getReservationDate());
+
+            combinedReservation.setSeatIds(new ArrayList<>());
+
+            for (Reservation reservation : reservations) {
+                combinedReservation.getSeatIds().add(reservation.getSeat().getSeatId());
+            }
+        } else {
+            // Ako nema rezervacija, možemo vratiti DTO sa praznom listom ili baciti izuzetak
+            logger.warn("No reservations found for performance ID: {}", performanceId);
+        }
+
+        return combinedReservation;
     }
 
     public List<ReservationDTO> createReservation(ResevationListSeatsDTO reservationListSeatsDTO) {

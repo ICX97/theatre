@@ -56,3 +56,47 @@ button {
 button:hover {
     background-color: #0056b3; /* Tamnija plava pri prevozu miša */
 }
+
+.custom-multiselect .p-multiselect {
+    background-color: #eaf4fc !important; /* Pozadina */
+    border: 2px solid #007bff !important; /* Plava granica */
+    border-radius: 8px !important; /* Zaobljeni uglovi */
+    padding: 10px !important; /* Unutrašnji razmak */
+}
+
+/* Stilizovanje label-e unutar p-multiSelect */
+.custom-multiselect .p-multiselect-label {
+    color: #0056b3 !important; /* Plavi tekst */
+    font-weight: bold; /* Podebljan tekst */
+}
+
+/* Stilizovanje stavki u padajućem meniju */
+.custom-multiselect .p-multiselect-panel {
+    background-color: #ffffff !important; /* Bela pozadina za panel */
+    border: 1px solid #ccc !important; /* Granica panela */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Senka panela */
+}
+
+/* Stilizovanje stavki u padajućem meniju */
+.custom-multiselect .p-multiselect-item {
+    padding: 10px;
+    font-size: 14px;
+    color: #333; /* Tamni tekst */
+}
+
+/* Hover efekat na stavkama u panelu */
+.custom-multiselect .p-multiselect-item:hover {
+    background-color: #f0f8ff; /* Svetla plava pozadina pri hover-u */
+}
+
+/* Stilizovanje selektovanih stavki */
+.custom-multiselect .p-multiselect-item.p-highlight {
+    background-color: #007bff !important; /* Plava pozadina za selektovane stavke */
+    color: white !important; /* Bela slova za selektovane stavke */
+}
+
+::ng-deep .custom-multiselect .p-multiselect {
+    background-color: #eaf4fc !important;
+    border: 2px solid #007bff !important;
+    border-radius: 8px !important;
+}

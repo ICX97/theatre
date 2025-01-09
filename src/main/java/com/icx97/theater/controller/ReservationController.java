@@ -31,10 +31,14 @@ public class ReservationController {
     }
 
     @GetMapping("/performance/{performanceId}")
-    public ResponseEntity<List<ReservationDTO>> getReservationsByPerformanceId(@PathVariable Long performanceId) {
-        logger.info("Received request to get reservations for performance with id {}", performanceId);
-        List<ReservationDTO> reservations = reservationService.getReservationsByPerformanceId(performanceId);
-        return ResponseEntity.ok(reservations);
+    public ResponseEntity<ResevationListSeatsDTO> getCombinedReservationsByPerformanceId(@PathVariable Long performanceId) {
+        logger.info("Received request to get combined reservations for performance with id {}", performanceId);
+
+        ResevationListSeatsDTO combinedReservation = reservationService.getCombinedReservationsByPerformanceId(performanceId);
+        if (combinedReservation.getSeatIds() == null || combinedReservation.getSeatIds().isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content ako nema rezervacija
+        }
+        return ResponseEntity.ok(combinedReservation);
     }
 
     @PostMapping

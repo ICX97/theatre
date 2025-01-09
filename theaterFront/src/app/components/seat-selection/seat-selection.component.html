@@ -2,23 +2,6 @@
     <h2 class="section-title">Izaberite sedišta</h2>
     
     <div class="theater-layout">
-        <!-- Lože levo -->
-        <div class="left-lodges">
-            <h3 class="section-subtitle">Lože levo</h3>
-            <div class="seats-grid">
-                <div *ngFor="let row of seatsByType['LOZA']?.slice(0, 5); let rowIndex = index" class="seat-column">
-                    <div class="row-label">Red {{ rowIndex + 1 }}</div>
-                    <div *ngFor="let seat of row" 
-                         class="seat" 
-                         [class.selected]="seat.isSelected"
-                         [class.reserved]="seat.isReserved"
-                         (click)="toggleSeatSelection(seat, 'LOZA', 'left')">
-                        <span class="seat-number">{{ seat.seatNumber }}</span>
-                        <span class="seat-price">{{ seat.price }} RSD</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Centralni deo - Parter i Balkon -->
         <div class="central-section">
@@ -56,17 +39,16 @@
             </div>
         </div>
 
-        <!-- Lože desno -->
-        <div class="right-lodges">
-            <h3 class="section-subtitle">Lože desno</h3>
-            <div class="seats-grid">
-                <div *ngFor="let row of seatsByType['LOZA']?.slice(5); let rowIndex = index" class="seat-column">
-                    <div class="row-label">Red {{ rowIndex + 6 }}</div>
+        <div class="lodges">
+            <h3 class="section-subtitle">Lože</h3>
+            <div class="seats-grid horizontal-layout">
+                <div *ngFor="let row of seatsByType['LOZA']; let rowIndex = index" class="seat-row">
+                    <div class="row-label">Red {{ rowIndex + 1 }}</div>
                     <div *ngFor="let seat of row" 
                          class="seat" 
                          [class.selected]="seat.isSelected"
                          [class.reserved]="seat.isReserved"
-                         (click)="toggleSeatSelection(seat, 'LOZA', 'right')">
+                         (click)="toggleSeatSelection(seat, 'LOZA')">
                         <span class="seat-number">{{ seat.seatNumber }}</span>
                         <span class="seat-price">{{ seat.price }} RSD</span>
                     </div>

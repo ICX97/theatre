@@ -14,11 +14,11 @@ import { Actor } from '../../models/actor.model';
 })
 export class DashboardComponent implements OnInit {
   news: NewsDto = { newsTitle: '', newsDate: new Date(), newsDescription: '', newsImage: null };
-  performance: PerformanceDTO = { 
-    performance_title: '', 
-    performance_description: '', 
-    performance_date: new Date(), 
-    hallId: 0,
+  performance: PerformanceDTO = {
+    performance_title: '',
+    performance_description: '',
+    performance_date: new Date(),
+    hallId: 1,
     created_at: new Date(),  // Set created_at to current date
     updated_at: undefined,        // Set updated_at to null initially
     director: '',
@@ -42,7 +42,12 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getActors(); 
+    this.getActors();
+  }
+
+  logSelectedActors() {
+    console.log('Selected Actors:', this.selectedActors);
+    console.log('Selected ActorList:', this.actorsList);
   }
 
   getActors() {
@@ -58,10 +63,12 @@ export class DashboardComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('newsTitle', this.news.newsTitle || '');
-    formData.append('newsDate', this.news.newsDate instanceof Date ? this.news.newsDate.toISOString().split('T')[0] : '');
+    const dateValue = new Date(this.news.newsDate);
+    formData.append('newsDate', !isNaN(dateValue.getTime()) ? dateValue.toISOString().split('T')[0] : '');
+
     formData.append('newsDescription', this.news.newsDescription || '');
     if (this.news.newsImage) {
-      formData.append('newsImage', this.news.newsImage); // Dodajemo sliku ako je korisnik odabrao
+      formData.append('newsImage', this.news.newsImage);
     }
     this.newsService.createNews(formData).subscribe(response => {
       console.log('News added:', response);
@@ -69,12 +76,19 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onFileSelect(event: any) {
+  onFileSelectNews(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.news.newsImage = file;
     }
   }
+
+  onFileSelectPerformance(event: any) {
+      const file = event.target.files[0];
+      if (file) {
+        this.performance.poster_image = file;
+      }
+    }
 
   addPerformance() {
     this.performance.created_at = new Date();
@@ -82,10 +96,10 @@ export class DashboardComponent implements OnInit {
     this.performance.actors = [...this.selectedActors];
     this.performanceService.createPerformance(this.performance).subscribe(response => {
       console.log('Performance added:', response);
-      this.performance = { 
-        performance_title: '', 
-        performance_description: '', 
-        performance_date: new Date(), 
+      this.performance = {
+        performance_title: '',
+        performance_description: '',
+        performance_date: new Date(),
         hallId: 0,
         created_at: new Date(),
         updated_at: undefined,

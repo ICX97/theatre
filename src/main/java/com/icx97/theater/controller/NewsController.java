@@ -36,23 +36,23 @@ public class NewsController {
         return ResponseEntity.ok(newsService.getNewsById(id));
     }
 
-    public ResponseEntity<String> createNews(
+    @PostMapping
+    public ResponseEntity<NewsDto> createNews(
             @RequestParam("newsTitle") String newsTitle,
-            @RequestParam("newsDate") String newsDate,
+            @RequestParam("newsDate") Date newsDate,
             @RequestParam("newsDescription") String newsDescription,
             @RequestParam(value = "newsImage", required = false) MultipartFile newsImage
     ) throws IOException {
-        Date date = Date.valueOf(newsDate);
 
         NewsDto newsDto = new NewsDto();
         newsDto.setNewsTitle(newsTitle);
-        newsDto.setNewsDate(date);
+        newsDto.setNewsDate(newsDate);
         newsDto.setNewsDescription(newsDescription);
         if (newsImage != null && !newsImage.isEmpty()) {
             newsDto.setNewsImage(newsImage.getBytes());
         }
 
-        return ResponseEntity.ok("Created news");
+        return ResponseEntity.ok(newsService.createNews(newsDto));
     }
 
     @PutMapping("/{id}")

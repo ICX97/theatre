@@ -18,7 +18,6 @@ interface SeatDisplay {
   seatId: number;
   seatNumber: string;
   rowNum: number;
-  side: 'LEFT' | 'RIGHT';
   isReserved: boolean;
   isSelected: boolean;
   price: number;
@@ -87,30 +86,59 @@ export class SeatSelectionComponent implements OnInit {
     );
   }
 
-  handleReservations(reservations: ReservationDTO[]): void {
-    // Obradi rezervacije, npr. obeleži sedišta kao rezervisana
+  handleReservations(reservations: ReservationDTO | ReservationDTO[]): void {
+    if (!Array.isArray(reservations)) {
+        // Ako je pojedinačan objekat, stavite ga u niz
+        reservations = [reservations];
+    }
+
     reservations.forEach(reservation => {
-        // Oznaci svi sedišta kao rezervisana
+        console.log('Processing reservation:', reservation);
         reservation.seatIds.forEach(seatId => {
             const seat = this.findSeatById(seatId);
             if (seat) {
+                console.log(`Marking seat with ID ${seatId} as reserved`);
                 seat.isReserved = true;
+            } else {
+                console.warn(`Seat with ID ${seatId} not found`);
             }
         });
     });
+
+    console.log('Seats updated:', this.seatsByType);
   }
 
+
+
+
   findSeatById(seatId: number): SeatDisplay | undefined {
+    console.log(`Searching for seat with ID: ${seatId}`);
+    console.log('Current seatsByType structure:', this.seatsByType);
+
     for (const type in this.seatsByType) {
+        console.log(`Checking type: ${type}`);
+        if (!Array.isArray(this.seatsByType[type])) {
+            console.warn(`Type ${type} is not an array or is undefined. Skipping...`);
+            continue;
+        }
+
         for (const row of this.seatsByType[type]) {
+            if (!Array.isArray(row)) {
+                console.warn(`Row in type ${type} is not an array. Skipping...`);
+                continue;
+            }
+            console.log(`Checking row:`, row);
+
             const seat = row.find(s => s.seatId === seatId);
             if (seat) {
+                console.log(`Found seat with ID: ${seatId}`);
                 return seat;
             }
         }
     }
+    console.warn(`Seat with ID ${seatId} not found in any type`);
     return undefined;
-  }
+}
 
   loadId() {
     const token = localStorage.getItem('token'); // Pretpostavljamo da je token sačuvan u localStorage
@@ -157,10 +185,9 @@ export class SeatSelectionComponent implements OnInit {
         seatId: seat.seatId,
         seatNumber: seat.seatNumber,
         rowNum: seat.rowNum,
-        side: seat.side,
         isReserved: seat.isReserved,
         isSelected: false,
-        price: this.getPrice(seat.seatTypeId), 
+        price: this.getPrice(seat.seatTypeId),
         seatTypeId: seat.seatTypeId
       };
   
@@ -169,27 +196,13 @@ export class SeatSelectionComponent implements OnInit {
         if (!tempSeatsByType[seatTypeName]) {
           tempSeatsByType[seatTypeName] = [];
         }
-        
+  
         if (!tempSeatsByType[seatTypeName][seat.rowNum]) {
           tempSeatsByType[seatTypeName][seat.rowNum] = [];
         }
-        
+  
         tempSeatsByType[seatTypeName][seat.rowNum].push(seatDisplay);
       }
-    });
-
-    
-  
-    // Sort seats within each row by side and seat number
-    Object.keys(tempSeatsByType).forEach(type => {
-      tempSeatsByType[type] = tempSeatsByType[type].map(row => 
-        row.sort((a, b) => {
-          if (a.side === b.side) {
-            return a.seatNumber.localeCompare(b.seatNumber);
-          }
-          return a.side === 'LEFT' ? -1 : 1;
-        })
-      );
     });
   
     this.seatsByType = tempSeatsByType;
@@ -204,17 +217,8 @@ export class SeatSelectionComponent implements OnInit {
     return seatTypeMap[seatTypeId] || null;
   }
 
-  toggleSeatSelection(seat: SeatDisplay, section: string, side?: string): void {
+  toggleSeatSelection(seat: SeatDisplay, section: string): void {
     if (seat.isReserved) return;
-
-    if (section === 'LOZA') {
-      if (side === 'left') {
-        this.clearSelectedSeats('LOZA', 'left');
-      } else if (side === 'right') {
-        this.clearSelectedSeats('LOZA', 'right');
-      }
-    }
-
     seat.isSelected = !seat.isSelected;
     this.updateSelectedSeats();
   }
@@ -231,19 +235,6 @@ export class SeatSelectionComponent implements OnInit {
       'LOZA': 3
     };
     return seatTypeMap[section] || 0;
-  }
-
-  clearSelectedSeats(section: string, side: string) {
-    const seats = this.seatsByType[section];
-    seats.forEach(row => {
-      row.forEach(seat => {
-        if (side === 'left' && seat.side === 'LEFT' && seat.isSelected) {
-          seat.isSelected = false;
-        } else if (side === 'right' && seat.side === 'RIGHT' && seat.isSelected) {
-          seat.isSelected = false;
-        }
-      });
-    });
   }
 
   updateSelectedSeats() {

@@ -21,4 +21,8 @@ export class SeatService {
     return this.http.get<SeatType[]>(`${this.seatTypeUrl}/hall/${hallId}`);
   }
 
+  getAllSeatTypes(): Observable<SeatType[]> {
+    return this.http.get<SeatType[]>(`${this.seatTypeUrl}`);
+  }
+
 }

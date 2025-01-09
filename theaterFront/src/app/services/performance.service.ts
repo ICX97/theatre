@@ -8,7 +8,8 @@ import { PerformanceDTO } from '../dto/PerfomanceDto';
   providedIn: 'root',
 })
 export class PerformanceService {
-  private apiUrl = 'http://localhost:8080/api/performances'; 
+  private apiUrl = 'http://localhost:8080/api/performances';
+  private apiUrlTicket = 'http://localhost:8080/api/performance-ticket-prices';
 
   constructor(private http: HttpClient) {}
 
@@ -26,5 +27,9 @@ export class PerformanceService {
 
   createPerformance(performanceData: PerformanceDTO): Observable<PerformanceDTO> {
     return this.http.post<PerformanceDTO>(this.apiUrl, performanceData);
+  }
+
+  createTicketPrices(ticketPriceData: any): Observable<any> {
+      return this.http.post<any>(`${this.apiUrlTicket}`, ticketPriceData);
   }
 }
