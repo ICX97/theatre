@@ -1,7 +1,7 @@
 export interface SeatType {
   seatTypeId: number;
   hallId: number;
-  seatTypeName: 'PARTER' | 'BALKON' | 'LOZA';
+  seatTypeName: 'PARTER' | 'BALKON' | 'LOŽA';
   numRows: number;
   seatsPerRow: number;
 }

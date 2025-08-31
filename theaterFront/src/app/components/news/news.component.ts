@@ -18,7 +18,11 @@ export class NewsComponent implements OnInit {
 
   loadNews(): void {
     this.newsService.getNews().subscribe(data => {
-      this.newsItems = data;
+      this.newsItems = data.sort((a, b) => {
+        const dateA = new Date(a.newsDate);
+        const dateB = new Date(b.newsDate);
+        return dateB.getTime() - dateA.getTime();
+      });
     });
   }
 

@@ -4,55 +4,338 @@ body, html {
   height: 100%;
 }
 
+/* MODERN SLIDER STYLES */
 .slider {
   position: relative;
   width: 100%;
-  height: 60vh; /* 60% of the viewport height */
+  height: 70vh; /* Povećana visina */
   overflow: hidden;
+  border-radius: 0 0 20px 20px; /* Zaobljeni donji uglovi */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  cursor: grab; /* Indicates draggable */
+  user-select: none; /* Prevent text selection during drag */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.slider:active {
+  cursor: grabbing; /* Indicates active dragging */
 }
 
 .slide {
-  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+  pointer-events: auto; /* Enable pointer events for drag */
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform; /* Optimize for animations */
 }
 
 .slide.active {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
 }
 
+/* Show adjacent slides during drag */
+.slider.dragging .slide {
+  opacity: 1;
+  visibility: visible;
+  z-index: 0;
+}
+
+.slider.dragging .slide.active {
+  z-index: 1;
+}
+
+/* Prevent reload effect */
+.slider.dragging .slide {
+  transition: none !important;
+}
+
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modern Glassmorphism Text Container */
 .slide-text {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  max-width: 600px;
+  cursor: pointer; /* Indicates clickable */
+  pointer-events: auto; /* Enable clicks on text container */
 }
 
+.slide-text:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.slide-text:active {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.slide-text h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+.slide-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+}
+
+/* Modern Navigation Buttons */
 button.prev, button.next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   color: white;
-  border: none;
-  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 15px 12px;
   cursor: pointer;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  z-index: 3;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 button.prev {
-  left: 10px;
+  left: 20px;
 }
 
 button.next {
-  right: 10px;
+  right: 20px;
 }
 
 button.prev:hover, button.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+button.prev:active, button.next:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Slide Indicators */
+.slide-indicators {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.indicator.active {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+/* Drag Visual Feedback */
+.slider.dragging {
+  cursor: grabbing;
+}
+
+.slider.dragging .slide.active {
+  transition: none; /* Disable transitions during drag for smooth feel */
+}
+
+/* Prevent button clicks during drag */
+.slider.dragging button.prev,
+.slider.dragging button.next {
+  pointer-events: none;
+}
+
+/* Drag hint animation */
+.slider::after {
+  content: '← Drag to navigate →';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.slider:hover::after {
+  opacity: 1;
+}
+
+/* Hide hint on mobile */
+@media (max-width: 768px) {
+  .slider::after {
+    display: none;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .slider {
+    height: 60vh;
+  }
+  
+  .slide-text {
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    padding: 25px;
+  }
+  
+  .slide-text h2 {
+    font-size: 2rem;
+  }
+  
+  .slide-text p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    height: 50vh;
+    border-radius: 0;
+  }
+  
+  .slide-text {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .slide-text h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .slide-text p {
+    font-size: 0.9rem;
+  }
+  
+  button.prev, button.next {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    padding: 10px 8px;
+  }
+  
+  button.prev {
+    left: 15px;
+  }
+  
+  button.next {
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    height: 40vh;
+  }
+  
+  .slide-text {
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 15px;
+  }
+  
+  .slide-text h2 {
+    font-size: 1.2rem;
+  }
+  
+  .slide-text p {
+    font-size: 0.8rem;
+  }
 }
 
 footer {

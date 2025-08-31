@@ -39,6 +39,14 @@ public class SeatTypeService {
         return seatTypeMapper.seatTypeToSeatTypeDTO(seatType);
     }
 
+    public List<SeatTypeDTO> getSeatTypesByHallId(Long hallId) {
+        logger.info("Fetching seat types for hall id: {}", hallId);
+        List<SeatType> seatTypes = seatTypeRepository.findByHall_HallId(hallId);
+        return seatTypes.stream()
+                .map(seatTypeMapper::seatTypeToSeatTypeDTO)
+                .collect(Collectors.toList());
+    }
+
     public SeatTypeDTO createSeatType(SeatTypeDTO seatTypeDTO) {
         logger.info("Creating new seat type: {}", seatTypeDTO);
         SeatType seatType = seatTypeMapper.seatTypeDTOToSeatType(seatTypeDTO);

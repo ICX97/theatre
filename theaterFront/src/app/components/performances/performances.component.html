@@ -1,9 +1,37 @@
 <div class="performances-container">
-    <div class="performance-card" *ngFor="let performance of performances" (click)="navigateToDetail(performance.performanceId)">
-      <img [src]="'data:image/jpeg;base64,' + performance.poster_image" alt="Poster {{ performance.performance_title }}" />
-      <h3>{{ performance.performance_title }}</h3>
-      <p>Datum: {{ performance.performance_date }}</p>
-      <p>Hala: {{ performance.hallId }}</p>
+  <div class="performance-card" 
+       *ngFor="let performance of performances" 
+       (click)="navigateToDetail(performance.performanceId)"
+       (mouseover)="performance.hovered = true" 
+       (mouseout)="performance.hovered = false">
+    
+    <div class="performance-image-container">
+      <img [src]="getImageSrc(performance.poster_image)" 
+           [alt]="'Poster ' + performance.performance_title"
+           [class.hovered]="performance.hovered" />
+      
+      <div class="performance-overlay">
+        <h3 class="performance-title">{{ performance.performance_title }}</h3>
+        <div class="performance-details">
+          <div class="performance-date">
+            <span class="date-icon">📅</span>
+            <span>{{ performance.performance_date | date:'dd. MMMM yyyy' }}</span>
+          </div>
+          <div class="performance-time">
+            <span class="time-icon">🕐</span>
+            <span>{{ performance.performance_date | date:'HH:mm' }}</span>
+          </div>
+          <div class="performance-hall">
+            <span class="hall-icon">🎭</span>
+            <span>Sala {{ performance.hallId }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="performance-info">
+      <p class="performance-description">{{ performance.performance_description || 'Opis predstave nije dostupan.' }}</p>
     </div>
   </div>
+</div>
   

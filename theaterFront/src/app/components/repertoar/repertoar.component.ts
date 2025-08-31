@@ -29,18 +29,12 @@ export class RepertoarComponent implements OnInit {
 
   setMonths() {
     const now = new Date();
-    
-    const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1);
-    const currentMonth = new Date(now.getFullYear(), now.getMonth());
-    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1);
-  
-    const options: Intl.DateTimeFormatOptions = { month: 'long' };
-  
-    this.months = [
-      prevMonth.toLocaleDateString('sr-RS', options),  // Prethodni mesec
-      currentMonth.toLocaleDateString('sr-RS', options),  // Trenutni mesec
-      nextMonth.toLocaleDateString('sr-RS', options)  // Naredni mesec
-    ];
+    this.months = [];
+    for (let i = 0; i < 3; i++) {
+      const monthDate = new Date(now.getFullYear(), now.getMonth() + i);
+      const options: Intl.DateTimeFormatOptions = { month: 'long' };
+      this.months.push(monthDate.toLocaleDateString('sr-Latn-RS', options));
+    }
   }
 
   loadTicketPrices() {
@@ -71,18 +65,52 @@ export class RepertoarComponent implements OnInit {
 
   getSeatTypeName(seatTypeId: number): string {
     const seatTypeMap: { [key: number]: string } = {
-      1: 'PARTER',
-      2: 'BALKON',
-      3: 'LOZA'
+      1: 'PARTER',  // Hall 1 - PARTER
+      2: 'PARTER',  // Hall 2 - PARTER
+      3: 'LOŽA',    // Hall 1 - LOŽA
+      4: 'LOŽA',    // Hall 2 - LOŽA
+      5: 'BALKON',  // Hall 1 - BALKON
+      6: 'BALKON'   // Hall 2 - BALKON
     };
-    return seatTypeMap[seatTypeId as keyof typeof seatTypeMap] || '';  // Casting seatTypeId
+    return seatTypeMap[seatTypeId as keyof typeof seatTypeMap] || `TIP ${seatTypeId}`;
+  }
+
+  getImageSrc(imageData: string | undefined | null): string {
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg'; // Default slika za predstave
+    }
   }
 
   getPerformances() {
     this.performanceService.getPerformances().subscribe((data: Performance[]) => {
-      this.performances = data;
-      this.filterPerformancesByMonth(); // Filtriraj po mesecu kada dobijemo podatke
+      // Filtriraj samo buduće predstave
+      const today = new Date();
+      this.performances = data.filter(perf => new Date(perf.performance_date) >= today)
+        .sort((a, b) => {
+          const dateA = new Date(a.performance_date);
+          const dateB = new Date(b.performance_date);
+          return dateA.getTime() - dateB.getTime();
+        });
+      this.autoSelectMonthWithPerformances();
+      this.filterPerformancesByMonth();
     });
+  }
+
+  autoSelectMonthWithPerformances() {
+    // Pronađi prvi mesec (od prikazanih dugmića) koji ima predstave
+    for (let i = 0; i < this.months.length; i++) {
+      const monthName = this.months[i];
+      const monthIndex = (new Date().getMonth() + i) % 12;
+      const hasPerformance = this.performances.some(perf => new Date(perf.performance_date).getMonth() === monthIndex);
+      if (hasPerformance) {
+        this.selectedMonth = monthName;
+        return;
+      }
+    }
+    // Ako nema nijedne predstave, selektuj prvi mesec
+    this.selectedMonth = this.months[0];
   }
 
   getPerformancesWithPrices() {
@@ -98,15 +126,14 @@ export class RepertoarComponent implements OnInit {
   }
 
   filterPerformancesByMonth() {
-    const monthIndex = this.months.indexOf(this.selectedMonth); // Get the index of the selected month
-    const currentDate = new Date(); // Get the current date
-
-    // Use the monthIndex to determine the actual month number
-    const targetMonth = currentDate.getMonth() + monthIndex - 1; // Adjusting the month index for 0-based months
+    const now = new Date();
+    const monthOffset = this.months.indexOf(this.selectedMonth);
+    const targetMonth = (now.getMonth() + monthOffset) % 12;
+    const targetYear = now.getFullYear() + Math.floor((now.getMonth() + monthOffset) / 12);
 
     this.filteredPerformances = this.performances.filter(performance => {
-        const performanceMonth = new Date(performance.performance_date).getMonth(); // Get the performance month
-        return performanceMonth === targetMonth; // Compare months
+      const perfDate = new Date(performance.performance_date);
+      return perfDate.getMonth() === targetMonth && perfDate.getFullYear() === targetYear;
     });
 
     this.filteredPerformances.forEach(performance => {
@@ -116,7 +143,7 @@ export class RepertoarComponent implements OnInit {
       } else {
         performance.ticketPrices = []; // Ako nema cena, postavi praznu listu
       }
-  });
-}
+    });
+  }
 
 }

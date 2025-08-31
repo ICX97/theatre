@@ -1,10 +1,24 @@
-<div class="actor-grid">
-  <div *ngFor="let actor of actors" class="actor-card" (click)="goToActor(actor.ensembleId)" (mouseover)="actor.hovered = true" (mouseout)="actor.hovered = false">
-    <p>{{ actor.ensembleId }}</p> 
-    <img [src]="actor.imageSrc" 
-         (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
-         [class.hovered]="actor.hovered" 
-         alt="{{ actor.firstName }} {{ actor.lastName }}" />
-    <p>{{ actor.firstName }} {{ actor.lastName }}</p>
+<div class="ansambl-container">
+  <div class="actor-grid">
+    <div *ngFor="let actor of actors" 
+         class="actor-card" 
+         (click)="goToActor(actor.ensembleId)" 
+         (mouseover)="actor.hovered = true" 
+         (mouseout)="actor.hovered = false">
+      
+      <div class="actor-image-container">
+        <img [src]="actor.imageSrc" 
+             (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
+             [class.hovered]="actor.hovered" 
+             alt="{{ actor.firstName }} {{ actor.lastName }}" />
+        
+        <div class="actor-overlay">
+          <h3 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h3>
+          <p class="actor-description" [class.show]="actor.hovered">
+            {{ actor.ensemble_description || 'Opis glumca nije dostupan.' }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

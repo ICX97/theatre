@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,7 @@ public class PerformanceService {
         List<Performance> performances = performanceRepository.findAll();
         return performances.stream()
                 .map(performanceMapper::performanceToPerformanceDTO)
+                .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date())) // Sortiranje po datumu (najranije prvo)
                 .collect(Collectors.toList());
     }
 
@@ -66,7 +68,9 @@ public class PerformanceService {
 
             performanceDTO.setTicketPrices(ticketPrices);
             return performanceDTO;
-        }).collect(Collectors.toList());
+        })
+        .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date())) // Sortiranje po datumu (najranije prvo)
+        .collect(Collectors.toList());
     }
 
     public PerformanceDTO getPerformanceById(Long id) {
@@ -79,24 +83,80 @@ public class PerformanceService {
     public PerformanceDTO createPerformance(PerformanceDTO performanceDTO) {
         logger.info("Creating new performance: {}", performanceDTO);
 
-        Performance performance = performanceMapper.performanceDTOToPerformance(performanceDTO);
-        Performance savedPerformance = performanceRepository.save(performance);
+        try {
+            // Prvo dohvati Hall objekat na osnovu hallId
+            Hall hall = hallRepository.findById(performanceDTO.getHallId())
+                    .orElseThrow(() -> new CustomException("Hall with id: " + performanceDTO.getHallId() + " does not exist"));
 
-        // Popunjavanje ensemble_performance tabele sa glumcima
-        if (performanceDTO.getActors() != null && !performanceDTO.getActors().isEmpty()) {
-            for (Long actorId : performanceDTO.getActors()) {
-                Ensemble ensemble = ensembleRepository.findById(actorId)
-                        .orElseThrow(() -> new CustomException("Ensemble with id: " + actorId + " does not exist"));
-
-                EnsemblePerformance ensemblePerformance = new EnsemblePerformance();
-                ensemblePerformance.setEnsemble(ensemble);
-                ensemblePerformance.setPerformance(savedPerformance);
-
-                ensemblePerformanceRepository.save(ensemblePerformance);
+            // Kreiraj Performance objekat
+            Performance performance = new Performance();
+            performance.setPerformance_title(performanceDTO.getPerformance_title());
+            performance.setPerformance_description(performanceDTO.getPerformance_description());
+            performance.setPerformance_date(performanceDTO.getPerformance_date());
+            performance.setHall(hall);
+            performance.setRevenue(performanceDTO.getRevenue());
+            performance.setCreated_at(performanceDTO.getCreated_at());
+            performance.setUpdated_at(performanceDTO.getUpdated_at());
+            
+            // Konvertuj poster_image ako je base64 string
+            if (performanceDTO.getPoster_image() != null) {
+                // Ako je string (base64), konvertuj u byte array
+                if (performanceDTO.getPoster_image() instanceof String) {
+                    String base64String = (String) performanceDTO.getPoster_image();
+                    if (!base64String.isEmpty()) {
+                        try {
+                            byte[] imageBytes = Base64.getDecoder().decode(base64String);
+                            performance.setPoster_image(imageBytes);
+                        } catch (IllegalArgumentException e) {
+                            logger.warn("Invalid base64 string for poster_image: {}", e.getMessage());
+                            performance.setPoster_image(null);
+                        }
+                    } else {
+                        performance.setPoster_image(null);
+                    }
+                } else if (performanceDTO.getPoster_image() instanceof byte[]) {
+                    // Ako je već byte array
+                    performance.setPoster_image((byte[]) performanceDTO.getPoster_image());
+                } else {
+                    logger.warn("Unknown type for poster_image: {}", performanceDTO.getPoster_image().getClass().getName());
+                    performance.setPoster_image(null);
+                }
             }
-        }
+            
+            performance.setDirector(performanceDTO.getDirector());
+            performance.setAdaptation(performanceDTO.getAdaptation());
+            performance.setDramaturg(performanceDTO.getDramaturg());
+            performance.setScenographer(performanceDTO.getScenographer());
+            performance.setCostumeDesigner(performanceDTO.getCostumeDesigner());
+            performance.setMusic(performanceDTO.getMusic());
+            performance.setStageSpeech(performanceDTO.getStageSpeech());
+            performance.setStageManager(performanceDTO.getStageManager());
 
-        return performanceMapper.performanceToPerformanceDTO(savedPerformance);
+            logger.info("Saving performance to database...");
+            Performance savedPerformance = performanceRepository.save(performance);
+            logger.info("Performance saved with ID: {}", savedPerformance.getPerformanceId());
+
+            // Popunjavanje ensemble_performance tabele sa glumcima
+            if (performanceDTO.getActors() != null && !performanceDTO.getActors().isEmpty()) {
+                logger.info("Adding {} actors to performance", performanceDTO.getActors().size());
+                for (Long actorId : performanceDTO.getActors()) {
+                    Ensemble ensemble = ensembleRepository.findById(actorId)
+                            .orElseThrow(() -> new CustomException("Ensemble with id: " + actorId + " does not exist"));
+
+                    EnsemblePerformance ensemblePerformance = new EnsemblePerformance();
+                    ensemblePerformance.setEnsemble(ensemble);
+                    ensemblePerformance.setPerformance(savedPerformance);
+
+                    ensemblePerformanceRepository.save(ensemblePerformance);
+                    logger.info("Added actor {} to performance", actorId);
+                }
+            }
+
+            return performanceMapper.performanceToPerformanceDTO(savedPerformance);
+        } catch (Exception e) {
+            logger.error("Error creating performance: {}", e.getMessage(), e);
+            throw new CustomException("Error creating performance: " + e.getMessage());
+        }
     }
 
     public PerformanceDTO updatePerformance(Long id, PerformanceDTO performanceDTO) {
@@ -114,7 +174,29 @@ public class PerformanceService {
         performance.setRevenue(performanceDTO.getRevenue());
         performance.setCreated_at(performanceDTO.getCreated_at());
         performance.setUpdated_at(performanceDTO.getUpdated_at());
-        performance.setPoster_image(performanceDTO.getPoster_image());
+        
+        if (performanceDTO.getPoster_image() != null) {
+            if (performanceDTO.getPoster_image() instanceof String) {
+                String base64String = (String) performanceDTO.getPoster_image();
+                if (!base64String.isEmpty()) {
+                    try {
+                        byte[] imageBytes = Base64.getDecoder().decode(base64String);
+                        performance.setPoster_image(imageBytes);
+                    } catch (IllegalArgumentException e) {
+                        logger.warn("Invalid base64 string for poster_image: {}", e.getMessage());
+                        performance.setPoster_image(null);
+                    }
+                } else {
+                    performance.setPoster_image(null);
+                }
+            } else if (performanceDTO.getPoster_image() instanceof byte[]) {
+                performance.setPoster_image((byte[]) performanceDTO.getPoster_image());
+            } else {
+                logger.warn("Unknown type for poster_image: {}", performanceDTO.getPoster_image().getClass().getName());
+                performance.setPoster_image(null);
+            }
+        }
+        
         performance.setDirector(performanceDTO.getDirector());
         performance.setAdaptation(performanceDTO.getAdaptation());
         performance.setDramaturg(performanceDTO.getDramaturg());

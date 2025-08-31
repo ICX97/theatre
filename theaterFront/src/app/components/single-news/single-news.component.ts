@@ -26,6 +26,10 @@ export class SingleNewsComponent implements OnInit {
   }
 
   getImageSrc(imageData: string | null): string {
-    return imageData ? 'data:image/jpeg;base64,' + imageData : '';
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg';
+    }
   }
 }

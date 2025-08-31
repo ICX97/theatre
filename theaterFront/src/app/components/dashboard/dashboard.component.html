@@ -1,103 +1,230 @@
 <div class="dashboard-container">
-    <h2>Add News</h2>
-    <form (ngSubmit)="addNews()">
-        <label for="newsTitle">News Title</label>
-        <input type="text" id="newsTitle" [(ngModel)]="news.newsTitle" name="newsTitle" required placeholder="Enter news title">
-
-        <label for="newsDate">News Date</label>
-        <input type="date" id="newsDate" [(ngModel)]="news.newsDate" name="newsDate" required>
-
-        <label for="newsDescription">News Description</label>
-        <textarea id="newsDescription" [(ngModel)]="news.newsDescription" name="newsDescription" placeholder="Enter news description"></textarea>
-
-        <label for="newsImage">Upload Image (optional)</label>
-        <input type="file" id="newsImage" (change)="onFileSelectNews($event)" name="newsImage">
-
-        <button type="submit">Add News</button>
-    </form>
-
-    <h2>Add Performance</h2>
-    <form (ngSubmit)="addPerformance()">
-        <label for="performanceTitle">Performance Title</label>
-        <input type="text" id="performanceTitle" [(ngModel)]="performance.performance_title" name="performanceTitle" required placeholder="Enter performance title">
-
-        <label for="performanceDescription">Performance Description</label>
-        <textarea id="performanceDescription" [(ngModel)]="performance.performance_description" name="performanceDescription" placeholder="Enter performance description"></textarea>
-
-        <label for="performanceDate">Performance Date</label>
-        <input type="date" id="performanceDate" [(ngModel)]="performance.performance_date" name="performanceDate" required>
-
-        <label>
-          <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="1" required>
-          Hall 1
-        </label>
-        <label>
-          <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="2" required>
-          Hall 2
-        </label>
-
-        <label>Select Actors</label>
-        <p-multiSelect
-          class="custom-multiselect"
-          [options]="actorsList"
-          [(ngModel)]="selectedActors"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Select Actors"
-          (onChange)="logSelectedActors()">
-        </p-multiSelect>
-
-        <label for="director">Director</label>
-        <input type="text" id="director" [(ngModel)]="performance.director" name="director" placeholder="Enter director name">
-
-        <label for="adaptation">Adaptation</label>
-        <input type="text" id="adaptation" [(ngModel)]="performance.adaptation" name="adaptation" placeholder="Enter adaptation details">
-
-        <label for="dramaturg">Dramaturg</label>
-        <input type="text" id="dramaturg" [(ngModel)]="performance.dramaturg" name="dramaturg" placeholder="Enter dramaturg name">
-
-        <label for="scenographer">Scenographer</label>
-        <input type="text" id="scenographer" [(ngModel)]="performance.scenographer" name="scenographer" placeholder="Enter scenographer name">
-
-        <label for="costumeDesigner">Costume Designer</label>
-        <input type="text" id="costumeDesigner" [(ngModel)]="performance.costumeDesigner" name="costumeDesigner" placeholder="Enter costume designer name">
-
-        <label for="music">Music</label>
-        <input type="text" id="music" [(ngModel)]="performance.music" name="music" placeholder="Enter music details">
-
-        <label for="stageSpeech">Stage Speech</label>
-        <input type="text" id="stageSpeech" [(ngModel)]="performance.stageSpeech" name="stageSpeech" placeholder="Enter stage speech details">
-
-        <label for="stageManager">Stage Manager</label>
-        <input type="text" id="stageManager" [(ngModel)]="performance.stageManager" name="stageManager" placeholder="Enter stage manager name">
-
-
-
-        <label for="poster_image">Upload Image (optional)</label>
-        <input type="file" id="poster_image" (change)="onFileSelectPerformance($event)" name="poster_image">
-
-        <input type="hidden" [(ngModel)]="performance.created_at" name="created_at">
-        <input type="hidden" [(ngModel)]="performance.updated_at" name="updated_at">
-        <div>
-          <button type="submit">Add Performance</button>
+    <!-- Add News Section -->
+    <div class="news-section">
+        <h2>Add News</h2>
+        <div class="news-card">
+            <form (ngSubmit)="addNews()" class="news-form">
+                <div class="form-left-column">
+                    <div class="form-group">
+                        <label for="newsTitle">News Title</label>
+                        <input type="text" id="newsTitle" [(ngModel)]="news.newsTitle" name="newsTitle" required placeholder="Enter news title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsDescription">News Description</label>
+                        <textarea id="newsDescription" [(ngModel)]="news.newsDescription" name="newsDescription" placeholder="Enter news description" rows="4"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-right-column">
+                    <div class="form-group">
+                        <label for="newsDate">News Date</label>
+                        <input type="date" id="newsDate" [(ngModel)]="news.newsDate" name="newsDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsImage">Upload Image (optional)</label>
+                        <div class="file-upload-container">
+                            <input type="file" id="newsImage" (change)="onFileSelectNews($event)" name="newsImage" accept="image/*">
+                            <div class="file-upload-label">
+                                <i class="upload-icon">📷</i>
+                                <span>Choose image</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="add-news-btn">
+                        <i class="btn-icon">📰</i>
+                        Add News
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
 
-    </form>
+    <!-- Add Performance Section -->
+    <div class="performance-section">
+        <h2>Add Performance</h2>
+        <div class="performance-card">
+            <form (ngSubmit)="addPerformance()" class="performance-form">
+                <!-- Prvi red: Title, Date, Hall Selection -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="performanceTitle">Performance Title</label>
+                        <input type="text" id="performanceTitle" [(ngModel)]="performance.performance_title" name="performanceTitle" required placeholder="Enter performance title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="performanceDate">Performance Date</label>
+                        <input type="date" id="performanceDate" [(ngModel)]="performance.performance_date" name="performanceDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select Hall</label>
+                        <div class="hall-options">
+                            <label class="hall-option">
+                                <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="1" required>
+                                <span class="hall-label">Hall 1</span>
+                            </label>
+                            <label class="hall-option">
+                                <input type="radio" [(ngModel)]="performance.hallId" name="hallId" [value]="2" required>
+                                <span class="hall-label">Hall 2</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-    <h2>Add Actor</h2>
-    <form (ngSubmit)="addActor()">
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" [(ngModel)]="ensemble.firstName" name="firstName" required placeholder="Enter first name">
+                <!-- Drugi red: Ticket Prices -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parterPrice">Parter Price</label>
+                        <input type="number" id="parterPrice" [(ngModel)]="parterPrice" name="parterPrice" placeholder="Enter parter ticket price">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="balkonPrice">Balkon Price</label>
+                        <input type="number" id="balkonPrice" [(ngModel)]="balkonPrice" name="balkonPrice" placeholder="Enter balkon ticket price">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lozaPrice">Loža Price</label>
+                        <input type="number" id="lozaPrice" [(ngModel)]="lozaPrice" name="lozaPrice" placeholder="Enter loža ticket price">
+                    </div>
+                </div>
 
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" [(ngModel)]="ensemble.lastName" name="lastName" required placeholder="Enter last name">
+                <!-- Treći red: Adaptation, Dramaturg, Scenographer, Costume Designer -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="adaptation">Adaptation</label>
+                        <input type="text" id="adaptation" [(ngModel)]="performance.adaptation" name="adaptation" placeholder="Enter adaptation details">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dramaturg">Dramaturg</label>
+                        <input type="text" id="dramaturg" [(ngModel)]="performance.dramaturg" name="dramaturg" placeholder="Enter dramaturg name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="scenographer">Scenographer</label>
+                        <input type="text" id="scenographer" [(ngModel)]="performance.scenographer" name="scenographer" placeholder="Enter scenographer name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="costumeDesigner">Costume Designer</label>
+                        <input type="text" id="costumeDesigner" [(ngModel)]="performance.costumeDesigner" name="costumeDesigner" placeholder="Enter costume designer name">
+                    </div>
+                </div>
 
-        <label for="birthYear">Birth Year (optional)</label>
-        <input type="number" id="birthYear" [(ngModel)]="ensemble.birthYear" name="birthYear" placeholder="Enter birth year">
+                <!-- Četvrti red: Director, Music, Stage Speech, Stage Manager -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="director">Director</label>
+                        <input type="text" id="director" [(ngModel)]="performance.director" name="director" placeholder="Enter director name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="music">Music</label>
+                        <input type="text" id="music" [(ngModel)]="performance.music" name="music" placeholder="Enter music details">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stageSpeech">Stage Speech</label>
+                        <input type="text" id="stageSpeech" [(ngModel)]="performance.stageSpeech" name="stageSpeech" placeholder="Enter stage speech details">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stageManager">Stage Manager</label>
+                        <input type="text" id="stageManager" [(ngModel)]="performance.stageManager" name="stageManager" placeholder="Enter stage manager name">
+                    </div>
+                </div>
 
-        <label for="ensembleDescription">Description</label>
-        <textarea id="ensembleDescription" [(ngModel)]="ensemble.ensemble_description" name="ensembleDescription" placeholder="Enter description"></textarea>
+                <!-- Peti red: Description, Upload Image, Select Actors -->
+                <div class="form-row description-upload-row">
+                    <div class="form-group description-group">
+                        <label for="performanceDescription">Performance Description</label>
+                        <textarea id="performanceDescription" [(ngModel)]="performance.performance_description" name="performanceDescription" placeholder="Enter performance description" rows="6"></textarea>
+                    </div>
+                    
+                    <div class="form-group upload-actors-group">
+                        <div class="upload-section">
+                            <label for="poster_image">Upload Image (optional)</label>
+                            <div class="file-upload-container">
+                                <input type="file" id="poster_image" (change)="onFileSelectPerformance($event)" name="poster_image" accept="image/*">
+                                <div class="file-upload-label">
+                                    <i class="upload-icon">🎭</i>
+                                    <span>Choose poster</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="actors-section">
+                            <label>Select Actors</label>
+                            <p-multiSelect
+                              class="custom-multiselect"
+                              [options]="actorsList"
+                              [(ngModel)]="selectedActors"
+                              optionLabel="label"
+                              optionValue="value"
+                              placeholder=" "
+                              (onChange)="logSelectedActors()">
+                            </p-multiSelect>
+                        </div>
+                    </div>
+                </div>
 
-        <button type="submit">Add Actor</button>
-    </form>
+                <input type="hidden" [(ngModel)]="performance.created_at" name="created_at">
+                <input type="hidden" [(ngModel)]="performance.updated_at" name="updated_at">
+                
+                <div class="form-actions">
+                    <button type="submit" class="add-performance-btn">
+                        <i class="btn-icon">🎬</i>
+                        Add Performance
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Actor Section -->
+    <div class="actor-section">
+        <h2>Add Actor</h2>
+        <div class="actor-card">
+            <form (ngSubmit)="addActor()" class="actor-form">
+                <!-- Prvi red: First Name, Last Name, Birth Year -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" [(ngModel)]="ensemble.firstName" name="firstName" required placeholder="Enter first name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" [(ngModel)]="ensemble.lastName" name="lastName" required placeholder="Enter last name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthYear">Birth Year (optional)</label>
+                        <input type="number" id="birthYear" [(ngModel)]="ensemble.birthYear" name="birthYear" placeholder="Enter birth year">
+                    </div>
+                </div>
+
+                <!-- Drugi red: Description -->
+                <div class="form-row">
+                    <div class="form-group description-group">
+                        <label for="ensembleDescription">Description</label>
+                        <textarea id="ensembleDescription" [(ngModel)]="ensemble.ensemble_description" name="ensembleDescription" placeholder="Enter description" rows="4"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="add-actor-btn">
+                        <i class="btn-icon">🎭</i>
+                        Add Actor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

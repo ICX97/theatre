@@ -1,14 +1,31 @@
-<div class="slider">
+<div class="slider" 
+     (mousedown)="onMouseDown($event)"
+     (mousemove)="onMouseMove($event)"
+     (mouseup)="onMouseUp()"
+     (mouseleave)="onMouseUp()"
+     (touchstart)="onTouchStart($event)"
+     (touchmove)="onTouchMove($event)"
+     (touchend)="onTouchEnd()">
   <div *ngFor="let slide of slides; let i = index" 
        class="slide" 
        [ngClass]="{'active': i === currentSlide}" 
-       [ngStyle]="{'background-image': 'url(' + getImageSrc(slide.newsImage) + ')'}"
-       (click)="onSlideClick(slide)">
-    <div class="slide-text">
+       [ngStyle]="{'background-image': 'url(' + getImageSrc(slide.newsImage) + ')', 'transform': getSlideTransform(i)}">
+    <div class="slide-text" (click)="onSlideClick(slide)">
       <h2>{{ slide.newsTitle }}</h2>
       <p>{{ slide.newsDescription }}</p>
     </div>
   </div>
+  
+  <!-- Navigation Buttons -->
   <button class="prev" (click)="prevSlide()">&#10094;</button>
   <button class="next" (click)="nextSlide()">&#10095;</button>
+  
+  <!-- Slide Indicators -->
+  <div class="slide-indicators">
+    <div *ngFor="let slide of slides; let i = index" 
+         class="indicator" 
+         [ngClass]="{'active': i === currentSlide}"
+         (click)="goToSlide(i)">
+    </div>
+  </div>
 </div>

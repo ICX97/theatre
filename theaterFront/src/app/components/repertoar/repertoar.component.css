@@ -1,61 +1,526 @@
+/* Modern Performance List */
+.performances-list {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.performances-list > * {
+  margin-bottom: 30px;
+}
+
+.performances-list > *:last-child {
+  margin-bottom: 0;
+}
+
 .performance-item {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.performance-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.performance-item:hover::before {
+  opacity: 1;
+}
+
+.performance-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Performance Header */
+.performance-header {
   display: flex;
-  flex-direction: column;
-  border: 1px solid #ccc;
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.performance-details {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.performance-poster {
-  width: 100px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.performance-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.performance-info h2 {
-  font-size: 20px;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 5px;
-}
-
-.performance-info p {
-  font-size: 14px;
-  color: #555;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .performance-date {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  margin-right: 15px;
 }
 
-.ticket-prices {
-  margin-top: 10px;
+.performance-date, .performance-time {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
 }
 
-.ticket-prices div {
-  background-color: #e0e0e0;
-  padding: 8px 12px;
-  border-radius: 5px;
+.date-icon, .time-icon {
+  font-size: 1.4rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  margin-right: 10px;
 }
 
-.ticket-prices div h4 {
-  margin: 0;
-  font-size: 14px;
+.date-text, .time-text {
+  font-weight: 600;
   color: #333;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Performance Content */
+.performance-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.performance-poster {
+  margin-right: 25px;
+}
+
+/* Performance Poster */
+.performance-poster {
+  position: relative;
+  flex-shrink: 0;
+  width: 200px;
+  height: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.performance-poster:hover {
+  transform: scale(1.05);
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.performance-poster:hover .poster-image {
+  filter: brightness(1.1);
+}
+
+.poster-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.hall-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Performance Info */
+.performance-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.performance-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 15px 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: color 0.3s ease;
+}
+
+.performance-item:hover .performance-title {
+  color: #667eea;
+}
+
+.performance-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 15px 0;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+/* Ticket Prices */
+.ticket-prices {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.prices-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.prices-title::before {
+  content: '🎫';
+  margin-right: 8px;
+}
+
+.price-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.price-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 18px;
+  border-radius: 12px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.price-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.seat-type {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.price-value {
+  font-weight: 800;
+  color: #f5576c;
+  font-size: 1.3rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Modern Month Tabs */
+.month-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.month-tab {
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  min-width: 140px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  margin-right: 20px;
+}
+
+.month-tab:last-child {
+  margin-right: 0;
+}
+
+.month-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.month-tab:hover::before {
+  left: 100%;
+}
+
+.month-tab:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.month-tab.active {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+}
+
+.month-tab.active .tab-arrow {
+  transform: translateX(5px) rotate(0deg);
+  opacity: 1;
+}
+
+.tab-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.month-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+  margin-right: 10px;
+}
+
+.month-tab:hover .month-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.month-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.month-tab:hover .month-name {
+  transform: scale(1.05);
+}
+
+.tab-arrow {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.7;
+  transform: translateX(-5px) rotate(-45deg);
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-left: 10px;
+}
+
+.month-tab:hover .tab-arrow {
+  transform: translateX(5px) rotate(0deg);
+  opacity: 1;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #feca57);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.month-tab.active .tab-indicator {
+  width: 80%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .performances-list {
+    padding: 15px;
+  }
+  
+  .performances-list > * {
+    margin-bottom: 10px;
+  }
+  
+  .performance-item {
+    padding: 20px;
+  }
+  
+  .performance-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .performance-date {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .performance-content {
+    flex-direction: column;
+  }
+  
+  .performance-poster {
+    width: 100%;
+    height: 200px;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .performance-title {
+    font-size: 1.5rem;
+  }
+  
+  .price-list {
+    flex-direction: column;
+  }
+  
+  .price-item {
+    min-width: auto;
+    margin-right: 0;
+    margin-bottom: 8px;
+    padding: 10px 15px;
+  }
+  
+  .price-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .price-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .seat-type {
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .price-value {
+    font-size: 1.1rem;
+  }
+  
+  .date-icon, .time-icon {
+    font-size: 1.2rem;
+  }
+  
+  .date-text, .time-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .performance-item {
+    padding: 15px;
+  }
+  
+  .performance-title {
+    font-size: 1.3rem;
+  }
+  
+  .performance-description {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+  
+  .ticket-prices {
+    padding: 15px;
+  }
+  
+  .seat-type {
+    font-size: 0.9rem;
+  }
+  
+  .price-value {
+    font-size: 1rem;
+  }
+  
+  .date-icon, .time-icon {
+    font-size: 1.1rem;
+  }
+  
+  .date-text, .time-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* Month Tabs Responsive */
+@media (max-width: 768px) {
+  .month-tabs {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .month-tab {
+    min-width: auto;
+    padding: 12px 20px;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .month-tab:last-child {
+    margin-bottom: 0;
+  }
+  
+  .tab-content {
+    justify-content: center;
+  }
+  
+  .month-name {
+    font-size: 0.9rem;
+  }
+  
+  .month-icon {
+    font-size: 1rem;
+  }
+  
+  .tab-arrow {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .month-tabs {
+    margin-bottom: 30px;
+    padding: 10px;
+  }
+  
+  .month-tab {
+    padding: 10px 15px;
+  }
+  
+  .month-name {
+    font-size: 0.8rem;
+  }
 }

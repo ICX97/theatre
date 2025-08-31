@@ -1,16 +1,42 @@
 <nav class="navbar">
     <div class="navbar-left">
-      <a class="navbar-brand" href="#">Theatre</a>
+      <a class="navbar-brand" routerLink="/">
+        <span class="brand-icon">🎭</span>
+        Theatre
+      </a>
     </div>
     <div class="navbar-right">
-      <a class="nav-link" routerLink="/dashboard/">Dashboard</a>
-      <a class="nav-link" routerLink="/">Početna</a>
-      <a class="nav-link" routerLink="/repertoar">Repertoar</a>
-      <a class="nav-link" routerLink="/ensemble">Ansambl</a>
-      <a class="nav-link" routerLink="/performances">Predstave</a>
-      <a class="nav-link" routerLink="/history">Istorijat</a>
-      <a class="nav-link" routerLink="/buy-ticket/1">Kupovina ulaznica</a>
-      <button *ngIf="!authService.isLoggedIn()" class="login-button" routerLink="/login">Login</button>
-    <button *ngIf="authService.isLoggedIn()" class="login-button" (click)="logout()">Sign Out</button>
+      <a class="nav-link" routerLink="/dashboard/">
+        <span class="nav-icon">⚙️</span>
+        Dashboard
+      </a>
+      <a class="nav-link" routerLink="/repertoar">
+        <span class="nav-icon">📋</span>
+        Repertoar
+      </a>
+      <a class="nav-link" routerLink="/ensemble">
+        <span class="nav-icon">👥</span>
+        Ansambl
+      </a>
+      <a class="nav-link" routerLink="/performances">
+        <span class="nav-icon">🎬</span>
+        Predstave
+      </a>
+      <a class="nav-link" routerLink="/history">
+        <span class="nav-icon">📚</span>
+        Istorijat
+      </a>
+      <a class="nav-link" routerLink="/buy-ticket/1">
+        <span class="nav-icon">🎫</span>
+        Kupovina ulaznica
+      </a>
+      <button *ngIf="!authService.isLoggedIn()" class="login-button" routerLink="/login">
+        <span class="btn-icon">🔐</span>
+        Login
+      </button>
+      <button *ngIf="authService.isLoggedIn()" class="login-button" (click)="logout()">
+        <span class="btn-icon">🚪</span>
+        Sign Out
+      </button>
     </div>
   </nav>

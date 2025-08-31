@@ -1,29 +1,58 @@
 <div class="repertoar-container">
-    <div class="tabs">
-        <button *ngFor="let month of months" (click)="selectMonth(month)">{{ month }}</button>
+    <div class="month-tabs">
+        <button *ngFor="let month of months; let i = index" 
+                (click)="selectMonth(month)" 
+                [class.active]="selectedMonth === month"
+                class="month-tab">
+            <div class="tab-content">
+                <span class="month-icon">📅</span>
+                <span class="month-name">{{ month }}</span>
+                <span class="tab-arrow">→</span>
+            </div>
+            <div class="tab-indicator"></div>
+        </button>
     </div>
 
     <div *ngIf="filteredPerformances.length > 0" class="performances-list">
         <div *ngFor="let performance of filteredPerformances" class="performance-item">
-            <div class="performance-date">
-                <span>{{ performance.performance_date | date:'dd. MMMM' }}</span>
-            </div>
-            <div class="performance-details">
-                <img [src]="'data:image/jpeg;base64,' + performance.poster_image" alt="Poster {{ performance.performance_title }}" class="performance-poster">
-                <div class="performance-info">
-                    <h3>{{ performance.performance_date | date:'HH:mm' }} | Sala {{ performance.hallId }}</h3>
-                    <h2>{{ performance.performance_title }}</h2>
-                    <p>Opis: {{ performance.performance_description }}</p>
+            <div class="performance-header">
+                <div class="performance-date">
+                    <span class="date-icon">📅</span>
+                    <span class="date-text">{{ performance.performance_date | date:'dd. MMMM' }}</span>
+                </div>
+                <div class="performance-time">
+                    <span class="time-icon">🕐</span>
+                    <span class="time-text">{{ performance.performance_date | date:'HH:mm' }}</span>
                 </div>
             </div>
-            <div *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0">
-                <h3>Cene karata:</h3>
-                <ul>
-                  <li *ngFor="let per of performance.ticketPrices">
-                    Tip sedišta: {{ per.seatTypeId }} - Cena: {{ per.price }} RSD
-                  </li>
-                </ul>
-              </div>
+            
+            <div class="performance-content">
+                <div class="performance-poster">
+                    <img [src]="getImageSrc(performance.poster_image)" 
+                         [alt]="'Poster ' + performance.performance_title" 
+                         class="poster-image">
+                    <div class="poster-overlay">
+                        <span class="hall-badge">Sala {{ performance.hallId }}</span>
+                    </div>
+                </div>
+                
+                <div class="performance-info">
+                    <h2 class="performance-title">{{ performance.performance_title }}</h2>
+                    <p class="performance-description">{{ performance.performance_description }}</p>
+                    
+                    <div *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0" class="ticket-prices">
+                        <h3 class="prices-title">Cene karata:</h3>
+                        <div class="price-list">
+                            <div *ngFor="let price of performance.ticketPrices" class="price-item">
+                                <div class="price-row">
+                                    <span class="seat-type">{{ getSeatTypeName(price.seatTypeId) }}:</span>
+                                    <span class="price-value">{{ price.price }} RSD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

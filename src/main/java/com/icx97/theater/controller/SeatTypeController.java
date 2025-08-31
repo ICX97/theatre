@@ -25,6 +25,11 @@ public class SeatTypeController {
         return ResponseEntity.ok(seatTypeService.getSeatTypeById(id));
     }
 
+    @GetMapping("/hall/{hallId}")
+    public ResponseEntity<List<SeatTypeDTO>> getSeatTypesByHallId(@PathVariable Long hallId) {
+        return ResponseEntity.ok(seatTypeService.getSeatTypesByHallId(hallId));
+    }
+
     @PostMapping
     public ResponseEntity<SeatTypeDTO> createSeatType(@RequestBody SeatTypeDTO seatTypeDTO) {
         return new ResponseEntity<>(seatTypeService.createSeatType(seatTypeDTO), HttpStatus.CREATED);

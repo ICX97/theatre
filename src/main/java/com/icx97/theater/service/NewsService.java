@@ -21,8 +21,8 @@ public class NewsService {
     private final NewsMapper newsMapper;
 
     public List<NewsDto> getAllNews() {
-        logger.info("Fetching all news");
-        List<News> news = newsRepository.findAll();
+        logger.info("Fetching all news sorted by date descending");
+        List<News> news = newsRepository.findAllByOrderByNewsDateDesc();
         return news.stream()
                 .map(newsMapper::newsToNewsDto)
                 .collect(Collectors.toList());

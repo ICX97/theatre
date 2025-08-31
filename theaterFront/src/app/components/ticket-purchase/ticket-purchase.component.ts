@@ -31,7 +31,12 @@ export class TicketPurchaseComponent implements OnInit {
 
   getPerformances() {
     this.performanceService.getPerformances().subscribe((data: Performance[]) => {
-      this.performances = data;
+      // Sortiranje performansi po datumu (najranije prvo)
+      this.performances = data.sort((a, b) => {
+        const dateA = new Date(a.performance_date);
+        const dateB = new Date(b.performance_date);
+        return dateA.getTime() - dateB.getTime();
+      });
       this.filterPerformances();
       this.loadTicketPrices(); // Filtriraj odmah po mesecu kada dobijemo podatke
     });

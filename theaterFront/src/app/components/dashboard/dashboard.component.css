@@ -1,12 +1,237 @@
 /* dashboard.component.css */
 
 .dashboard-container {
-    max-width: 800px; /* Maksimalna širina */
+    max-width: 1200px; /* Povećana maksimalna širina */
     margin: 40px auto; /* Centriranje i razmak od vrha */
     padding: 30px; /* Unutrašnji razmak */
     border-radius: 8px; /* Zaobljeni uglovi */
     background-color: #f9f9f9; /* Svetla pozadina */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Senka */
+}
+
+/* NEWS SECTION STYLES */
+.news-section {
+    margin-bottom: 50px;
+}
+
+.news-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.news-form {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.form-left-column,
+.form-right-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-left-column > *,
+.form-right-column > * {
+    margin-bottom: 20px;
+}
+
+.form-left-column > *:last-child,
+.form-right-column > *:last-child {
+    margin-bottom: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+/* FILE UPLOAD STYLES */
+.file-upload-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-upload-container input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    border: 2px dashed #007bff;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    color: #007bff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 60px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.file-upload-label i {
+    margin-right: 12px;
+}
+
+.file-upload-label:hover {
+    background: linear-gradient(135deg, #e6f3ff 0%, #cce7ff 100%);
+    border-color: #0056b3;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.file-upload-label:active {
+    transform: translateY(0);
+}
+
+.upload-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 123, 255, 0.3));
+}
+
+/* FORM ACTIONS */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: stretch;
+}
+
+.add-news-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+    flex: 1;
+}
+
+.add-news-btn i {
+    margin-right: 10px;
+}
+
+.add-news-btn:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.add-news-btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
+/* RESPONSIVE LAYOUT */
+@media (min-width: 768px) {
+    .news-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .form-left-column {
+        flex: 2;
+        padding-right: 30px;
+    }
+    
+    .form-right-column {
+        flex: 1;
+    }
+    
+    .form-actions {
+        flex-basis: 100%;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .news-form {
+        flex-direction: column;
+    }
+    
+    .form-left-column,
+    .form-right-column {
+        width: 100%;
+    }
+    
+    .form-left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .form-actions {
+        margin-top: 30px;
+    }
 }
 
 h2 {
@@ -57,46 +282,547 @@ button:hover {
     background-color: #0056b3; /* Tamnija plava pri prevozu miša */
 }
 
-.custom-multiselect .p-multiselect {
-    background-color: #eaf4fc !important; /* Pozadina */
-    border: 2px solid #007bff !important; /* Plava granica */
-    border-radius: 8px !important; /* Zaobljeni uglovi */
-    padding: 10px !important; /* Unutrašnji razmak */
-}
+/* POBOLJŠANI STILOVI ZA MULTISELECT */
 
-/* Stilizovanje label-e unutar p-multiSelect */
-.custom-multiselect .p-multiselect-label {
-    color: #0056b3 !important; /* Plavi tekst */
-    font-weight: bold; /* Podebljan tekst */
-}
-
-/* Stilizovanje stavki u padajućem meniju */
-.custom-multiselect .p-multiselect-panel {
-    background-color: #ffffff !important; /* Bela pozadina za panel */
-    border: 1px solid #ccc !important; /* Granica panela */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Senka panela */
-}
-
-/* Stilizovanje stavki u padajućem meniju */
-.custom-multiselect .p-multiselect-item {
-    padding: 10px;
-    font-size: 14px;
-    color: #333; /* Tamni tekst */
-}
-
-/* Hover efekat na stavkama u panelu */
-.custom-multiselect .p-multiselect-item:hover {
-    background-color: #f0f8ff; /* Svetla plava pozadina pri hover-u */
-}
-
-/* Stilizovanje selektovanih stavki */
-.custom-multiselect .p-multiselect-item.p-highlight {
-    background-color: #007bff !important; /* Plava pozadina za selektovane stavke */
-    color: white !important; /* Bela slova za selektovane stavke */
-}
-
+/* Glavni kontejner MultiSelect-a */
 ::ng-deep .custom-multiselect .p-multiselect {
-    background-color: #eaf4fc !important;
-    border: 2px solid #007bff !important;
+    background-color: #ffffff !important;
+    border: 2px solid #e9ecef !important;
     border-radius: 8px !important;
+    padding: 10px 14px !important;
+    min-height: 42px !important;
+    box-shadow: none !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Label unutar MultiSelect-a */
+::ng-deep .custom-multiselect .p-multiselect-label {
+    color: #2c3e50 !important;
+    font-weight: normal !important;
+    background-color: transparent !important;
+    font-size: 14px !important;
+    padding: 0 !important;
+}
+
+/* Placeholder tekst */
+::ng-deep .custom-multiselect .p-multiselect-label.p-placeholder {
+    color: #6c757d !important;
+    font-style: italic !important;
+    font-size: 14px !important;
+}
+
+/* Kada nema selektovanih stavki - ostavljamo prazno */
+::ng-deep .custom-multiselect .p-multiselect-label:empty {
+    color: transparent !important;
+}
+
+/* Panel sa opcijama */
+::ng-deep .custom-multiselect .p-multiselect-panel {
+    background-color: #ffffff !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+    margin-top: 5px !important;
+    padding: 8px 0 !important;
+}
+
+/* Stavke u panelu */
+::ng-deep .custom-multiselect .p-multiselect-item {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    color: #2c3e50 !important;
+    background-color: #ffffff !important;
+    border: none !important;
+    transition: background-color 0.2s ease !important;
+    margin: 2px 8px !important;
+    border-radius: 6px !important;
+}
+
+/* Hover efekat na stavkama */
+::ng-deep .custom-multiselect .p-multiselect-item:hover {
+    background-color: #f8f9fa !important;
+    color: #2c3e50 !important;
+}
+
+/* Selektovane stavke */
+::ng-deep .custom-multiselect .p-multiselect-item.p-highlight {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+}
+
+/* Selektovane stavke pri hover-u */
+::ng-deep .custom-multiselect .p-multiselect-item.p-highlight:hover {
+    background-color: #20c997 !important;
+    color: #ffffff !important;
+}
+
+/* Selektovane stavke u glavnom elementu */
+::ng-deep .custom-multiselect .p-multiselect-token {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    margin: 2px 4px 2px 0 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+/* X dugme za uklanjanje token-a */
+::ng-deep .custom-multiselect .p-multiselect-token-icon {
+    color: #ffffff !important;
+    margin-left: 6px !important;
+    font-size: 10px !important;
+}
+
+/* Focus stanje */
+::ng-deep .custom-multiselect .p-multiselect:focus {
+    outline: none !important;
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Disabled stanje */
+::ng-deep .custom-multiselect .p-multiselect.p-disabled {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+    color: #6c757d !important;
+}
+
+/* Scrollbar za panel */
+::ng-deep .custom-multiselect .p-multiselect-panel .p-multiselect-items-wrapper {
+    max-height: 200px !important;
+}
+
+::ng-deep .custom-multiselect .p-multiselect-panel .p-multiselect-items-wrapper::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+::ng-deep .custom-multiselect .p-multiselect-panel .p-multiselect-items-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 3px !important;
+}
+
+::ng-deep .custom-multiselect .p-multiselect-panel .p-multiselect-items-wrapper::-webkit-scrollbar-thumb {
+    background: #c1c1c1 !important;
+    border-radius: 3px !important;
+}
+
+::ng-deep .custom-multiselect .p-multiselect-panel .p-multiselect-items-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8 !important;
+}
+
+/* Responsive stilovi */
+@media (max-width: 768px) {
+    ::ng-deep .custom-multiselect .p-multiselect {
+        font-size: 16px !important;
+        padding: 12px 16px !important;
+        min-height: 48px !important;
+    }
+    
+    ::ng-deep .custom-multiselect .p-multiselect-item {
+        padding: 12px 15px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* PERFORMANCE SECTION STYLES */
+.performance-section {
+    margin-bottom: 40px;
+}
+
+.performance-section h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.performance-section h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 2px;
+}
+
+.performance-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.performance-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.performance-form {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.performance-form > * {
+    margin-bottom: 8px;
+}
+
+.performance-form > *:last-child {
+    margin-bottom: 0;
+}
+
+.form-row {
+    display: flex;
+    align-items: flex-start;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 0;
+    padding-right: 8px;
+}
+
+.form-row .form-group:last-child {
+    padding-right: 0;
+}
+
+.form-row .form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.form-row .form-group input[type="text"],
+.form-row .form-group input[type="date"],
+.form-row .form-group input[type="number"] {
+    padding: 10px 14px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-row .form-group input[type="text"]:focus,
+.form-row .form-group input[type="date"]:focus,
+.form-row .form-group input[type="number"]:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Posebni stilovi za peti red (description i upload) */
+.description-upload-row {
+    display: flex;
+}
+
+.description-group {
+    flex: 3;
+    padding-right: 20px;
+}
+
+.upload-actors-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-section {
+    margin-bottom: 15px;
+}
+
+.actors-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.actors-section label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.description-group textarea {
+    min-height: 120px;
+    resize: vertical;
+    padding: 12px 14px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    font-family: inherit;
+}
+
+.description-group textarea:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Hall Selection Styles */
+.hall-options {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.hall-option {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 11px;
+    margin-right: 8px;
+}
+
+.hall-option:last-child {
+    margin-right: 0;
+}
+
+.hall-option input[type="radio"] {
+    margin: 0;
+    width: 12px;
+    height: 12px;
+    accent-color: #28a745;
+    margin-right: 5px;
+}
+
+.hall-label {
+    font-size: 11px;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Performance Button Styles */
+.add-performance-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+    flex: 1;
+    margin-top: 10px;
+}
+
+.add-performance-btn i {
+    margin-right: 10px;
+}
+
+.add-performance-btn:hover {
+    background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.add-performance-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Layout for Performance */
+@media (max-width: 1200px) {
+    .form-row {
+        flex-wrap: wrap;
+    }
+    
+    .form-row .form-group {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 200px;
+    }
+    
+    .description-upload-row {
+        flex-direction: column;
+    }
+    
+    .description-group {
+        flex: 1;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .upload-actors-group {
+        flex: 1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-row .form-group {
+        flex: 1;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .form-row .form-group:last-child {
+        margin-bottom: 0;
+    }
+    
+    .hall-options {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    
+    .hall-option {
+        justify-content: center;
+        flex: 1;
+        margin-right: 10px;
+    }
+    
+    .hall-option:last-child {
+        margin-right: 0;
+    }
+}
+
+/* ACTOR SECTION STYLES */
+.actor-section {
+    margin-bottom: 40px;
+}
+
+.actor-section h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.actor-section h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(135deg, #6f42c1 0%, #8e44ad 100%);
+    border-radius: 2px;
+}
+
+.actor-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.actor-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.actor-form {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.actor-form > * {
+    margin-bottom: 8px;
+}
+
+.actor-form > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Actor Button Styles */
+.add-actor-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #6f42c1 0%, #8e44ad 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+    flex: 1;
+    margin-top: 10px;
+}
+
+.add-actor-btn i {
+    margin-right: 10px;
+}
+
+.add-actor-btn:hover {
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
+}
+
+.add-actor-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Layout for Actor */
+@media (max-width: 768px) {
+    .actor-form .form-row {
+        flex-direction: column;
+    }
+    
+    .actor-form .form-row .form-group {
+        flex: 1;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .actor-form .form-row .form-group:last-child {
+        margin-bottom: 0;
+    }
 }

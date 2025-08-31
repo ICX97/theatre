@@ -16,7 +16,7 @@ public class PerformanceDTO {
     private BigDecimal revenue;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private byte[] poster_image;
+    private Object poster_image; // Može biti String (base64) ili byte[]
     private String director;
     private String adaptation;
     private String dramaturg;

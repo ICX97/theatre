@@ -83,6 +83,34 @@ VALUES
 (28, 1, 100.00), -- Gala Night
 (28, 2, 75.00);  -- Gala Night
 
+INSERT INTO theatre.performance 
+(performance_title, performance_description, performance_date, hall_id, revenue, director, adaptation, dramaturg, scenographer, costume_designer, music, stage_speech, stage_manager, poster_image) 
+VALUES 
+('Winter Wonderland', 'A magical journey into a snowy dreamland for all ages.', '2024-12-03 18:00:00', 1, 3500.00, 'Anna Bell', NULL, 'John Fisher', 'Emma Stone', 'Alice Grant', 'Winter Symphony', 'Henry Brown', 'Chris Taylor', 'Actor49, Actor50, Actor51', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image10.jpg')),
+
+('Jazz Christmas', 'An evening of jazz-infused Christmas carols and holiday spirit.', '2024-12-07 20:00:00', 2, 4000.00, 'Mark Wilson', NULL, 'Sophia Green', 'Olivia Jones', 'Noah Davis', 'Jazz Quartet', 'Ethan Lewis', 'Liam Scott', 'Actor52, Actor53, Actor54', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image11.jpg')),
+
+('New Year\'s Revelry', 'Celebrate the end of the year with an unforgettable performance and countdown.', '2024-12-31 22:00:00', 1, 10000.00, 'Sophia Walker', NULL, 'Benjamin Carter', 'Amelia Davis', 'Evelyn Johnson', 'Celebration Beats', 'Isaac Miller', 'Emma Martinez', 'Actor55, Actor56, Actor57', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image12.jpg')),
+
+('The Nutcracker', 'A timeless ballet capturing the magic of the holiday season.', '2024-12-15 19:00:00', 2, 7000.00, 'Lucy Harris', 'Adapted from Tchaikovsky', 'George Robinson', 'Lily Turner', 'Emily White', 'Classical Orchestra', 'Ethan Young', 'Hannah Green', 'Actor58, Actor59, Actor60', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image13.jpg')),
+
+('Holiday Comedy Special', 'A hilarious evening of holiday-themed sketches and stand-up comedy.', '2024-12-20 19:30:00', 1, 5000.00, 'Jake Adams', NULL, 'Mason Hill', 'Ava Moore', 'Sophia Brown', 'Comedy Tracks', 'Ella Harris', 'Oliver Thompson', 'Actor61, Actor62, Actor63', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image14.jpg')),
+
+('Silent Night', 'A serene musical evening featuring traditional Christmas hymns.', '2024-12-24 18:00:00', 2, 2500.00, 'Chloe Wright', NULL, 'Ethan James', 'Zoe Taylor', 'Mia Hall', 'Choir Ensemble', 'Liam Cooper', 'Charlotte Scott', 'Actor64, Actor65, Actor66', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image15.jpg'));
+
+INSERT INTO theatre.performance_ticket_price (performance_id, seat_type_id, price) 
+VALUES 
+(29, 1, 55.00),  -- Winter Wonderland
+(29, 2, 35.00),  -- Winter Wonderland
+(30, 3, 20.00),  -- Jazz Christmas
+(31, 1, 120.00), -- New Year's Revelry
+(31, 2, 80.00),  -- New Year's Revelry
+(32, 1, 75.00),  -- The Nutcracker
+(32, 2, 50.00),  -- The Nutcracker
+(33, 3, 30.00),  -- Holiday Comedy Special
+(34, 1, 45.00),  -- Silent Night
+(34, 2, 25.00);  -- Silent Night
+
 select * from theatre.performance;
 select * from theatre.performance_ticket_price;
 INSERT INTO theatre.performance_ticket_price (performance_id, seat_type_id, price) 
@@ -116,10 +144,13 @@ INSERT INTO theatre.news (news_title, news_date, news_description, news_image) V
 ('Nagradna igra', '2024-09-20', 'Učestvujte u našoj nagradnoj igri i osvojite karte za predstavu!', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image4.jpg')),
 ('Predstava "Ljubav u doba kolere"', '2024-09-25', 'Ne propustite predstavu baziranu na romanu Gabriela Garcíe Márqueza.', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\image5.jpg'));
 
-select * from theatre.performance;
+select * from theatre.reservation;
 
+select * from theatre.app_user;
+
+select * from theatre.seat;
 -- Isprazni tabelu
-DELETE FROM theatre.performance;
+
 
 
 INSERT INTO theatre.ensemble (first_name, last_name, birth_year, ensemble_description, performance_id) VALUES 
@@ -162,8 +193,9 @@ VALUES (2, 'BALKON', 2, 10);  -- 20 mesta
 INSERT INTO theatre.seat_type (hall_id, seat_type_name, num_rows, seats_per_row) 
 VALUES (2, 'LOŽA', 1, 10); 
 
--- Dodavanje mesta za Grand Hall (performance_id 13, 15, 17)
--- Parter
+
+select * from theatre.news
+
 INSERT INTO theatre.seat (hall_id, seat_number, seat_type_id, side, row_num, is_reserved) VALUES 
 ('1', 'A1', '1', 'LEFT', '1', '0'),
 ('1', 'A2', '1', 'LEFT', '1', '0'),
@@ -268,6 +300,8 @@ INSERT INTO theatre.seat (hall_id, seat_number, seat_type_id, side, row_num, is_
 ('2', 'D9', '3', 'LEFT', '1', '0'),
 ('2', 'D10', '3', 'LEFT', '1', '0');
 
+select * from theatre.news;
+select * from theatre.ensemble;
 
 INSERT INTO theatre.performance_ticket_price 
 (performance_id, seat_type_id, price) VALUES 
