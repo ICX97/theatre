@@ -11,19 +11,31 @@ import { jwtDecode } from "jwt-decode";
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
+    if (!this.username || !this.password) {
+      this.errorMessage = 'Please fill in all fields';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
     this.authService.login({ username: this.username, password: this.password }).subscribe(
       response => {
         localStorage.setItem('token', response.token);
-        console.log(jwtDecode(response.token));
         
+        this.isLoading = false;
         this.router.navigate(['/']); 
       },
       error => {
         console.error('Login failed', error);
+        this.isLoading = false;
+        this.errorMessage = error.message || 'Login failed. Please check your credentials.';
       }
     );
   }

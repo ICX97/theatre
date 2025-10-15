@@ -1,24 +1,133 @@
-<div *ngIf="performance" class="performance-detail">
-    <img [src]="'data:image/jpeg;base64,' + performance.poster_image" alt="Poster {{ performance.performance_title }}" />
-    <p>Title: {{ performance.performance_title }}</p>
-    <p>Režiser: {{ performance.director }}</p>
-    <p>Opis: {{ performance.performance_description }}</p>
-    <p>Adaptacija: {{ performance.adaptation }}</p>
-    <p>Dramaturg: {{ performance.dramaturg }}</p>
-    <p>Scenograf: {{ performance.scenographer }}</p>
-    <p>Kostimograf: {{ performance.costumeDesigner }}</p>
-    <p>Muzika: {{ performance.music }}</p>
-    <p>Scenski govor: {{ performance.stageSpeech }}</p>
-    <p>Inspicijent: {{ performance.stageManager }}</p>
-  
-    <h3>Uloge</h3>
-    <!-- <div *ngFor="let actor of performance.actors">
-      <span (mouseover)="showActorImage(actor)" (mouseout)="hideActorImage()">
-        {{ actor.name }} - {{ actor.role }}
-      </span>
-      <img *ngIf="actor.hovered" [src]="actor.image" alt="{{ actor.name }}" />
-    </div> -->
+<div *ngIf="performance" class="performance-detail-container">
+  <!-- Hero Section sa posterom -->
+  <div class="hero-section">
+    <div class="poster-container">
+      <img [src]="getImageSrc(performance.poster_image)" 
+           [alt]="'Poster ' + performance.performance_title" 
+           class="performance-poster" />
+      <div class="poster-overlay">
+        <div class="performance-badge">
+          <span class="badge-icon">🎭</span>
+          <span class="badge-text">Predstava</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-content">
+      <h1 class="performance-title">{{ performance.performance_title }}</h1>
+      <div class="performance-meta">
+        <div class="meta-item">
+          <span class="meta-icon">📅</span>
+          <span class="meta-text">{{ performance.performance_date | date:'dd. MMMM yyyy' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">🕐</span>
+          <span class="meta-text">{{ performance.performance_date | date:'HH:mm' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">🏛️</span>
+          <span class="meta-text">Sala {{ performance.hallId }}</span>
+        </div>
+      </div>
+      
+      <p class="performance-description">{{ performance.performance_description }}</p>
+      
+      <button class="purchase-btn" (click)="purchaseTickets()">
+        <span class="btn-icon">🎫</span>
+        <span class="btn-text">Kupi ulaznice</span>
+      </button>
+    </div>
+  </div>
 
-    <button (click)="purchaseTickets()">Kupi ulaznice</button>
+  <!-- Detalji predstave -->
+  <div class="details-section">
+    <div class="details-grid">
+      <!-- Prvi red -->
+      <div class="detail-card">
+        <div class="detail-icon">🎬</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Režiser</h3>
+          <p class="detail-value">{{ performance.director }}</p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">📝</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Adaptacija</h3>
+          <p class="detail-value">{{ performance.adaptation }}</p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">🎨</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Dramaturg</h3>
+          <p class="detail-value">{{ performance.dramaturg }}</p>
+        </div>
+      </div>
+      
+      <!-- Drugi red -->
+      <div class="detail-card">
+        <div class="detail-icon">🎪</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Scenograf</h3>
+          <p class="detail-value">{{ performance.scenographer }}</p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">👗</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Kostimograf</h3>
+          <p class="detail-value">{{ performance.costumeDesigner }}</p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">🎵</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Muzika</h3>
+          <p class="detail-value">{{ performance.music }}</p>
+        </div>
+      </div>
+      
+      <!-- Treći red -->
+      <div class="detail-card">
+        <div class="detail-icon">🎤</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Scenski govor</h3>
+          <p class="detail-value">{{ performance.stageSpeech }}</p>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-icon">🎯</div>
+        <div class="detail-content">
+          <h3 class="detail-label">Inspicijent</h3>
+          <p class="detail-value">{{ performance.stageManager }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sekcija za glumce -->
+  <div class="cast-section" *ngIf="actors && actors.length > 0">
+    <h2 class="section-title">
+      <span class="title-icon">👥</span>
+      Glumci
+    </h2>
+    <div class="cast-grid">
+      <div *ngFor="let actor of actors" class="actor-card">
+        <div class="actor-image" (mouseover)="showActorImage(actor)" (mouseout)="hideActorImage()">
+          <img [src]="getActorImageSrc(actor)" [alt]="actor.firstName + ' ' + actor.lastName" />
+        </div>
+        <div class="actor-info">
+          <h4 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h4>
+          <p class="actor-role">{{ actor.ensemble_description || 'Glumac' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
   

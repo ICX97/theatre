@@ -1,44 +1,437 @@
 .ticket-purchase-container {
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+/* Header Section */
+.header-section {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  padding: 30px 40px;
+  border-bottom: 2px solid rgba(220, 38, 38, 0.3);
+  border-radius: 0 0 25px 25px;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.month-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.month-btn {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(139, 0, 0, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 15px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+}
+
+.month-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.month-btn.active {
+  background: linear-gradient(135deg, #b8860b, #daa520);
+  border-color: #b8860b;
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(184, 134, 11, 0.4);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.month-display {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffd700;
+  text-align: right;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Performances Section */
+.performances-section {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.performances-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.performance-card {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 25px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px rgba(220, 38, 38, 0.2);
+}
+
+.performance-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(220, 38, 38, 0.4);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.performance-header {
+  display: flex;
+  align-items: center;
+  padding: 25px 30px;
+  gap: 25px;
+}
+
+.performance-basic-info {
+  flex: 0 0 200px;
+  min-width: 180px;
+}
+
+.performance-description-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.performance-info {
+  flex: 1;
+}
+
+.performance-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.performance-description {
+  color: #e5e5e5;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid rgba(220, 38, 38, 0.6);
+  border-radius: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.performance-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+}
+
+.meta-icon {
+  font-size: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.performance-poster {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.poster-placeholder {
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.performance-details {
+  padding: 25px 30px;
+  border-top: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.ticket-prices {
+  flex: 0 0 220px;
+  min-width: 200px;
+  margin-bottom: 25px;
+}
+
+.prices-title {
+  color: #ffd700;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.prices-title .title-icon {
+  font-size: 1.1rem;
+}
+
+.price-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(220, 38, 38, 0.1);
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  transition: all 0.3s ease;
+}
+
+.price-item:hover {
+  background: rgba(220, 38, 38, 0.2);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.seat-type {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.price-value {
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.no-prices {
+  text-align: center;
   padding: 20px;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.no-prices-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.performance-actions {
   text-align: center;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
+.purchase-btn {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
+  margin-bottom: 20px;
   border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
 }
 
-button:hover {
-  background-color: #45a049;
+.purchase-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(220, 38, 38, 0.5);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.purchase-btn:active {
+  transform: translateY(-1px);
 }
 
-th, td {
-  padding: 12px;
-  border: 1px solid #ddd;
+/* No Performances Message */
+.no-performances {
   text-align: center;
+  padding: 80px 40px;
 }
 
-th {
-  background-color: #f2f2f2;
+.no-performances-content {
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-td button {
-  padding: 5px 10px;
-  background-color: #007bff;
+.no-performances-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.no-performances-title {
+  color: #ffd700;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.no-performances-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(139, 0, 0, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   color: white;
-  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
 }
 
-td button:hover {
-  background-color: #0056b3;
+.back-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .month-display {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-section {
+    padding: 25px 20px;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .month-display {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  
+  .performances-section {
+    padding: 30px 20px;
+  }
+  
+  .performances-list {
+    gap: 20px;
+  }
+  
+  .performance-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 25px;
+    gap: 20px;
+  }
+  
+  .performance-basic-info {
+    flex: none;
+    min-width: auto;
+  }
+  
+  .performance-description-section {
+    flex: none;
+    min-width: auto;
+  }
+  
+  .ticket-prices {
+    flex: none;
+    min-width: auto;
+  }
+  
+  .performance-poster {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .performance-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .month-display {
+    font-size: 1.2rem;
+  }
+  
+  .month-btn {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .performance-title {
+    font-size: 1.2rem;
+  }
+  
+  .performance-header {
+    padding: 15px 20px;
+  }
+  
+  .performance-details {
+    padding: 20px 25px;
+  }
+  
+  .purchase-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+  
+  .no-performances-title {
+    font-size: 1.6rem;
+  }
+  
+  .no-performances-text {
+    font-size: 1rem;
+  }
 }

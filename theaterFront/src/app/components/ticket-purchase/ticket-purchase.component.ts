@@ -7,6 +7,8 @@ import { TicketPriceService } from '../../services/ticket-price.service';
 import { PerformanceTicketPrice } from '../../models/performance-ticket-price.model';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../../services/auth.service';
+import { SeatService } from '../../services/seat.service';
 
 @Component({
   selector: 'app-ticket-purchase',
@@ -20,25 +22,47 @@ export class TicketPurchaseComponent implements OnInit {
   currentMonth: string = formatDate(new Date(), 'yyyy-MM', 'en');
   nextMonth: string = formatDate(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'yyyy-MM', 'en');
   ticketPrices: { [performanceId: number]: { [seatType: string]: number } } = {};
+  showAuthModal: boolean = false;
+  seatTypes: any[] = [];
 
-  constructor(private router: Router, private performanceService: PerformanceService, private ticketPriceService: TicketPriceService) {
+  constructor(
+    private router: Router, 
+    private performanceService: PerformanceService, 
+    private ticketPriceService: TicketPriceService,
+    private authService: AuthService,
+    private seatService: SeatService
+  ) {
     this.selectedMonth = this.currentMonth;
   }
 
   ngOnInit() {
+    this.loadSeatTypes();
     this.getPerformances();
+  }
+
+  loadSeatTypes() {
+    this.seatService.getAllSeatTypes().subscribe((seatTypes: any[]) => {
+      this.seatTypes = seatTypes;
+    });
   }
 
   getPerformances() {
     this.performanceService.getPerformances().subscribe((data: Performance[]) => {
-      // Sortiranje performansi po datumu (najranije prvo)
-      this.performances = data.sort((a, b) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); 
+      
+      this.performances = data.filter(performance => {
+        const performanceDate = new Date(performance.performance_date);
+        performanceDate.setHours(0, 0, 0, 0);
+        return performanceDate >= today;
+      }).sort((a, b) => {
         const dateA = new Date(a.performance_date);
         const dateB = new Date(b.performance_date);
         return dateA.getTime() - dateB.getTime();
       });
+      
       this.filterPerformances();
-      this.loadTicketPrices(); // Filtriraj odmah po mesecu kada dobijemo podatke
+      this.loadTicketPrices(); 
     });
   }
 
@@ -73,12 +97,8 @@ export class TicketPurchaseComponent implements OnInit {
   }
 
   getSeatTypeName(seatTypeId: number): string {
-    const seatTypeMap: { [key: number]: string } = {
-      1: 'PARTER',
-      2: 'BALKON',
-      3: 'LOZA'
-    };
-    return seatTypeMap[seatTypeId] || '';
+    const seatType = this.seatTypes.find(st => st.seatTypeId === seatTypeId);
+    return seatType ? seatType.seatTypeName : `Type ${seatTypeId}`;
   }
 
   filterPerformances() {
@@ -93,6 +113,14 @@ export class TicketPurchaseComponent implements OnInit {
   }
 
   purchaseTickets(performanceId: number) {
-    this.router.navigate(['/seat-selection', performanceId]);
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/seat-selection', performanceId]);
+    } else {
+      this.showAuthModal = true;
+    }
+  }
+
+  closeAuthModal() {
+    this.showAuthModal = false;
   }
 }

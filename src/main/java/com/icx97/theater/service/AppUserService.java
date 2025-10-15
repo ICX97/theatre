@@ -70,7 +70,6 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.deleteById(id);
     }
 
-    // Nova metoda za pretragu korisnika po korisničkom imenu
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
@@ -83,15 +82,8 @@ public class AppUserService implements UserDetailsService {
                 user.getUserId(),
                 List.of(new SimpleGrantedAuthority(user.getRole().getRoleName()))
         );
-//        logger.info("LoadUserByUserName: " +  user);
-//        return org.springframework.security.core.userdetails.User.builder()
-//                .username(user.getUsername())
-//                .password(user.getUser_password())
-//                .roles(user.getRole().getRoleName().substring(5))
-//                .build();
     }
 
-    // Nova metoda za čuvanje korisnika
     public AppUser save(AppUser user) {
         return appUserRepository.save(user);
     }

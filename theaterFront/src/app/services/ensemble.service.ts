@@ -8,7 +8,7 @@ import { EnsembleDto } from '../dto/EnsambleDto';
   providedIn: 'root'
 })
 export class EnsembleService {
-  private apiUrl = '/api/ensemble'; // Backend URL
+  private apiUrl = '/api/ensemble'; 
 
   constructor(private http: HttpClient) {}
 
@@ -22,5 +22,22 @@ export class EnsembleService {
 
   createEnsemble(ensembleData: EnsembleDto): Observable<EnsembleDto> {
     return this.http.post<EnsembleDto>(this.apiUrl, ensembleData);
+  }
+
+  updateEnsemble(id: number, ensembleData: EnsembleDto): Observable<EnsembleDto> {
+    return this.http.put<EnsembleDto>(`${this.apiUrl}/${id}`, ensembleData);
+  }
+
+  deleteEnsemble(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // Alias methods for actor operations
+  updateActor(id: number, actorData: Actor): Observable<Actor> {
+    return this.http.put<Actor>(`${this.apiUrl}/${id}`, actorData);
+  }
+
+  deleteActor(id: number): Observable<void> {
+    return this.deleteEnsemble(id);
   }
 }

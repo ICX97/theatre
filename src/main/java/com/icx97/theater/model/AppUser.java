@@ -22,6 +22,12 @@ public class AppUser {
     @Column(name = "user_email", nullable = false, unique = true)
     private String user_email;
 
+    @Column(name = "is_email_verified", nullable = false)
+    private Boolean isEmailVerified = false;
+
+    @Column(name = "email_verification_token")
+    private String emailVerificationToken;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

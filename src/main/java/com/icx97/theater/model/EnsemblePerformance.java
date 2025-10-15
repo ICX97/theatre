@@ -8,14 +8,16 @@ import lombok.Data;
 @Table(name = "ensemble_performance")
 public class EnsemblePerformance {
 
-    @EmbeddedId  // Use @EmbeddedId to embed the composite key
+    @EmbeddedId
     private EnsemblePerformanceId id;
 
-    @ManyToOne
-    @JoinColumn(name = "ensemble_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("ensemble_id")
+    @JoinColumn(name = "ensemble_id")
     private Ensemble ensemble;
 
-    @ManyToOne
-    @JoinColumn(name = "performance_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("performance_id")
+    @JoinColumn(name = "performance_id")
     private Performance performance;
 }

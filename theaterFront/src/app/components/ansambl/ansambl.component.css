@@ -2,6 +2,11 @@
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .actor-grid {
@@ -12,12 +17,12 @@
 }
 
 .actor-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
@@ -30,7 +35,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -41,7 +46,8 @@
 
 .actor-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
+  border-color: rgba(220, 38, 38, 0.5);
 }
 
 .actor-image-container {
@@ -67,7 +73,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
   padding: 25px 20px 20px 20px;
   transform: translateY(0);
   transition: transform 0.3s ease;
@@ -78,16 +84,16 @@
 }
 
 .actor-name {
-  color: white;
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 10px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
   text-align: center;
 }
 
 .actor-description {
-  color: rgba(255, 255, 255, 0.9);
+  color: #ffd700;
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
@@ -97,6 +103,7 @@
   transition: all 0.3s ease;
   max-height: 0;
   overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .actor-description.show {

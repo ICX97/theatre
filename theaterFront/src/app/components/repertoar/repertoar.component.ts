@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PerformanceService } from '../../services/performance.service'; // Import the service
+import { Router } from '@angular/router';
+import { PerformanceService } from '../../services/performance.service'; 
 import { Performance } from '../../models/performance.model';
 import { PerformanceTicketPrice, PerformanceWithPrices } from '../../models/performance-ticket-price.model';
 import { TicketPriceService } from '../../services/ticket-price.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-repertoar',
@@ -16,15 +18,33 @@ export class RepertoarComponent implements OnInit {
   filteredPerformances: Performance[] = []; 
   performancesWithPrices: PerformanceWithPrices[] = [];
   ticketPrices: { [performanceId: number]: { [seatType: string]: number } } = {};
+  showAuthModal: boolean = false;
 
-  constructor(private performanceService: PerformanceService, private ticketPriceService: TicketPriceService) {}
+  constructor(
+    private performanceService: PerformanceService, 
+    private ticketPriceService: TicketPriceService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.setMonths();
-    this.selectedMonth = this.months[1];  // Automatski postavi trenutni mesec
+    this.selectedMonth = this.months[1];  
     this.getPerformances();
     this.getPerformancesWithPrices();
     this.loadTicketPrices();
+  }
+
+  purchaseTickets(performanceId: number) {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/buy-ticket', performanceId]);
+    } else {
+      this.showAuthModal = true;
+    }
+  }
+
+  closeAuthModal() {
+    this.showAuthModal = false;
   }
 
   setMonths() {
@@ -79,13 +99,12 @@ export class RepertoarComponent implements OnInit {
     if (imageData) {
       return 'data:image/jpeg;base64,' + imageData;
     } else {
-      return 'assets/images/defaultBlack.jpg'; // Default slika za predstave
+      return 'assets/images/defaultBlack.jpg';
     }
   }
 
   getPerformances() {
     this.performanceService.getPerformances().subscribe((data: Performance[]) => {
-      // Filtriraj samo buduće predstave
       const today = new Date();
       this.performances = data.filter(perf => new Date(perf.performance_date) >= today)
         .sort((a, b) => {
@@ -99,7 +118,6 @@ export class RepertoarComponent implements OnInit {
   }
 
   autoSelectMonthWithPerformances() {
-    // Pronađi prvi mesec (od prikazanih dugmića) koji ima predstave
     for (let i = 0; i < this.months.length; i++) {
       const monthName = this.months[i];
       const monthIndex = (new Date().getMonth() + i) % 12;
@@ -109,7 +127,6 @@ export class RepertoarComponent implements OnInit {
         return;
       }
     }
-    // Ako nema nijedne predstave, selektuj prvi mesec
     this.selectedMonth = this.months[0];
   }
 
@@ -122,7 +139,7 @@ export class RepertoarComponent implements OnInit {
 
   selectMonth(month: string) {
     this.selectedMonth = month;
-    this.filterPerformancesByMonth(); // Filtriraj predstave kada se promeni mesec
+    this.filterPerformancesByMonth();
   }
 
   filterPerformancesByMonth() {
@@ -139,7 +156,7 @@ export class RepertoarComponent implements OnInit {
     this.filteredPerformances.forEach(performance => {
       const prices = this.performancesWithPrices.find(p => p.performance_title === performance.performance_title);
       if (prices) {
-        performance.ticketPrices = prices.ticketPrices; // Dodavanje ticketPrices
+        performance.ticketPrices = prices.ticketPrices;
       } else {
         performance.ticketPrices = []; // Ako nema cena, postavi praznu listu
       }

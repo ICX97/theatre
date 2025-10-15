@@ -46,7 +46,7 @@ public class Performance {
     private Timestamp updated_at;
 
     @Lob
-    @Column(name = "poster_image")
+    @Column(name = "poster_image", columnDefinition = "LONGBLOB")
     private byte[] poster_image;
 
     @Column(name = "director")

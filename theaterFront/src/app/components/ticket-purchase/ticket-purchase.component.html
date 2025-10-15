@@ -1,31 +1,106 @@
 <div class="ticket-purchase-container">
-  <h2>Izaberite mesec</h2>
-  <button (click)="changeMonth(currentMonth)">Tekući mesec</button>
-  <button (click)="changeMonth(nextMonth)">Sledeći mesec</button>
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-left">
+      <div class="month-buttons">
+        <button class="month-btn" 
+                [class.active]="selectedMonth === currentMonth"
+                (click)="changeMonth(currentMonth)">
+          <span class="btn-icon">📆</span>
+          <span class="btn-text">Tekući</span>
+        </button>
+        
+        <button class="month-btn" 
+                [class.active]="selectedMonth === nextMonth"
+                (click)="changeMonth(nextMonth)">
+          <span class="btn-icon">📅</span>
+          <span class="btn-text">Sledeći</span>
+        </button>
+      </div>
+      
+      <h2 class="month-display">
+        Predstave za {{ selectedMonth | date: 'MMMM yyyy' }}
+      </h2>
+    </div>
+  </div>
 
-  <h3>Predstave za {{ selectedMonth | date: 'MMMM yyyy' }}</h3>
-  
-  <table>
-    <tr>
-      <th>Naziv predstave</th>
-      <th>Datum</th>
-      <th>Broj slobodnih ulaznica</th>
-      <th>Cena (RSD)</th>
-      <th></th>
-    </tr>
-    <tr *ngFor="let performance of filteredPerformances">
-      <td>{{ performance.performance_title }}</td>
-      <td>{{ performance.performance_date | date: 'dd.MM.yyyy' }}</td>
-      <td>{{ performance.ticketPrices?.length || 0 }}</td>
-      <td>
-          <div *ngFor="let seatType of getSeatTypes(performance.performanceId)">
-            {{ seatType }}: 
-            {{ ticketPrices[performance.performanceId][seatType] | number: '1.2-2' }} RSD
+  <!-- Performances Section -->
+  <div class="performances-section">
+    <div class="performances-list" *ngIf="filteredPerformances.length > 0">
+      <div class="performance-card" *ngFor="let performance of filteredPerformances">
+        <div class="performance-header">
+          <div class="performance-basic-info">
+            <h3 class="performance-title">{{ performance.performance_title }}</h3>
+            <div class="performance-meta">
+              <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <span class="meta-text">{{ performance.performance_date | date: 'dd. MMMM yyyy' }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">🕐</span>
+                <span class="meta-text">{{ performance.performance_date | date: 'HH:mm' }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">🏛️</span>
+                <span class="meta-text">Sala {{ performance.hallId }}</span>
+              </div>
+            </div>
           </div>
-      </td>
-      <td>
-        <button (click)="purchaseTickets(performance.performanceId)">Kupi ulaznice</button>
-      </td>
-    </tr>
-  </table>
+          
+          <div class="performance-description-section">
+            <p class="performance-description" *ngIf="performance.performance_description">
+              {{ performance.performance_description }}
+            </p>
+          </div>
+          
+          <div class="ticket-prices">
+            <h4 class="prices-title">
+              <span class="title-icon">🎫</span>
+              Cene ulaznica
+            </h4>
+            
+            <div class="price-list" *ngIf="getSeatTypes(performance.performanceId).length > 0">
+              <div class="price-item" *ngFor="let seatType of getSeatTypes(performance.performanceId)">
+                <span class="seat-type">{{ seatType }}</span>
+                <span class="price-value">{{ ticketPrices[performance.performanceId][seatType] | number: '1.0-0' }} RSD</span>
+              </div>
+            </div>
+            
+            <div class="no-prices" *ngIf="getSeatTypes(performance.performanceId).length === 0">
+              <span class="no-prices-text">Cene nisu dostupne</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="performance-actions">
+          <button class="purchase-btn" (click)="purchaseTickets(performance.performanceId)">
+            <span class="btn-icon">🎫</span>
+            <span class="btn-text">Kupi ulaznice</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- No Performances Message -->
+    <div class="no-performances" *ngIf="filteredPerformances.length === 0">
+      <div class="no-performances-content">
+        <div class="no-performances-icon">🎭</div>
+        <h3 class="no-performances-title">Nema predstava</h3>
+        <p class="no-performances-text">
+          Za izabrani mesec trenutno nema planiranih predstava. 
+          Molimo vas da proverite drugi mesec ili se vratite kasnije.
+        </p>
+        <button class="back-btn" (click)="changeMonth(currentMonth)">
+          <span class="btn-icon">⬅️</span>
+          <span class="btn-text">Vrati se na tekući mesec</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Auth Modal -->
+<app-auth-modal
+    [isVisible]="showAuthModal"
+    (close)="closeAuthModal()">
+</app-auth-modal>

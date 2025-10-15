@@ -1,26 +1,133 @@
 footer {
-    background-color: #222;
-    color: white;
-    padding: 20px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #2d0a0a 100%);
+    border-top: 2px solid rgba(220, 38, 38, 0.4);
+    color: #ffffff;
+    padding: 20px 10px;
     text-align: center;
-  }
-  
-  .footer-links ul {
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.footer-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    padding: 30px;
+    width: 100%;
+    margin: 0;
+}
+
+.footer-brand {
+    margin-bottom: 30px;
+}
+
+.footer-brand h3 {
+    color: #ffd700;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+.footer-brand p {
+    color: #ffd700;
+    font-size: 1rem;
+    font-style: italic;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    margin-bottom: 30px;
+}
+
+.footer-links ul {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .footer-links ul li {
-    display: inline;
-    margin: 0 10px;
-  }
-  
-  .footer-links ul li a {
-    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-links ul li {
+    margin: 0;
+}
+
+.footer-links ul li a {
+    color: #ffffff;
     text-decoration: none;
-  }
-  
-  .footer-contact, .footer-privacy {
-    margin-top: 20px;
-  }
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.footer-links ul li a:hover {
+    color: #ffd700;
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.footer-contact {
+    margin-bottom: 20px;
+}
+
+.footer-contact p {
+    color: #e5e5e5;
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.footer-privacy {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(220, 38, 38, 0.2);
+    padding-top: 20px;
+}
+
+.footer-privacy p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 15px 5px;
+    }
+    
+    .footer-content {
+        padding: 20px;
+    }
+    
+    .footer-links ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .footer-links ul li a {
+        display: block;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 10px 5px;
+    }
+    
+    .footer-content {
+        padding: 15px;
+    }
+    
+    .footer-contact p {
+        font-size: 0.9rem;
+    }
+    
+    .footer-privacy {
+        font-size: 0.8rem;
+    }
+}
   

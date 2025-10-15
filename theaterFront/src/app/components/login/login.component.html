@@ -1,17 +1,69 @@
 <div class="login-container">
-    <div class="login-box">
-      <h2>Login</h2>
-      <form (ngSubmit)="onLogin()">
-        <div class="form-group">
-          <label for="username">Username or Email</label>
-          <input type="text" id="username" [(ngModel)]="username" name="username" required>
+    <div class="login-background">
+        <div class="background-pattern"></div>
+    </div>
+    
+    <div class="login-card">
+        <div class="login-header">
+            <div class="theater-icon">🎭</div>
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Sign in to your theater account</p>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        
+        <form (ngSubmit)="onLogin()" class="login-form">
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon">👤</span>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        [(ngModel)]="username" 
+                        name="username" 
+                        required
+                        placeholder="Username or Email"
+                        class="form-input">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon">🔒</span>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        [(ngModel)]="password" 
+                        name="password" 
+                        required
+                        placeholder="Password"
+                        class="form-input">
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn" [disabled]="isLoading">
+                <span *ngIf="!isLoading" class="btn-content">
+                    <span class="btn-icon">🚀</span>
+                    Sign In
+                </span>
+                <span *ngIf="isLoading" class="btn-content loading">
+                    <span class="spinner"></span>
+                    Signing In...
+                </span>
+            </button>
+        </form>
+        
+        <div class="login-footer">
+            <p class="register-text">
+                Don't have an account? 
+                <a routerLink="/register" class="register-link">
+                    <span class="link-icon">✨</span>
+                    Create one here
+                </a>
+            </p>
         </div>
-        <button type="submit">Login</button>
-      </form>
-      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+        
+        <div *ngIf="errorMessage" class="error-message">
+            <span class="error-icon">⚠️</span>
+            {{ errorMessage }}
+        </div>
     </div>
 </div>

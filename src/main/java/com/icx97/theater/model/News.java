@@ -24,7 +24,7 @@ public class News {
     private String newsDescription;
 
     @Lob
-    @Column
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] newsImage;
 
 }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
-import { environment } from '../../environments/environment';  // Tvoj environment fajl
+import { environment } from '../../environments/environment';  
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
-  private stripePromise = loadStripe(environment.stripePublicKey);  // Tvoj javni ključ
+  private stripePromise = loadStripe(environment.stripePublicKey);  
 
   constructor(private http: HttpClient) {}
 

@@ -1,0 +1,38 @@
+<div class="verification-container">
+  <div class="verification-card">
+    <div class="verification-header">
+      <div class="verification-icon" [class]="verificationStatus">
+        <span *ngIf="verificationStatus === 'loading'">⏳</span>
+        <span *ngIf="verificationStatus === 'success'">✅</span>
+        <span *ngIf="verificationStatus === 'error'">❌</span>
+      </div>
+      <h2 class="verification-title">Email Verifikacija</h2>
+    </div>
+
+    <div class="verification-content">
+      <div *ngIf="verificationStatus === 'loading'" class="loading-section">
+        <div class="spinner"></div>
+        <p class="loading-text">Verifikujem email adresu...</p>
+      </div>
+
+      <div *ngIf="verificationStatus === 'success'" class="success-section">
+        <h3 class="success-title">Uspešno!</h3>
+        <p class="success-message">{{ message }}</p>
+        <button class="login-btn" (click)="goToLogin()">
+          <span class="btn-icon">🔐</span>
+          <span class="btn-text">Idi na prijavu</span>
+        </button>
+      </div>
+
+      <div *ngIf="verificationStatus === 'error'" class="error-section">
+        <h3 class="error-title">Greška</h3>
+        <p class="error-message">{{ message }}</p>
+        <button class="login-btn" (click)="goToLogin()">
+          <span class="btn-icon">🔐</span>
+          <span class="btn-text">Idi na prijavu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

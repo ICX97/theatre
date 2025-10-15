@@ -1,12 +1,16 @@
 package com.icx97.theater.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class EnsemblePerformanceId implements Serializable {
+    @Column(name = "ensemble_id")
     private Long ensemble_id;
+    
+    @Column(name = "performance_id")
     private Long performance_id;
 
     public EnsemblePerformanceId() {}

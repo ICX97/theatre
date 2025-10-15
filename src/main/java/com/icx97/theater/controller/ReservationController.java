@@ -36,7 +36,7 @@ public class ReservationController {
 
         ResevationListSeatsDTO combinedReservation = reservationService.getCombinedReservationsByPerformanceId(performanceId);
         if (combinedReservation.getSeatIds() == null || combinedReservation.getSeatIds().isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 No Content ako nema rezervacija
+            return ResponseEntity.noContent().build(); 
         }
         return ResponseEntity.ok(combinedReservation);
     }

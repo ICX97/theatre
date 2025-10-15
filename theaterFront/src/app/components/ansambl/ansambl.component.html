@@ -2,7 +2,7 @@
   <div class="actor-grid">
     <div *ngFor="let actor of actors" 
          class="actor-card" 
-         (click)="goToActor(actor.ensembleId)" 
+         (click)="goToActor(actor.ensembleId!)" 
          (mouseover)="actor.hovered = true" 
          (mouseout)="actor.hovered = false">
       

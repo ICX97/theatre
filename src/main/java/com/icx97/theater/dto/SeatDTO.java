@@ -7,7 +7,7 @@ public class SeatDTO {
     private Long seatId;
     private Long hallId;
     private String seatNumber;
-    private Long seatTypeId;  // Reference to seat type
-    private Integer rowNum;  // Red u kojem se sedište nalazi
+    private Long seatTypeId;
+    private Integer rowNum; 
     private Boolean isReserved;
 }

@@ -8,15 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./slider.component.css']
 })
 export class SliderComponent implements OnInit {
-  slides: News[] = []; // Ovde čuvamo vesti
+  slides: News[] = []; 
   currentSlide = 0;
   
   // Drag properties
   isDragging = false;
   startX = 0;
   currentX = 0;
-  dragThreshold = 50; // Minimum drag distance to trigger slide change
-  dragOffset = 0; // Current drag offset for smooth movement
+  dragThreshold = 50; 
+  dragOffset = 0; 
 
   constructor(private newsService: NewsService, private router: Router) {}
 

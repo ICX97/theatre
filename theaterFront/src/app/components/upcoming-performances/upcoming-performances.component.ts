@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PerformanceService } from '../../services/performance.service'; // Import the service
+import { PerformanceService } from '../../services/performance.service'; 
 import { Performance } from '../../models/performance.model';
 
 
@@ -19,7 +19,6 @@ export class UpcomingPerformancesComponent implements OnInit {
 
   fetchPerformances(): void {
     this.performanceService.getPerformances().subscribe((data) => {
-      // Sortiranje performansi po datumu (najranije prvo)
       this.performances = data.sort((a, b) => {
         const dateA = new Date(a.performance_date);
         const dateB = new Date(b.performance_date);

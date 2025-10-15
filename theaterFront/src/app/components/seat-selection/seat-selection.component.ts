@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { jwtDecode } from "jwt-decode";
 
 // Definišemo dozvoljene tipove sedišta
-type SeatTypeName = 'PARTER' | 'BALKON' | 'LOZA';
+type SeatTypeName = 'PARTER' | 'BALKON' | 'LOŽA';
 
 interface SeatDisplay {
   seatId: number;
@@ -45,11 +45,11 @@ export class SeatSelectionComponent implements OnInit {
   seatsByType: SeatsByType = {
     'PARTER': [],
     'BALKON': [],
-    'LOZA': []
+    'LOŽA': []
   };
   
   selectedSeats: SelectedSeats = {
-    'LOZA': 0,
+    'LOŽA': 0,
     'PARTER': 0,
     'BALKON': 0,
     totalPrice: 0
@@ -69,10 +69,8 @@ export class SeatSelectionComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.performanceId = id ? Number(id) : 0;
-    this.loadSeats();
     this.loadData();
     this.loadId();
-    this.loadReservations();
   }
 
   loadReservations(): void {
@@ -82,41 +80,47 @@ export class SeatSelectionComponent implements OnInit {
         },
         error => {
             console.error('Failed to load reservations', error);
+            // Ako nema rezervacija, to je u redu - samo nastavi
+            this.handleReservations([]);
         }
     );
   }
 
   handleReservations(reservations: ReservationDTO | ReservationDTO[]): void {
+    if (!reservations) {
+        return;
+    }
+
     if (!Array.isArray(reservations)) {
         // Ako je pojedinačan objekat, stavite ga u niz
         reservations = [reservations];
     }
 
     reservations.forEach(reservation => {
-        console.log('Processing reservation:', reservation);
+        
+        // Proverava da li je reservation null ili undefined
+        if (!reservation || !reservation.seatIds) {
+            console.warn('Invalid reservation object:', reservation);
+            return;
+        }
+
         reservation.seatIds.forEach(seatId => {
             const seat = this.findSeatById(seatId);
             if (seat) {
-                console.log(`Marking seat with ID ${seatId} as reserved`);
                 seat.isReserved = true;
             } else {
                 console.warn(`Seat with ID ${seatId} not found`);
             }
         });
     });
-
-    console.log('Seats updated:', this.seatsByType);
   }
 
 
 
 
   findSeatById(seatId: number): SeatDisplay | undefined {
-    console.log(`Searching for seat with ID: ${seatId}`);
-    console.log('Current seatsByType structure:', this.seatsByType);
 
     for (const type in this.seatsByType) {
-        console.log(`Checking type: ${type}`);
         if (!Array.isArray(this.seatsByType[type])) {
             console.warn(`Type ${type} is not an array or is undefined. Skipping...`);
             continue;
@@ -127,11 +131,9 @@ export class SeatSelectionComponent implements OnInit {
                 console.warn(`Row in type ${type} is not an array. Skipping...`);
                 continue;
             }
-            console.log(`Checking row:`, row);
 
             const seat = row.find(s => s.seatId === seatId);
             if (seat) {
-                console.log(`Found seat with ID: ${seatId}`);
                 return seat;
             }
         }
@@ -166,6 +168,9 @@ export class SeatSelectionComponent implements OnInit {
       (seats: Seat[]) => {
         this.organizeSeatsByType(seats);
         this.loadReservations();
+      },
+      error => {
+        console.error('Failed to load seats:', error);
       }
     );
   }
@@ -192,16 +197,20 @@ export class SeatSelectionComponent implements OnInit {
       };
   
       const seatTypeName = this.getSeatTypeName(seat.seatTypeId);
+      
       if (seatTypeName) {
         if (!tempSeatsByType[seatTypeName]) {
           tempSeatsByType[seatTypeName] = [];
         }
   
-        if (!tempSeatsByType[seatTypeName][seat.rowNum]) {
-          tempSeatsByType[seatTypeName][seat.rowNum] = [];
+        // Kreiraj red ako ne postoji
+        if (!tempSeatsByType[seatTypeName][seat.rowNum - 1]) {
+          tempSeatsByType[seatTypeName][seat.rowNum - 1] = [];
         }
   
-        tempSeatsByType[seatTypeName][seat.rowNum].push(seatDisplay);
+        tempSeatsByType[seatTypeName][seat.rowNum - 1].push(seatDisplay);
+      } else {
+        console.warn(`Unknown seat type ID: ${seat.seatTypeId} for seat ${seat.seatNumber}`);
       }
     });
   
@@ -209,10 +218,14 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getSeatTypeName (seatTypeId: number): SeatTypeName | null {
+    // Ispravljen mapping prema bazi podataka
     const seatTypeMap: { [key: number]: SeatTypeName } = {
-      1: 'PARTER',
-      2: 'BALKON',
-      3: 'LOZA'
+      1: 'PARTER',  // Hall 1 - PARTER
+      2: 'PARTER',  // Hall 2 - PARTER  
+      3: 'LOŽA',    // Hall 1 - LOŽA
+      4: 'LOŽA',    // Hall 2 - LOŽA
+      5: 'BALKON',  // Hall 1 - BALKON
+      6: 'BALKON'   // Hall 2 - BALKON
     };
     return seatTypeMap[seatTypeId] || null;
   }
@@ -230,15 +243,17 @@ export class SeatSelectionComponent implements OnInit {
 
   getSeatTypeId(section: SeatTypeName): number {
     const seatTypeMap: { [key: string]: number } = {
-      'PARTER': 1,
-      'BALKON': 2,
-      'LOZA': 3
+      'PARTER': 1,  // Koristimo ID 1 za PARTER (Hall 1)
+      'BALKON': 5,  // Koristimo ID 5 za BALKON (Hall 1)
+      'LOŽA': 3     // Koristimo ID 3 za LOŽA (Hall 1)
     };
     return seatTypeMap[section] || 0;
   }
 
   updateSelectedSeats() {
-    this.selectedSeats['LOZA'] = this.calculateSelectedSeats('LOZA');
+    this.selectedSeats['LOŽA'] = this.calculateSelectedSeats('LOŽA');
+    this.selectedSeats['PARTER'] = this.calculateSelectedSeats('PARTER');
+    this.selectedSeats['BALKON'] = this.calculateSelectedSeats('BALKON');
     this.selectedSeats.totalPrice = this.calculateTotalPrice();
   }
 
@@ -268,7 +283,16 @@ export class SeatSelectionComponent implements OnInit {
       };
   
       this.reservationService.createReservation(reservation).subscribe(response => {
-        console.log('Reservation successful:', response);
+        
+        // Nakon uspešne rezervacije, idi na Stripe plaćanje
+        const totalAmount = this.selectedSeats.totalPrice * 100; // Stripe koristi cente
+        const description = `Ulaznice za predstavu (${selectedSeats.length} sedišta)`;
+        
+        this.paymentService.pay(totalAmount, 'rsd', description).then(() => {
+        }).catch(error => {
+          console.error('Payment failed:', error);
+        });
+        
       }, error => {
         console.error('Reservation failed:', error);
       });

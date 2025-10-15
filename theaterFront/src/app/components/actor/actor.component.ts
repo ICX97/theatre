@@ -23,7 +23,6 @@ export class ActorComponent implements OnInit {
           imageSrc: 'assets/images/' + data.ensembleId + '.jpg', 
           hovered: false
         };
-        console.log('Actor data:', this.actor);
       });
     }
   }

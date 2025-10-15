@@ -5,15 +5,20 @@
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .performance-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.5);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
@@ -26,7 +31,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -37,7 +42,8 @@
 
 .performance-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 15px 40px rgba(220, 38, 38, 0.4);
+  border-color: rgba(220, 38, 38, 0.7);
 }
 
 .performance-image-container {
@@ -68,11 +74,11 @@
 }
 
 .performance-title {
-  color: white;
+  color: #ffffff;
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0 0 15px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
   text-align: center;
 }
 
@@ -87,14 +93,15 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #ffd700;
   font-size: 0.9rem;
   font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .date-icon, .time-icon, .hall-icon {
   font-size: 1rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
 .performance-info {
@@ -102,15 +109,17 @@
 }
 
 .performance-description {
-  color: #666;
+  color: #ffffff;
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
   text-align: center;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(220, 38, 38, 0.4);
   padding: 15px;
   border-radius: 10px;
   backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 /* Responsive Design */

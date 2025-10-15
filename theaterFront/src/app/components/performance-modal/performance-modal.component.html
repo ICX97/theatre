@@ -1,0 +1,138 @@
+<div *ngIf="isVisible" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">{{ isEditMode ? 'Edit Performance' : 'Delete Performance' }}</h3>
+      <button type="button" class="close-btn" (click)="closeModal()">
+        <span class="close-icon">&times;</span>
+      </button>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="modal-content">
+      
+      <!-- Edit Mode -->
+      <div *ngIf="isEditMode" class="edit-form">
+        <form>
+          <!-- Read-only fields (cannot be changed due to reservations) -->
+          <div class="readonly-section">
+            <h4 class="section-title">⚠️ Cannot be changed (has reservations)</h4>
+            <div class="form-row readonly-row">
+              <div class="form-group readonly">
+                <label for="editPerformanceDate">Performance Date</label>
+                <input type="date" id="editPerformanceDate" [value]="performance.performance_date | date:'yyyy-MM-dd'" readonly>
+                <span class="readonly-note">Date cannot be changed due to existing reservations</span>
+              </div>
+              
+              <div class="form-group readonly">
+                <label for="editHallId">Hall</label>
+                <input type="text" id="editHallId" [value]="'Hall ' + performance.hallId" readonly>
+                <span class="readonly-note">Hall cannot be changed due to existing reservations</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editable fields -->
+          <div class="editable-section">
+            <h4 class="section-title">✅ Can be edited</h4>
+            
+            <div class="form-row title-row">
+              <div class="form-group">
+                <label for="editPerformanceTitle">Performance Title</label>
+                <input type="text" id="editPerformanceTitle" [(ngModel)]="performance.performance_title" name="editPerformanceTitle" required>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="editDirector">Director</label>
+                <input type="text" id="editDirector" [(ngModel)]="performance.director" name="editDirector">
+              </div>
+              
+              <div class="form-group">
+                <label for="editAdaptation">Adaptation</label>
+                <input type="text" id="editAdaptation" [(ngModel)]="performance.adaptation" name="editAdaptation">
+              </div>
+              
+              <div class="form-group">
+                <label for="editDramaturg">Dramaturg</label>
+                <input type="text" id="editDramaturg" [(ngModel)]="performance.dramaturg" name="editDramaturg">
+              </div>
+              
+              <div class="form-group">
+                <label for="editScenographer">Scenographer</label>
+                <input type="text" id="editScenographer" [(ngModel)]="performance.scenographer" name="editScenographer">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="editCostumeDesigner">Costume Designer</label>
+                <input type="text" id="editCostumeDesigner" [(ngModel)]="performance.costumeDesigner" name="editCostumeDesigner">
+              </div>
+              
+              <div class="form-group">
+                <label for="editMusic">Music</label>
+                <input type="text" id="editMusic" [(ngModel)]="performance.music" name="editMusic">
+              </div>
+              
+              <div class="form-group">
+                <label for="editStageSpeech">Stage Speech</label>
+                <input type="text" id="editStageSpeech" [(ngModel)]="performance.stageSpeech" name="editStageSpeech">
+              </div>
+              
+              <div class="form-group">
+                <label for="editStageManager">Stage Manager</label>
+                <input type="text" id="editStageManager" [(ngModel)]="performance.stageManager" name="editStageManager">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="editDescription">Performance Description</label>
+              <textarea id="editDescription" [(ngModel)]="performance.performance_description" name="editDescription" rows="4"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Delete Mode -->
+      <div *ngIf="!isEditMode" class="delete-confirmation">
+        <div class="warning-icon">
+          <span class="warning">⚠️</span>
+        </div>
+        <h4>Are you sure you want to delete this performance?</h4>
+        <div class="performance-preview">
+          <h5>{{ performance.performance_title }}</h5>
+          <p class="performance-date">Date: {{ performance.performance_date | date:'yyyy-MM-dd' }}</p>
+          <p class="performance-hall">Hall: {{ performance.hallId }}</p>
+          <p class="performance-director" *ngIf="performance.director">Director: {{ performance.director }}</p>
+          <p class="performance-description">{{ performance.performance_description }}</p>
+        </div>
+        <div class="warning-section">
+          <p class="warning-text">⚠️ This will also delete:</p>
+          <ul class="warning-list">
+            <li>All ticket prices for this performance</li>
+            <li>All actor assignments to this performance</li>
+            <li><strong>All existing reservations (if any)</strong></li>
+          </ul>
+          <p class="warning-text"><strong>This action cannot be undone!</strong></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="cancel-btn" (click)="closeModal()">
+        <i class="btn-icon">❌</i>
+        Cancel
+      </button>
+      <button *ngIf="isEditMode" type="button" class="save-btn" (click)="onSave()">
+        <i class="btn-icon">💾</i>
+        Save Changes
+      </button>
+      <button *ngIf="!isEditMode" type="button" class="delete-btn" (click)="onDelete()">
+        <i class="btn-icon">🗑️</i>
+        Delete Performance
+      </button>
+    </div>
+  </div>
+</div>

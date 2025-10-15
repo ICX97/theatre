@@ -1,10 +1,10 @@
 export interface Actor {
-    ensembleId: number;
+    ensembleId?: number;
     firstName: string;
     lastName: string;
-    birthYear: string;
-    ensemble_description: string;
-    performances: string[];
+    birthYear: number | undefined;
+    ensemble_description?: string;
+    performances?: string[]; 
     hovered?: boolean;
     imageSrc?: string;
   }

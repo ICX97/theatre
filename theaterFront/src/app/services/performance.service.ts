@@ -32,4 +32,12 @@ export class PerformanceService {
   createTicketPrices(ticketPriceData: any): Observable<any> {
       return this.http.post<any>(`${this.apiUrlTicket}`, ticketPriceData);
   }
+
+  updatePerformance(id: number, performanceData: PerformanceDTO): Observable<PerformanceDTO> {
+    return this.http.put<PerformanceDTO>(`${this.apiUrl}/${id}`, performanceData);
+  }
+
+  deletePerformance(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

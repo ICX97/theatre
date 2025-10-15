@@ -1,6 +1,10 @@
 export interface EnsembleDto {
+    ensembleId?: number; 
     firstName: string; 
-    lastName: string; // Prezime glumca
-    birthYear: number | undefined; // Godina rođenja
-    ensemble_description?: string; // Opis glumca (opcionalno)
+    lastName: string; 
+    birthYear: number | undefined; 
+    ensemble_description?: string; 
+    performances?: string[]; 
+    hovered?: boolean;
+    imageSrc?: string;
 }

@@ -14,10 +14,11 @@ import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-pur
 import { SeatSelectionComponent } from './components/seat-selection/seat-selection.component';
 import { SingleNewsComponent } from './components/single-news/single-news.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },  // Default route
+  { path: '', component: HomeComponent }, 
   { path: 'history', component: HistoryComponent }, 
   { path: 'performances', component: PerformancesComponent },
   { path: 'news', component: NewsComponent },
@@ -30,7 +31,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'buy-ticket/:id', component: TicketPurchaseComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'actor/:id', component: ActorComponent }
+  { path: 'actor/:id', component: ActorComponent },
+  { path: 'verify-email', component: EmailVerificationComponent }
 ];
 
 @NgModule({

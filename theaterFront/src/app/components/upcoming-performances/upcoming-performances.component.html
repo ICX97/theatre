@@ -2,7 +2,7 @@
   <div *ngFor="let performance of performances; let i = index" class="performance-item">
     <h3>{{ performance.performance_date | date:'fullDate' }}</h3>
     <div class="performance-card" [style.backgroundImage]="'url(' + getImageSrc(performance.poster_image) + ')'">
-      <h2>Title: {{ performance.performance_title }}</h2>
+      <h3>Title: {{ performance.performance_title }}</h3>
       <p>Date: {{ performance.performance_date | date:'shortTime' }}</p>
       <p>Desc: {{ performance.performance_description }}</p>
       <p>Revenue: {{ performance.revenue | currency }}</p>

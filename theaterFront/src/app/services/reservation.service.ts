@@ -7,7 +7,7 @@ import { ReservationDTO } from '../dto/ReservationDto';
   providedIn: 'root'
 })
 export class ReservationService {
-  private apiUrl = '/api/reservations'; // Putanja do API-ja
+  private apiUrl = '/api/reservations'; 
 
   constructor(private http: HttpClient) { }
 

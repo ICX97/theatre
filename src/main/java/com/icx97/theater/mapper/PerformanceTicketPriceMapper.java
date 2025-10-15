@@ -10,12 +10,10 @@ import org.mapstruct.factory.Mappers;
 public interface PerformanceTicketPriceMapper {
     PerformanceTicketPriceMapper INSTANCE = Mappers.getMapper(PerformanceTicketPriceMapper.class);
 
-    // Model -> DTO
     @Mapping(source = "performance.performanceId", target = "performanceId")
     @Mapping(source = "seatType.seatTypeId", target = "seatTypeId")
     PerformanceTicketPriceDTO performanceTicketPriceToPerformanceTicketPriceDTO(PerformanceTicketPrice performanceTicketPrice);
 
-    // DTO -> Model
     @Mapping(source = "performanceId", target = "performance.performanceId")
     @Mapping(source = "seatTypeId", target = "seatType.seatTypeId")
     PerformanceTicketPrice performanceTicketPriceDTOToPerformanceTicketPrice(PerformanceTicketPriceDTO performanceTicketPriceDTO);

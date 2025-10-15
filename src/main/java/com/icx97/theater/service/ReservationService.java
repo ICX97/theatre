@@ -30,6 +30,7 @@ public class ReservationService {
     private final AppUserRepository appUserRepository;
     private final PerformanceRepository performanceRepository;
     private final SeatRepository seatRepository;
+    private final EmailService emailService;
 
 
     public List<ReservationDTO> getAllReservations() {
@@ -66,7 +67,6 @@ public class ReservationService {
                 combinedReservation.getSeatIds().add(reservation.getSeat().getSeatId());
             }
         } else {
-            // Ako nema rezervacija, možemo vratiti DTO sa praznom listom ili baciti izuzetak
             logger.warn("No reservations found for performance ID: {}", performanceId);
         }
 
@@ -76,7 +76,6 @@ public class ReservationService {
     public List<ReservationDTO> createReservation(ResevationListSeatsDTO reservationListSeatsDTO) {
         List<Reservation> reservations = new ArrayList<>();
 
-        // Preuzmi korisnika i predstavu
         AppUser user = appUserRepository.findById(reservationListSeatsDTO.getUserId())
                 .orElseThrow(() -> new CustomException("User  not found"));
         Performance performance = performanceRepository.findById(reservationListSeatsDTO.getPerformanceId())
@@ -86,7 +85,6 @@ public class ReservationService {
             Seat seat = seatRepository.findById(seatId)
                     .orElseThrow(() -> new CustomException("Seat not found"));
 
-            // Kreiraj novu rezervaciju
             Reservation reservation = new Reservation();
             reservation.setUser(user);
             reservation.setPerformance(performance);
@@ -96,8 +94,28 @@ public class ReservationService {
             reservations.add(reservation);
         }
 
-        // Sačuvaj sve rezervacije
         reservationRepository.saveAll(reservations);
+
+        try {
+            List<Seat> reservedSeats = reservations.stream()
+                    .map(Reservation::getSeat)
+                    .collect(Collectors.toList());
+
+            double totalAmount = 0.0;
+            for (Seat seat : reservedSeats) {
+                for (var ticketPrice : performance.getPerformanceTicketPrices()) {
+                    if (ticketPrice.getSeatType().getSeatTypeId().equals(seat.getSeatType().getSeatTypeId())) {
+                        totalAmount += ticketPrice.getPrice();
+                        break;
+                    }
+                }
+            }
+            
+            emailService.sendReservationConfirmationEmail(user, performance, reservedSeats, totalAmount);
+            logger.info("Reservation confirmation email sent to: {}", user.getUser_email());
+        } catch (Exception e) {
+            logger.error("Failed to send reservation confirmation email: {}", e.getMessage());
+        }
 
         List<ReservationDTO> reservationDTOs = new ArrayList<>();
         for (Reservation reservation : reservations) {

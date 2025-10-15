@@ -1,62 +1,72 @@
-<div class="seat-selection-container">
-    <h2 class="section-title">Izaberite sedišta</h2>
-    
-    <div class="theater-layout">
-
-        <!-- Centralni deo - Parter i Balkon -->
-        <div class="central-section">
-            <h3 class="section-subtitle">Parter</h3>
-            <div class="seats-grid horizontal-layout">
-                <div *ngFor="let row of seatsByType['PARTER']; let rowIndex = index" class="seat-row">
-                    <div class="row-label">Red {{ rowIndex + 1 }}</div>
-                    <div class="seats-container">
-                        <div *ngFor="let seat of row" 
-                             class="seat" 
-                             [class.selected]="seat.isSelected"
-                             [class.reserved]="seat.isReserved"
-                             (click)="toggleSeatSelection(seat, 'PARTER')">
-                            <span class="seat-number">{{ seat.seatNumber }}</span>
-                            <span class="seat-price">{{ seat.price }} RSD</span>
+<div class="seat-selection-wrapper">
+    <div class="seat-selection-container">
+        <h2 class="section-title">Izaberite sedišta</h2>
+        
+        <div class="theater-layout">
+            <!-- Loža sa leve strane -->
+            <div class="lodges-section">
+                <h3 class="section-subtitle">Lože</h3>
+                <div class="seats-grid vertical-layout">
+                    <div *ngFor="let row of seatsByType['LOŽA']; let rowIndex = index" class="seat-row">
+                        <div class="row-label">Red {{ rowIndex + 1 }}</div>
+                        <div class="seats-container">
+                            <div *ngFor="let seat of row" 
+                                class="seat" 
+                                [class.selected]="seat.isSelected"
+                                [class.reserved]="seat.isReserved"
+                                (click)="toggleSeatSelection(seat, 'LOŽA')">
+                                <span class="seat-number">{{ seat.seatNumber }}</span>
+                                <span class="seat-price">{{ seat.price }} RSD</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <h3 class="section-subtitle">Balkon</h3>
-            <div class="seats-grid horizontal-layout">
-                <div *ngFor="let row of seatsByType['BALKON']; let rowIndex = index" class="seat-row">
-                    <div class="row-label">Red {{ rowIndex + 1 }}</div>
-                    <div class="seats-container">
-                        <div *ngFor="let seat of row" 
-                             class="seat" 
-                             [class.selected]="seat.isSelected"
-                             [class.reserved]="seat.isReserved"
-                             (click)="toggleSeatSelection(seat, 'BALKON')">
-                            <span class="seat-number">{{ seat.seatNumber }}</span>
-                            <span class="seat-price">{{ seat.price }} RSD</span>
+
+            <!-- Centralni deo - Parter i Balkon -->
+            <div class="central-section">
+                <!-- Parter iznad -->
+                <div class="parter-section">
+                    <h3 class="section-subtitle">Parter</h3>
+                    <div class="seats-grid horizontal-layout">
+                        <div *ngFor="let row of seatsByType['PARTER']; let rowIndex = index" class="seat-row">
+                            <div class="row-label">Red {{ rowIndex + 1 }}</div>
+                            <div class="seats-container">
+                                <div *ngFor="let seat of row" 
+                                    class="seat" 
+                                    [class.selected]="seat.isSelected"
+                                    [class.reserved]="seat.isReserved"
+                                    (click)="toggleSeatSelection(seat, 'PARTER')">
+                                    <span class="seat-number">{{ seat.seatNumber }}</span>
+                                    <span class="seat-price">{{ seat.price }} RSD</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="lodges">
-            <h3 class="section-subtitle">Lože</h3>
-            <div class="seats-grid horizontal-layout">
-                <div *ngFor="let row of seatsByType['LOZA']; let rowIndex = index" class="seat-row">
-                    <div class="row-label">Red {{ rowIndex + 1 }}</div>
-                    <div *ngFor="let seat of row" 
-                         class="seat" 
-                         [class.selected]="seat.isSelected"
-                         [class.reserved]="seat.isReserved"
-                         (click)="toggleSeatSelection(seat, 'LOZA')">
-                        <span class="seat-number">{{ seat.seatNumber }}</span>
-                        <span class="seat-price">{{ seat.price }} RSD</span>
+                <!-- Balkon ispod -->
+                <div class="balkon-section">
+                    <h3 class="section-subtitle">Balkon</h3>
+                    <div class="seats-grid horizontal-layout">
+                        <div *ngFor="let row of seatsByType['BALKON']; let rowIndex = index" class="seat-row">
+                            <div class="row-label">Red {{ rowIndex + 1 }}</div>
+                            <div class="seats-container">
+                                <div *ngFor="let seat of row" 
+                                    class="seat" 
+                                    [class.selected]="seat.isSelected"
+                                    [class.reserved]="seat.isReserved"
+                                    (click)="toggleSeatSelection(seat, 'BALKON')">
+                                    <span class="seat-number">{{ seat.seatNumber }}</span>
+                                    <span class="seat-price">{{ seat.price }} RSD</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Rezime -->
     <div class="fixed-summary">
         <h3 class="total-title">Ukupno za plaćanje</h3>
@@ -65,7 +75,7 @@
             <div class="summary-details">
                 <p>
                     <span>Loža:</span> 
-                    <span>{{ selectedSeats['LOZA'] }} sedišta</span>
+                    <span>{{ selectedSeats['LOŽA'] }} sedišta</span>
                 </p>
                 <p>
                     <span>Parter:</span> 
@@ -88,8 +98,7 @@
             </button>
         </div>
     </div>
-
-   <!-- Legenda -->
+</div>
 <div class="seat-legend">
     <div class="legend-item">
         <div class="seat-example available"></div>
@@ -103,19 +112,4 @@
         <div class="seat-example reserved"></div>
         <span>Rezervisano</span>
     </div>
-
-    <!-- Cena za svaki tip sedišta -->
-    <div class="legend-item">
-        <span>Parter cena:</span>
-        <span>{{ getPriceForSection('PARTER') }} RSD</span>
-    </div>
-    <div class="legend-item">
-        <span>Balkon cena:</span>
-        <span>{{ getPriceForSection('BALKON') }} RSD</span>
-    </div>
-    <div class="legend-item">
-        <span>Loža cena:</span>
-        <span>{{ getPriceForSection('LOZA') }} RSD</span>
-    </div>
-</div>
 </div>

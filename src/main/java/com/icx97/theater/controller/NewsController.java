@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +46,6 @@ public class NewsController {
             @RequestParam("newsDescription") String newsDescription,
             @RequestParam(value = "newsImage", required = false) MultipartFile newsImage
     ) throws IOException {
-
         NewsDto newsDto = new NewsDto();
         newsDto.setNewsTitle(newsTitle);
         newsDto.setNewsDate(newsDate);
@@ -56,8 +58,23 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<NewsDto> updateNews(@PathVariable Long id, @RequestBody NewsDto newsDto) {
+    public ResponseEntity<NewsDto> updateNews(
+            @PathVariable Long id,
+            @RequestParam("newsTitle") String newsTitle,
+            @RequestParam("newsDate") Date newsDate,
+            @RequestParam("newsDescription") String newsDescription,
+            @RequestParam(value = "newsImage", required = false) MultipartFile newsImage
+    ) throws IOException {
         logger.info("Received request to update news with id {}", id);
+        
+        NewsDto newsDto = new NewsDto();
+        newsDto.setNewsTitle(newsTitle);
+        newsDto.setNewsDate(newsDate);
+        newsDto.setNewsDescription(newsDescription);
+        if (newsImage != null && !newsImage.isEmpty()) {
+            newsDto.setNewsImage(newsImage.getBytes());
+        }
+        
         return ResponseEntity.ok(newsService.updateNews(id, newsDto));
     }
 

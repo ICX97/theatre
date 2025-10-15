@@ -1,8 +1,13 @@
 <div *ngIf="actor" class="actor-container">
-  <img [src]="actor.imageSrc" 
-       (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
-       alt="{{ actor.firstName }} {{ actor.lastName }}" 
-       class="actor-image" />
-       <h1 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h1>
-  <p class="actor-description">{{ actor.ensemble_description }}</p>
+  <div class="actor-left">
+    <img [src]="actor.imageSrc" 
+         (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
+         alt="{{ actor.firstName }} {{ actor.lastName }}" 
+         class="actor-image" />
+    <h1 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h1>
+    <p class="actor-birth-date" *ngIf="actor.birthYear">Godina rođenja: {{ actor.birthYear }}</p>
+  </div>
+  <div class="actor-right">
+    <p class="actor-description">{{ actor.ensemble_description }}</p>
+  </div>
 </div>

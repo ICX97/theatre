@@ -14,6 +14,6 @@ public class StripeConfig {
 
     @PostConstruct
     public void init() {
-        Stripe.apiKey = secretKey;  // Postavi tajni ključ Stripe-a
+        Stripe.apiKey = secretKey; 
     }
 }

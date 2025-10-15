@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 
 @Data
 public class TicketPriceDTO {
-    private String seatType; // Naziv tipa sedišta
-    private BigDecimal price; // Cena
+    private String seatType; 
+    private BigDecimal price; 
 }

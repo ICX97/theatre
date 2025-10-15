@@ -34,7 +34,7 @@ public class PerformanceService {
         List<Performance> performances = performanceRepository.findAll();
         return performances.stream()
                 .map(performanceMapper::performanceToPerformanceDTO)
-                .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date())) // Sortiranje po datumu (najranije prvo)
+                .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date())) 
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +53,21 @@ public class PerformanceService {
             performanceDTO.setCreated_at(performance.getCreated_at());
             performanceDTO.setUpdated_at(performance.getUpdated_at());
             performanceDTO.setPoster_image(performance.getPoster_image());
-            // Pronađi cene karata po predstavi
+            performanceDTO.setDirector(performance.getDirector());
+            performanceDTO.setAdaptation(performance.getAdaptation());
+            performanceDTO.setDramaturg(performance.getDramaturg());
+            performanceDTO.setScenographer(performance.getScenographer());
+            performanceDTO.setCostumeDesigner(performance.getCostumeDesigner());
+            performanceDTO.setMusic(performance.getMusic());
+            performanceDTO.setStageSpeech(performance.getStageSpeech());
+            performanceDTO.setStageManager(performance.getStageManager());
+            
+            List<Long> actorIds = ensemblePerformanceRepository.findByPerformance_PerformanceId(performance.getPerformanceId())
+                    .stream()
+                    .map(ensemblePerformance -> ensemblePerformance.getEnsemble().getEnsembleId())
+                    .collect(Collectors.toList());
+            performanceDTO.setActors(actorIds);
+            
             List<PerformanceTicketPriceDTO> ticketPrices = performanceTicketPriceRepository.findByPerformance_PerformanceId(performance.getPerformanceId())
                     .stream()
                     .map(ticketPrice -> {
@@ -69,7 +83,7 @@ public class PerformanceService {
             performanceDTO.setTicketPrices(ticketPrices);
             return performanceDTO;
         })
-        .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date())) // Sortiranje po datumu (najranije prvo)
+        .sorted((p1, p2) -> p1.getPerformance_date().compareTo(p2.getPerformance_date()))
         .collect(Collectors.toList());
     }
 
@@ -77,18 +91,38 @@ public class PerformanceService {
         logger.info("Fetching performance with id: {}", id);
         Performance performance = performanceRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Performance with id: " + id + " does not exist"));
-        return performanceMapper.performanceToPerformanceDTO(performance);
+        
+        PerformanceDTO performanceDTO = performanceMapper.performanceToPerformanceDTO(performance);
+        
+        List<Long> actorIds = ensemblePerformanceRepository.findByPerformance_PerformanceId(performance.getPerformanceId())
+                .stream()
+                .map(ensemblePerformance -> ensemblePerformance.getEnsemble().getEnsembleId())
+                .collect(Collectors.toList());
+        performanceDTO.setActors(actorIds);
+        
+        List<PerformanceTicketPriceDTO> ticketPrices = performanceTicketPriceRepository.findByPerformance_PerformanceId(performance.getPerformanceId())
+                .stream()
+                .map(ticketPrice -> {
+                    PerformanceTicketPriceDTO priceDTO = new PerformanceTicketPriceDTO();
+                    priceDTO.setPerformanceTicketPriceId(ticketPrice.getPerformanceTicketPriceId());
+                    priceDTO.setPerformanceId(ticketPrice.getPerformance().getPerformanceId());
+                    priceDTO.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
+                    priceDTO.setPrice(ticketPrice.getPrice());
+                    return priceDTO;
+                })
+                .collect(Collectors.toList());
+        performanceDTO.setTicketPrices(ticketPrices);
+        
+        return performanceDTO;
     }
 
     public PerformanceDTO createPerformance(PerformanceDTO performanceDTO) {
         logger.info("Creating new performance: {}", performanceDTO);
 
         try {
-            // Prvo dohvati Hall objekat na osnovu hallId
             Hall hall = hallRepository.findById(performanceDTO.getHallId())
                     .orElseThrow(() -> new CustomException("Hall with id: " + performanceDTO.getHallId() + " does not exist"));
 
-            // Kreiraj Performance objekat
             Performance performance = new Performance();
             performance.setPerformance_title(performanceDTO.getPerformance_title());
             performance.setPerformance_description(performanceDTO.getPerformance_description());
@@ -98,9 +132,7 @@ public class PerformanceService {
             performance.setCreated_at(performanceDTO.getCreated_at());
             performance.setUpdated_at(performanceDTO.getUpdated_at());
             
-            // Konvertuj poster_image ako je base64 string
             if (performanceDTO.getPoster_image() != null) {
-                // Ako je string (base64), konvertuj u byte array
                 if (performanceDTO.getPoster_image() instanceof String) {
                     String base64String = (String) performanceDTO.getPoster_image();
                     if (!base64String.isEmpty()) {
@@ -115,7 +147,6 @@ public class PerformanceService {
                         performance.setPoster_image(null);
                     }
                 } else if (performanceDTO.getPoster_image() instanceof byte[]) {
-                    // Ako je već byte array
                     performance.setPoster_image((byte[]) performanceDTO.getPoster_image());
                 } else {
                     logger.warn("Unknown type for poster_image: {}", performanceDTO.getPoster_image().getClass().getName());
@@ -136,7 +167,6 @@ public class PerformanceService {
             Performance savedPerformance = performanceRepository.save(performance);
             logger.info("Performance saved with ID: {}", savedPerformance.getPerformanceId());
 
-            // Popunjavanje ensemble_performance tabele sa glumcima
             if (performanceDTO.getActors() != null && !performanceDTO.getActors().isEmpty()) {
                 logger.info("Adding {} actors to performance", performanceDTO.getActors().size());
                 for (Long actorId : performanceDTO.getActors()) {

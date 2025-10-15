@@ -44,6 +44,98 @@
         </div>
     </div>
 
+    <!-- News Management Section (Admin only) -->
+    <div class="news-management-section">
+        <div class="section-header">
+            <button type="button" class="dropdown-toggle" (click)="toggleNewsManagement()">
+                <span class="section-title">Manage News</span>
+                <i class="dropdown-arrow" [class.rotated]="showNewsManagement">▼</i>
+            </button>
+        </div>
+        
+        <!-- News List with Pagination -->
+        <div class="news-list" [class.collapsed]="!showNewsManagement">
+            <div *ngFor="let news of paginatedNews" class="news-item">
+                <div class="news-content">
+                    <h4>{{ news.newsTitle }}</h4>
+                    <p class="news-date">{{ news.newsDate | date:'yyyy-MM-dd' }}</p>
+                    <p class="news-description">{{ news.newsDescription }}</p>
+                </div>
+                <div class="news-actions">
+                    <button type="button" class="edit-btn" (click)="openEditNewsModal(news)">
+                        <i class="btn-icon">✏️</i>
+                        Edit
+                    </button>
+                    <button type="button" class="delete-btn" (click)="openDeleteNewsModal(news)">
+                        <i class="btn-icon">🗑️</i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="totalPages > 1" class="pagination-container" [class.collapsed]="!showNewsManagement">
+            <div class="pagination-controls">
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasPreviousPage"
+                        (click)="previousPage()">
+                    <i class="btn-icon">←</i>
+                    Previous
+                </button>
+                
+                <div class="page-numbers">
+                    <button *ngFor="let page of getPageNumbers()" 
+                            type="button"
+                            class="page-number-btn"
+                            [class.active]="page === currentPage"
+                            (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+                </div>
+                
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasNextPage"
+                        (click)="nextPage()">
+                    Next
+                    <i class="btn-icon">→</i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Modal Component -->
+    <app-news-modal
+        [isVisible]="showEditNewsModal"
+        [news]="editNews"
+        [mode]="modalMode"
+        (close)="closeEditModals()"
+        (save)="onNewsSave($event)"
+        (delete)="onNewsDelete($event)">
+    </app-news-modal>
+
+    <!-- Actor Modal Component -->
+    <app-actor-modal
+        [isVisible]="showEditActorModal"
+        [actor]="editActor"
+        [mode]="modalMode"
+        (close)="closeEditModals()"
+        (save)="onActorSave($event)"
+        (delete)="onActorDelete($event)">
+    </app-actor-modal>
+
+    <!-- Performance Modal Component -->
+    <app-performance-modal
+        [isVisible]="showEditPerformanceModal"
+        [performance]="editPerformance"
+        [mode]="modalMode"
+        (close)="closeEditModals()"
+        (save)="onPerformanceSave($event)"
+        (delete)="onPerformanceDelete($event)">
+    </app-performance-modal>
+
     <!-- Add Performance Section -->
     <div class="performance-section">
         <h2>Add Performance</h2>
@@ -167,8 +259,7 @@
                               [(ngModel)]="selectedActors"
                               optionLabel="label"
                               optionValue="value"
-                              placeholder=" "
-                              (onChange)="logSelectedActors()">
+                              placeholder=" ">
                             </p-multiSelect>
                         </div>
                     </div>
@@ -178,12 +269,81 @@
                 <input type="hidden" [(ngModel)]="performance.updated_at" name="updated_at">
                 
                 <div class="form-actions">
-                    <button type="submit" class="add-performance-btn">
-                        <i class="btn-icon">🎬</i>
-                        Add Performance
+                    <button type="submit" class="add-performance-btn" [disabled]="isCreatingPerformance">
+                        <div *ngIf="isCreatingPerformance" class="spinner"></div>
+                        <i *ngIf="!isCreatingPerformance" class="btn-icon">🎬</i>
+                        {{ isCreatingPerformance ? 'Creating...' : 'Add Performance' }}
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Performance Management Section (Admin only) -->
+    <div class="performance-management-section">
+        <div class="section-header">
+            <button type="button" class="dropdown-toggle" (click)="togglePerformanceManagement()">
+                <span class="section-title">Manage Performances</span>
+                <i class="dropdown-arrow" [class.rotated]="showPerformanceManagement">▼</i>
+            </button>
+        </div>
+        
+        <!-- Performance List with Pagination -->
+        <div class="performance-list" [class.collapsed]="!showPerformanceManagement">
+            <div *ngFor="let performance of paginatedPerformances" class="performance-item">
+                <div class="performance-content">
+                    <h4>{{ performance.performance_title }}</h4>
+                    <p class="performance-date">Date: {{ performance.performance_date | date:'yyyy-MM-dd' }}</p>
+                    <p class="performance-hall">Hall: {{ performance.hallId }}</p>
+                    <p class="performance-actors" *ngIf="performance.actors && performance.actors.length > 0">
+                        Actors: {{ getActorsNames(performance.actors) }}
+                    </p>
+                    <p class="performance-ticket-prices" *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0">
+                        Ticket Prices: {{ getTicketPricesInfo(performance.ticketPrices) }}
+                    </p>
+                </div>
+                <div class="performance-actions">
+                    <button type="button" class="edit-btn" (click)="openEditPerformanceModal(performance)">
+                        <i class="btn-icon">✏️</i>
+                        Edit
+                    </button>
+                    <button type="button" class="delete-btn" (click)="openDeletePerformanceModal(performance)">
+                        <i class="btn-icon">🗑️</i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="totalPerformancePages > 1" class="pagination-container" [class.collapsed]="!showPerformanceManagement">
+            <div class="pagination-controls">
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasPreviousPerformancePage"
+                        (click)="previousPerformancePage()">
+                    <i class="btn-icon">←</i>
+                    Previous
+                </button>
+                
+                <div class="page-numbers">
+                    <button *ngFor="let page of getPerformancePageNumbers()" 
+                            type="button"
+                            class="page-number-btn"
+                            [class.active]="page === currentPerformancePage"
+                            (click)="goToPerformancePage(page)">
+                        {{ page }}
+                    </button>
+                </div>
+                
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasNextPerformancePage"
+                        (click)="nextPerformancePage()">
+                    Next
+                    <i class="btn-icon">→</i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -225,6 +385,68 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Actor Management Section (Admin only) -->
+    <div class="actor-management-section">
+        <div class="section-header">
+            <button type="button" class="dropdown-toggle" (click)="toggleActorManagement()">
+                <span class="section-title">Manage Actors</span>
+                <i class="dropdown-arrow" [class.rotated]="showActorManagement">▼</i>
+            </button>
+        </div>
+        
+        <!-- Actor List with Pagination -->
+        <div class="actor-list" [class.collapsed]="!showActorManagement">
+            <div *ngFor="let actor of paginatedActors" class="actor-item">
+                <div class="actor-content">
+                    <h4>{{ actor.firstName }} {{ actor.lastName }}</h4>
+                    <p class="actor-birth-year" *ngIf="actor.birthYear">Born: {{ actor.birthYear }}</p>
+                    <p class="actor-description">{{ actor.ensemble_description }}</p>
+                </div>
+                <div class="actor-actions">
+                    <button type="button" class="edit-btn" (click)="openEditActorModal(actor)">
+                        <i class="btn-icon">✏️</i>
+                        Edit
+                    </button>
+                    <button type="button" class="delete-btn" (click)="openDeleteActorModal(actor)">
+                        <i class="btn-icon">🗑️</i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="totalActorPages > 1" class="pagination-container" [class.collapsed]="!showActorManagement">
+            <div class="pagination-controls">
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasPreviousActorPage"
+                        (click)="previousActorPage()">
+                    <i class="btn-icon">←</i>
+                    Previous
+                </button>
+                
+                <div class="page-numbers">
+                    <button *ngFor="let page of getActorPageNumbers()" 
+                            type="button"
+                            class="page-number-btn"
+                            [class.active]="page === currentActorPage"
+                            (click)="goToActorPage(page)">
+                        {{ page }}
+                    </button>
+                </div>
+                
+                <button type="button" 
+                        class="pagination-btn" 
+                        [disabled]="!hasNextActorPage"
+                        (click)="nextActorPage()">
+                    Next
+                    <i class="btn-icon">→</i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

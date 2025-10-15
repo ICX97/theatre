@@ -72,7 +72,7 @@ public class SeatService {
         seat.setIsReserved(seatDTO.getIsReserved());
         Hall hall = hallRepository.findById(seatDTO.getHallId())
                 .orElseThrow(() -> new CustomException("Hall with id: " + seatDTO.getHallId() + " does not exist"));
-        seat.setHall(hall); // Assuming Hall constructor or setter
+        seat.setHall(hall);
         SeatType seatType = seatTypeRepository.findById(seatDTO.getSeatTypeId())
                 .orElseThrow(() -> new CustomException("SeatType with id: " + seatDTO.getSeatTypeId() + " does not exist"));
         seat.setSeatType(seatType);

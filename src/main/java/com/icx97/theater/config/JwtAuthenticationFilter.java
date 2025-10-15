@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (requestURI.contains("/api/auth/register") || 
             requestURI.contains("/api/auth/login") || 
             requestURI.contains("/api/auth/test") ||
-            requestURI.contains("/api/performances") && request.getMethod().equals("POST")) {
+            requestURI.contains("/api/performances")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -81,7 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.get("role", String.class); // Izvlačimo rolu iz tokena
+        return claims.get("role", String.class);
     }
 
     private boolean validateToken(String token) {

@@ -17,7 +17,7 @@ export class AnsamblComponent {
     this.ensembleService.getAllActors().subscribe((data: Actor[]) => {
       this.actors = data.map(actor => ({
         ...actor,
-        imageSrc: 'assets/images/' + actor.ensembleId + '.jpg',
+        imageSrc: 'assets/images/' + (actor.ensembleId || 0) + '.jpg',
         hovered: false 
       }));
     });

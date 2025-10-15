@@ -32,8 +32,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewsService } from './services/news.service';
 import { PerformanceService } from './services/performance.service';
 import { EnsembleService } from './services/ensemble.service';
+import { PaymentService } from './services/payment.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { NewsModalComponent } from './components/news-modal/news-modal.component';
+import { ActorModalComponent } from './components/actor-modal/actor-modal.component';
+import { PerformanceModalComponent } from './components/performance-modal/performance-modal.component';
+import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
+import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +63,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
     TicketPurchaseComponent,
     SeatSelectionComponent,
     SingleNewsComponent,
-    DashboardComponent
+    DashboardComponent,
+    NewsModalComponent,
+    ActorModalComponent,
+    PerformanceModalComponent,
+    AuthModalComponent,
+    EmailVerificationComponent
   ],
   imports: [
     BrowserModule,
@@ -69,11 +80,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
     RouterModule.forRoot([])
   ],
   providers: [
-    provideHttpClient(withFetch()),  // Omogućeno korišćenje fetch API-a
+    provideHttpClient(withFetch()),
     provideClientHydration(),
     NewsService,
     PerformanceService,
     EnsembleService,
+    PaymentService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],

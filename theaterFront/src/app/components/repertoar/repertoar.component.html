@@ -38,24 +38,39 @@
                 
                 <div class="performance-info">
                     <h2 class="performance-title">{{ performance.performance_title }}</h2>
-                    <p class="performance-description">{{ performance.performance_description }}</p>
                     
-                    <div *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0" class="ticket-prices">
-                        <h3 class="prices-title">Cene karata:</h3>
-                        <div class="price-list">
-                            <div *ngFor="let price of performance.ticketPrices" class="price-item">
-                                <div class="price-row">
-                                    <span class="seat-type">{{ getSeatTypeName(price.seatTypeId) }}:</span>
-                                    <span class="price-value">{{ price.price }} RSD</span>
+                    <div class="description-prices-row">
+                        <div class="description-section">
+                            <p class="performance-description">{{ performance.performance_description }}</p>
+                        </div>
+                        
+                        <div *ngIf="performance.ticketPrices && performance.ticketPrices.length > 0" class="ticket-prices">
+                            <h3 class="prices-title">Cene karata:</h3>
+                            <div class="price-list">
+                                <div *ngFor="let price of performance.ticketPrices" class="price-item">
+                                    <div class="price-row">
+                                        <span class="seat-type">{{ getSeatTypeName(price.seatTypeId) }}:</span>
+                                        <span class="price-value">{{ price.price }} RSD</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="performance-actions">
+                <button class="purchase-btn" (click)="purchaseTickets(performance.performanceId)">
+                    <span class="btn-icon">🎫</span>
+                    <span class="btn-text">Kupi ulaznice</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-
-  
+<!-- Auth Modal -->
+<app-auth-modal
+    [isVisible]="showAuthModal"
+    (close)="closeAuthModal()">
+</app-auth-modal>
