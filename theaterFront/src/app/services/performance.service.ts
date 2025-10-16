@@ -8,8 +8,8 @@ import { PerformanceDTO } from '../dto/PerfomanceDto';
   providedIn: 'root',
 })
 export class PerformanceService {
-  private apiUrl = 'http://localhost:8080/api/performances';
-  private apiUrlTicket = 'http://localhost:8080/api/performance-ticket-prices';
+  private apiUrl = '/api/performances';
+  private apiUrlTicket = '/api/performance-ticket-prices';
 
   constructor(private http: HttpClient) {}
 
