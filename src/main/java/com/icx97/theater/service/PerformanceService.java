@@ -176,6 +176,8 @@ public class PerformanceService {
                     EnsemblePerformance ensemblePerformance = new EnsemblePerformance();
                     ensemblePerformance.setEnsemble(ensemble);
                     ensemblePerformance.setPerformance(savedPerformance);
+                    EnsemblePerformanceId id = new EnsemblePerformanceId(actorId, savedPerformance.getPerformanceId());
+                    ensemblePerformance.setId(id);
 
                     ensemblePerformanceRepository.save(ensemblePerformance);
                     logger.info("Added actor {} to performance", actorId);
