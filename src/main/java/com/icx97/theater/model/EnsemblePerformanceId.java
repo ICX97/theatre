@@ -34,7 +34,7 @@ public class EnsemblePerformanceId implements Serializable {
     }
 
     public void setPerformanceId(Long performanceId) {
-        this.performance_id = performance_id;
+        this.performance_id = performanceId;
     }
 
     @Override

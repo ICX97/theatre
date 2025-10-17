@@ -29,25 +29,32 @@
   z-index: 1;
   color: #ffffff;
   transition: color 0.3s ease, background-color 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px); 
 }
 
 
 .news-image {
   width: 100%;
-  height: auto; /* Održava proporciju */
+  height: 100%; 
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  object-fit: cover;
+  object-fit: cover; 
+  object-position: center;
   opacity: 0; /* Inicijalno skrivena slika */
   transition: opacity 0.3s ease;
   z-index: 0; /* Iza overlaya */
 }
 
 .news-item:hover .news-image {
-  opacity: 1; /* Prikazivanje slike pri hoveru */
+  opacity: 0.8;
+}
+
+.news-item:hover .overlay {
+  background: rgba(0, 0, 0, 0.6); /* Tamnija pozadina na hover */
 }
 
 .news-date {

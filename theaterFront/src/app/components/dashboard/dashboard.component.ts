@@ -85,6 +85,11 @@ export class DashboardComponent implements OnInit {
   // Loading state
   isCreatingPerformance: boolean = false;
   
+  // File upload states
+  selectedNewsImage: string = '';
+  selectedPerformanceImage: string = '';
+  selectedActorImage: string = '';
+  
   // Edit objects
   editPerformance: PerformanceDTO = {} as PerformanceDTO;
   editNews: News = {} as News;
@@ -132,9 +137,17 @@ export class DashboardComponent implements OnInit {
     if (this.news.newsImage) {
       formData.append('newsImage', this.news.newsImage);
     }
-    this.newsService.createNews(formData).subscribe(response => {
-
-      this.news = { newsTitle: '', newsDate: new Date(), newsDescription: '', newsImage: '' };
+    this.newsService.createNews(formData).subscribe({
+      next: (response) => {
+        this.news = { newsTitle: '', newsDate: new Date(), newsDescription: '', newsImage: '' };
+        this.selectedNewsImage = ''; // Reset image name
+        alert('Vest je uspešno dodana!');
+        this.loadNews(); 
+      },
+      error: (error) => {
+        console.error('Error creating news:', error);
+        alert('Greška pri kreiranju vesti: ' + error.message);
+      }
     });
   }
 
@@ -142,6 +155,7 @@ export class DashboardComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.news.newsImage = file;
+      this.selectedNewsImage = file.name;
     }
   }
 
@@ -149,6 +163,7 @@ export class DashboardComponent implements OnInit {
   onFileSelectPerformance(event: any) {
       const file = event.target.files[0];
       if (file) {
+        this.selectedPerformanceImage = file.name;
         const reader = new FileReader();
         reader.onload = (e: any) => {
           const base64String = e.target.result.split(',')[1];
@@ -157,6 +172,14 @@ export class DashboardComponent implements OnInit {
         reader.readAsDataURL(file);
       }
     }
+
+  onFileSelectActor(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedActorImage = file.name;
+      this.ensemble.actorImage = file; // Dodajemo sliku u ensemble objekat
+    }
+  }
 
   addPerformance() {
     this.isCreatingPerformance = true;
@@ -219,6 +242,7 @@ export class DashboardComponent implements OnInit {
                 poster_image: ''
               };
               this.selectedActors = [];
+              this.selectedPerformanceImage = ''; // Reset image name
               this.parterPrice = undefined;
               this.balkonPrice = undefined;
               this.lozaPrice = undefined;
@@ -234,8 +258,27 @@ export class DashboardComponent implements OnInit {
   }
 
   addActor() {
-    this.ensembleService.createEnsemble(this.ensemble).subscribe(response => {
-      this.ensemble = { firstName: '', lastName: '', birthYear: undefined, ensemble_description: '' };
+    const formData = new FormData();
+    formData.append('firstName', this.ensemble.firstName || '');
+    formData.append('lastName', this.ensemble.lastName || '');
+    formData.append('birthYear', this.ensemble.birthYear?.toString() || '');
+    formData.append('ensemble_description', this.ensemble.ensemble_description || '');
+    
+    if (this.ensemble.actorImage) {
+      formData.append('actorImage', this.ensemble.actorImage);
+    }
+
+    this.ensembleService.createEnsemble(formData).subscribe({
+      next: (response) => {
+        this.ensemble = { firstName: '', lastName: '', birthYear: undefined, ensemble_description: '' };
+        this.selectedActorImage = ''; // Reset image name
+        alert('Glumac je uspešno dodat!');
+        this.loadActors();
+      },
+      error: (error) => {
+        console.error('Error creating actor:', error);
+        alert('Greška pri kreiranju glumca: ' + error.message);
+      }
     });
   }
 

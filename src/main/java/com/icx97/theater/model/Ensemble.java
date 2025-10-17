@@ -24,6 +24,10 @@ public class Ensemble {
     @Column(length = 10000)
     private String ensemble_description;
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] actorImage;
+
     @OneToMany(mappedBy = "ensemble", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EnsemblePerformance> ensemblePerformances;
 }

@@ -102,7 +102,8 @@ CREATE TABLE theatre.ensemble (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birth_year INT NOT NULL,
-    ensemble_description TEXT
+    ensemble_description TEXT,
+    actor_image LONGBLOB
 );
 
 -- Tabela za povezivanje ansambla sa predstavama

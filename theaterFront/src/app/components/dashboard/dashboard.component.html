@@ -28,7 +28,7 @@
                             <input type="file" id="newsImage" (change)="onFileSelectNews($event)" name="newsImage" accept="image/*">
                             <div class="file-upload-label">
                                 <i class="upload-icon">📷</i>
-                                <span>Choose image</span>
+                                <span>{{ selectedNewsImage ? 'Imported: ' + selectedNewsImage : 'Choose image' }}</span>
                             </div>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                                 <input type="file" id="poster_image" (change)="onFileSelectPerformance($event)" name="poster_image" accept="image/*">
                                 <div class="file-upload-label">
                                     <i class="upload-icon">🎭</i>
-                                    <span>Choose poster</span>
+                                    <span>{{ selectedPerformanceImage ? 'Imported: ' + selectedPerformanceImage : 'Choose poster' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -375,6 +375,20 @@
                     <div class="form-group description-group">
                         <label for="ensembleDescription">Description</label>
                         <textarea id="ensembleDescription" [(ngModel)]="ensemble.ensemble_description" name="ensembleDescription" placeholder="Enter description" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <!-- Treći red: Upload Image -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="actorImage">Upload Actor Image (optional)</label>
+                        <div class="file-upload-container">
+                            <input type="file" id="actorImage" (change)="onFileSelectActor($event)" name="actorImage" accept="image/*">
+                            <div class="file-upload-label">
+                                <i class="upload-icon">👤</i>
+                                <span>{{ selectedActorImage ? 'Imported: ' + selectedActorImage : 'Choose actor image' }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

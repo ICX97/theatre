@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,25 @@ public class EnsembleController {
     }
 
     @PostMapping
-    public ResponseEntity<EnsembleDto> createEnsemble(@RequestBody EnsembleDto ensembleDto) {
-        logger.info("Received request to create ensemble member: {}", ensembleDto);
+    public ResponseEntity<EnsembleDto> createEnsemble(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("birthYear") int birthYear,
+            @RequestParam("ensemble_description") String ensembleDescription,
+            @RequestParam(value = "actorImage", required = false) MultipartFile actorImage
+    ) throws IOException {
+        logger.info("Received request to create ensemble member: {} {}", firstName, lastName);
+        
+        EnsembleDto ensembleDto = new EnsembleDto();
+        ensembleDto.setFirstName(firstName);
+        ensembleDto.setLastName(lastName);
+        ensembleDto.setBirthYear(birthYear);
+        ensembleDto.setEnsemble_description(ensembleDescription);
+        
+        if (actorImage != null && !actorImage.isEmpty()) {
+            ensembleDto.setActorImage(actorImage.getBytes());
+        }
+        
         return ResponseEntity.ok(ensembleService.createEnsemble(ensembleDto));
     }
 

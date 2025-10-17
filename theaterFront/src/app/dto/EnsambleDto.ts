@@ -7,4 +7,5 @@ export interface EnsembleDto {
     performances?: string[]; 
     hovered?: boolean;
     imageSrc?: string;
+    actorImage?: File; 
 }

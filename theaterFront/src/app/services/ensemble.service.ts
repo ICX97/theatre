@@ -20,7 +20,7 @@ export class EnsembleService {
     return this.http.get<Actor>(`${this.apiUrl}/${id}`);
   }
 
-  createEnsemble(ensembleData: EnsembleDto): Observable<EnsembleDto> {
+  createEnsemble(ensembleData: EnsembleDto | FormData): Observable<EnsembleDto> {
     return this.http.post<EnsembleDto>(this.apiUrl, ensembleData);
   }
 
