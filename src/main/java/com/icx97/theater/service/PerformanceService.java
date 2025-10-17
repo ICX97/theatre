@@ -75,6 +75,7 @@ public class PerformanceService {
                         priceDTO.setPerformanceTicketPriceId(ticketPrice.getPerformanceTicketPriceId());
                         priceDTO.setPerformanceId(ticketPrice.getPerformance().getPerformanceId());
                         priceDTO.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
+                        priceDTO.setSeatTypeName(String.valueOf(ticketPrice.getSeatType().getSeatTypeName()));
                         priceDTO.setPrice(ticketPrice.getPrice());
                         return priceDTO;
                     })
@@ -107,6 +108,7 @@ public class PerformanceService {
                     priceDTO.setPerformanceTicketPriceId(ticketPrice.getPerformanceTicketPriceId());
                     priceDTO.setPerformanceId(ticketPrice.getPerformance().getPerformanceId());
                     priceDTO.setSeatTypeId(ticketPrice.getSeatType().getSeatTypeId());
+                    priceDTO.setSeatTypeName(String.valueOf(ticketPrice.getSeatType().getSeatTypeName()));
                     priceDTO.setPrice(ticketPrice.getPrice());
                     return priceDTO;
                 })

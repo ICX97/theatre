@@ -196,7 +196,7 @@ export class SeatSelectionComponent implements OnInit {
         seatTypeId: seat.seatTypeId
       };
   
-      const seatTypeName = this.getSeatTypeName(seat.seatTypeId);
+      const seatTypeName = this.getSeatTypeName(seat);
       
       if (seatTypeName) {
         if (!tempSeatsByType[seatTypeName]) {
@@ -217,17 +217,9 @@ export class SeatSelectionComponent implements OnInit {
     this.seatsByType = tempSeatsByType;
   }
 
-  getSeatTypeName (seatTypeId: number): SeatTypeName | null {
-    // Ispravljen mapping prema bazi podataka
-    const seatTypeMap: { [key: number]: SeatTypeName } = {
-      1: 'PARTER',  // Hall 1 - PARTER
-      2: 'PARTER',  // Hall 2 - PARTER  
-      3: 'LOŽA',    // Hall 1 - LOŽA
-      4: 'LOŽA',    // Hall 2 - LOŽA
-      5: 'BALKON',  // Hall 1 - BALKON
-      6: 'BALKON'   // Hall 2 - BALKON
-    };
-    return seatTypeMap[seatTypeId] || null;
+  getSeatTypeName (seat: Seat): SeatTypeName | null {
+    // Koristi seatTypeName direktno iz backend-a - nema više hardkodovanog mapiranja!
+    return seat.seatTypeName as SeatTypeName || null;
   }
 
   toggleSeatSelection(seat: SeatDisplay, section: string): void {
@@ -242,12 +234,12 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getSeatTypeId(section: SeatTypeName): number {
-    const seatTypeMap: { [key: string]: number } = {
-      'PARTER': 1,  // Koristimo ID 1 za PARTER (Hall 1)
-      'BALKON': 5,  // Koristimo ID 5 za BALKON (Hall 1)
-      'LOŽA': 3     // Koristimo ID 3 za LOŽA (Hall 1)
-    };
-    return seatTypeMap[section] || 0;
+    // Pronađi seatTypeId na osnovu imena sekcije iz ticketPrices
+    const ticketPrice = this.ticketPrices.find(price => {
+      // Ovo će raditi kada backend pošalje i seatTypeName u PerformanceTicketPrice
+      return price.seatTypeName === section;
+    });
+    return ticketPrice ? ticketPrice.seatTypeId : 0;
   }
 
   updateSelectedSeats() {

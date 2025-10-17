@@ -12,6 +12,7 @@ public interface SeatMapper {
 
     @Mapping(source = "hall.hallId", target = "hallId")
     @Mapping(source = "seatType.seatTypeId", target = "seatTypeId")
+    @Mapping(source = "seatType.seatTypeName", target = "seatTypeName")
     SeatDTO seatToSeatDTO(Seat seat);
 
     @Mapping(source = "hallId", target = "hall.hallId")

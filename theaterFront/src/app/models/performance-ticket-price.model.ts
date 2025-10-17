@@ -2,6 +2,7 @@ export interface PerformanceTicketPrice {
     performanceTicketPriceId: number;
     performanceId: number;
     seatTypeId: number;
+    seatTypeName: string;
     price: number;
   }
   

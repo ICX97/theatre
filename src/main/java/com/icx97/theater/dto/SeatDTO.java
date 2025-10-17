@@ -8,6 +8,7 @@ public class SeatDTO {
     private Long hallId;
     private String seatNumber;
     private Long seatTypeId;
+    private String seatTypeName;
     private Integer rowNum; 
     private Boolean isReserved;
 }
