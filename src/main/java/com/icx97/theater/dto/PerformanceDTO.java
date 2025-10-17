@@ -1,6 +1,7 @@
 package com.icx97.theater.dto;
 
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ public class PerformanceDTO {
     private Long performanceId;
     private String performance_title;
     private String performance_description;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp performance_date;
     private Long hallId;
     private BigDecimal revenue;

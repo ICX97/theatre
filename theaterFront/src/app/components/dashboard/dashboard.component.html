@@ -152,6 +152,13 @@
                         <label for="performanceDate">Performance Date</label>
                         <input type="date" id="performanceDate" [(ngModel)]="performance.performance_date" name="performanceDate" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="performanceTime">Performance Time</label>
+                        <select id="performanceTime" [(ngModel)]="selectedPerformanceTime" name="performanceTime" required>
+                            <option *ngFor="let t of timeOptions" [value]="t">{{ t }}</option>
+                        </select>
+                    </div>
                     
                     <div class="form-group">
                         <label>Select Hall</label>

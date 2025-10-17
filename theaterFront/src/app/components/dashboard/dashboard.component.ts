@@ -89,6 +89,8 @@ export class DashboardComponent implements OnInit {
   selectedNewsImage: string = '';
   selectedPerformanceImage: string = '';
   selectedActorImage: string = '';
+  timeOptions: string[] = [];
+  selectedPerformanceTime: string = '19:30';
   
   // Edit objects
   editPerformance: PerformanceDTO = {} as PerformanceDTO;
@@ -103,10 +105,26 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.initTimeOptions();
     this.checkAdminRole();
     this.getActors();
     this.loadSeatTypes();
     this.loadExistingData();
+  }
+
+  private initTimeOptions(): void {
+    const times: string[] = [];
+    for (let h = 8; h <= 22; h++) {
+      const hour = h.toString().padStart(2, '0');
+      times.push(`${hour}:00`);
+      if (h < 22) {
+        times.push(`${hour}:30`);
+      }
+    }
+    this.timeOptions = times;
+    if (!this.selectedPerformanceTime) {
+      this.selectedPerformanceTime = '19:30';
+    }
   }
 
 
@@ -187,7 +205,20 @@ export class DashboardComponent implements OnInit {
     this.performance.updated_at = new Date();
     this.performance.actors = [...this.selectedActors];
 
-    this.performanceService.createPerformance(this.performance).subscribe(response => {
+    // Compose YYYY-MM-DD HH:mm:00 from date + selected time
+    const date = new Date(this.performance.performance_date);
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dd = date.getDate().toString().padStart(2, '0');
+    const time = this.selectedPerformanceTime || '19:30';
+    const performanceDateTime = `${yyyy}-${mm}-${dd} ${time}:00`;
+
+    const performanceData = {
+      ...this.performance,
+      performance_date: performanceDateTime
+    } as any;
+
+    this.performanceService.createPerformance(performanceData).subscribe(response => {
       
       const performanceId = response.performanceId; 
 
@@ -445,7 +476,20 @@ export class DashboardComponent implements OnInit {
       return;
     }
     
-    this.performanceService.updatePerformance(id, performance).subscribe({
+    // Compose YYYY-MM-DD HH:mm:00 from date + selected time for update
+    const date = new Date(performance.performance_date);
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dd = date.getDate().toString().padStart(2, '0');
+    const time = this.selectedPerformanceTime || '19:30';
+    const performanceDateTime = `${yyyy}-${mm}-${dd} ${time}:00`;
+
+    const performanceData = {
+      ...performance,
+      performance_date: performanceDateTime
+    } as any;
+
+    this.performanceService.updatePerformance(id, performanceData).subscribe({
       next: (response: PerformanceDTO) => {
         this.loadPerformances();
         this.closeEditModals();
