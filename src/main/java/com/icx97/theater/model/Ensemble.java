@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "ensemble", schema = "theatre")
+@Table(name = "ensemble")
 public class Ensemble {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
