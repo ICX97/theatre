@@ -9,6 +9,6 @@ public class EnsembleDto {
     private String lastName;
     private int birthYear;
     private String ensemble_description;
-    private byte[] actorImage;
+    private String actorImage; // Base64 string za frontend
 }
 

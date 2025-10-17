@@ -17,7 +17,6 @@ export class AnsamblComponent {
     this.ensembleService.getAllActors().subscribe((data: Actor[]) => {
       this.actors = data.map(actor => ({
         ...actor,
-        imageSrc: 'assets/images/' + (actor.ensembleId || 0) + '.jpg',
         hovered: false 
       }));
     });
@@ -25,5 +24,13 @@ export class AnsamblComponent {
 
   goToActor(actorId: number): void {
     this.router.navigate(['/actor', actorId]);
+  }
+
+  getImageSrc(imageData: string | null | undefined): string {
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg';
+    }
   }
 }

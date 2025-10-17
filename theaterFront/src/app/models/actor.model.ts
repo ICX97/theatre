@@ -6,5 +6,5 @@ export interface Actor {
     ensemble_description?: string;
     performances?: string[]; 
     hovered?: boolean;
-    imageSrc?: string;
+    actorImage?: string | null;
   }

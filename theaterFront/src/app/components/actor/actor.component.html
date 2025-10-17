@@ -1,7 +1,6 @@
 <div *ngIf="actor" class="actor-container">
   <div class="actor-left">
-    <img [src]="actor.imageSrc" 
-         (error)="actor.imageSrc='assets/images/defaultBlack.jpg'" 
+    <img [src]="getImageSrc(actor.actorImage)" 
          alt="{{ actor.firstName }} {{ actor.lastName }}" 
          class="actor-image" />
     <h1 class="actor-name">{{ actor.firstName }} {{ actor.lastName }}</h1>

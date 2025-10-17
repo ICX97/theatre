@@ -6,6 +6,5 @@ export interface EnsembleDto {
     ensemble_description?: string; 
     performances?: string[]; 
     hovered?: boolean;
-    imageSrc?: string;
-    actorImage?: File; 
+    actorImage?: string | null; 
 }

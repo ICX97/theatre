@@ -9,7 +9,10 @@
   }
   
   .performance-card {
+    position: relative;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 20px;
     color: white;
     height: 200px;
@@ -17,6 +20,34 @@
     flex-direction: column;
     justify-content: flex-end;
     border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .performance-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .performance-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  .performance-card:hover::before {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .performance-card > * {
+    position: relative;
+    z-index: 1;
   }
   
   h3 {

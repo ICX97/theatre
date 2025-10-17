@@ -50,6 +50,7 @@ public class EnsembleService {
         ensemble.setLastName(ensembleDto.getLastName());
         ensemble.setBirthYear(ensembleDto.getBirthYear());
         ensemble.setEnsemble_description(ensembleDto.getEnsemble_description());
+        ensemble.setActorImage(ensembleMapper.map(ensembleDto.getActorImage()));
 
         Ensemble updatedEnsemble = ensembleRepository.save(ensemble);
         return ensembleMapper.ensembleToEnsembleDto(updatedEnsemble);

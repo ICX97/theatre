@@ -20,10 +20,17 @@ export class ActorComponent implements OnInit {
       this.ensembleService.getActorById(actorId).subscribe(data => {
         this.actor = {
           ...data, 
-          imageSrc: 'assets/images/' + data.ensembleId + '.jpg', 
           hovered: false
         };
       });
+    }
+  }
+
+  getImageSrc(imageData: string | null | undefined): string {
+    if (imageData) {
+      return 'data:image/jpeg;base64,' + imageData;
+    } else {
+      return 'assets/images/defaultBlack.jpg';
     }
   }
 }

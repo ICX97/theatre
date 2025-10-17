@@ -1599,6 +1599,18 @@ button:hover {
     100% { transform: rotate(360deg); }
 }
 
+.file-upload-label span:contains("Imported:") {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.file-upload-container:hover .file-upload-label {
+    border-color: #28a745;
+    background: #f8fff9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
 .add-performance-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;

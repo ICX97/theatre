@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,9 @@ public class EnsembleController {
         ensembleDto.setEnsemble_description(ensembleDescription);
         
         if (actorImage != null && !actorImage.isEmpty()) {
-            ensembleDto.setActorImage(actorImage.getBytes());
+            // Konvertujemo byte[] u base64 string za DTO
+            String base64Image = Base64.getEncoder().encodeToString(actorImage.getBytes());
+            ensembleDto.setActorImage(base64Image);
         }
         
         return ResponseEntity.ok(ensembleService.createEnsemble(ensembleDto));
