@@ -65,8 +65,8 @@ export class PerformanceDetailComponent implements OnInit {
   }
 
   getActorImageSrc(actor: Actor): string {
-    if (actor.imageSrc) {
-      return actor.imageSrc;
+    if (actor.actorImage) {
+      return 'data:image/jpeg;base64,' + actor.actorImage;
     } else {
       return 'assets/images/defaultBlack.jpg';
     }
