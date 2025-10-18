@@ -16,7 +16,7 @@ public class PaymentService {
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl("https://your-app.com/success")
-                .setCancelUrl("https://your-app.com/cancel")
+                .setCancelUrl("https://theatreproj.netlify.app/")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                 .setCurrency(paymentRequest.getCurrency())
