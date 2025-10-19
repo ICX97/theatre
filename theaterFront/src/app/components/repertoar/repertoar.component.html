@@ -49,7 +49,7 @@
                             <div class="price-list">
                                 <div *ngFor="let price of performance.ticketPrices" class="price-item">
                                     <div class="price-row">
-                                        <span class="seat-type">{{ getSeatTypeName(price.seatTypeId) }}:</span>
+                                        <span class="seat-type">{{ getSeatTypeName(price.seatTypeId, price.seatTypeName) }}:</span>
                                         <span class="price-value">{{ price.price }} RSD</span>
                                     </div>
                                 </div>

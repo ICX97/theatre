@@ -83,16 +83,8 @@ export class RepertoarComponent implements OnInit {
     return this.ticketPrices[performanceId] ? Object.keys(this.ticketPrices[performanceId]) : [];
   }
 
-  getSeatTypeName(seatTypeId: number): string {
-    const seatTypeMap: { [key: number]: string } = {
-      1: 'PARTER',  // Hall 1 - PARTER
-      2: 'PARTER',  // Hall 2 - PARTER
-      3: 'LOŽA',    // Hall 1 - LOŽA
-      4: 'LOŽA',    // Hall 2 - LOŽA
-      5: 'BALKON',  // Hall 1 - BALKON
-      6: 'BALKON'   // Hall 2 - BALKON
-    };
-    return seatTypeMap[seatTypeId as keyof typeof seatTypeMap] || `TIP ${seatTypeId}`;
+  getSeatTypeName(seatTypeId: number, seatTypeName?: string): string {
+    return seatTypeName || `TIP ${seatTypeId}`;
   }
 
   getImageSrc(imageData: string | undefined | null): string {

@@ -12,6 +12,7 @@ public interface PerformanceTicketPriceMapper {
 
     @Mapping(source = "performance.performanceId", target = "performanceId")
     @Mapping(source = "seatType.seatTypeId", target = "seatTypeId")
+    @Mapping(source = "seatType.seatTypeName", target = "seatTypeName")
     PerformanceTicketPriceDTO performanceTicketPriceToPerformanceTicketPriceDTO(PerformanceTicketPrice performanceTicketPrice);
 
     @Mapping(source = "performanceId", target = "performance.performanceId")
